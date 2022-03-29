@@ -24,7 +24,7 @@ export class Song {
     released_at: Date;
 
     @OneToMany(() => PlaylistsSongs, playlistsSongs => playlistsSongs.song)
-    public songs!: PlaylistsSongs[];
+    public playlists!: PlaylistsSongs[];
 
     @ManyToMany(() => Genre)
     @JoinTable()
