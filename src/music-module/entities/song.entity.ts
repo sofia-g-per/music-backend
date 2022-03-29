@@ -1,5 +1,6 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { PlaylistsSongs } from "./playlistsSongs.entity";
 
 @Entity()
 export class Song {
@@ -20,4 +21,8 @@ export class Song {
 
     @Column()
     released_at: Date;
+
+    @OneToMany(() => PlaylistsSongs, playlistsSongs => playlistsSongs.song)
+    public songs!: PlaylistsSongs[];
+
 }
