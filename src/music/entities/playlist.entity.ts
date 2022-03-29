@@ -1,6 +1,6 @@
 import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
-import { User } from "../../users-module/entities/user.entity";
+import { User } from "../../users/entities/user.entity";
 import { PlaylistsSongs } from "./playlistsSongs.entity";
 
 @Entity()

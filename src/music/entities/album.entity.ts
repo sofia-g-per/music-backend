@@ -1,7 +1,7 @@
 import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
 import { Genre } from "./genre.entity";
-import { Artist } from "../../users-module/entities/artist.entity";
+import { Artist } from "../../users/entities/artist.entity";
 
 @Entity()
 export class Album {

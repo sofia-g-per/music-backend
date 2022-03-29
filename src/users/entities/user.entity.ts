@@ -2,7 +2,7 @@ import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
 import { UserRole } from "./userRole.entity";
 import { Artist } from "./artist.entity";
-import { Playlist } from "../../music-module/entities/playlist.entity";
+import { Playlist } from "../../music/entities/playlist.entity";
 
 @Entity()
 export class User {
