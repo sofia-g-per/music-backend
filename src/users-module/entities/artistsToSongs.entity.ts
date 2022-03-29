@@ -1,26 +1,26 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, CreateDateColumn, JoinColumn, ManyToMany, JoinTable } from "typeorm";
-import { User } from "./user.entity";
-import { Genre } from "../../music-module/entities/genre.entity";
-import { Album } from "../../music-module/entities/album.entity";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Artist } from "./artist.entity";
+import { Song } from "../../music-module/entities/song.entity";
 
 @Entity()
 export class ArtistsToSongs {
-    // @PrimaryGeneratedColumn()
-    // public postToCategoryId!: number;
+    @PrimaryGeneratedColumn()
+    public postToCategoryId!: number;
 
-    // @Column()
-    // public playlistId!: number;
+    @Column()
+    public playlistId!: number;
 
-    // @Column()
-    // public songId!: number;
+    @Column()
+    public songId!: number;
 
-    // @Column()
-    // public song_index!: number;
+    @Column()
+    public is_featured!: boolean;
 
-    // @ManyToOne(() => Playlist, playlist => playlist.songs)
-    // public playlist!: Playlist;
+    @ManyToOne(() => Artist, artist => artist.songs)
+    public artist!: Artist;
 
-    // @ManyToOne(() => Song, song => song.users)
-    // public song!: Song;
+    @ManyToOne(() => Song, song => song.artists)
+    public song!: Song;
+
 }

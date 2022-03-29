@@ -20,9 +20,15 @@ export class Playlist {
     @CreateDateColumn()
     created_at: Date;
 
+    //------------------ 
+    //      СВЯЗИ
+    //------------------ 
+
+    //Связь для избранного пользователей
     @ManyToOne(() => User, user=> user.playlists)
     creator: User;
 
+    //Связь с песнями, внутри плейлиста
     @OneToMany(() => PlaylistsSongs, playlistsSongs => playlistsSongs.song)
     public songs!: PlaylistsSongs[];
 }
