@@ -1,8 +1,8 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
 import { UserRole } from "./userRole.entity";
 import { Artist } from "./artist.entity";
-
+import { Playlist } from "../../music-module/entities/playlist.entity";
 
 @Entity()
 export class User {
@@ -35,4 +35,7 @@ export class User {
 
     @OneToOne(() => Artist, artist => artist.user)
     artist: Artist;
+
+    @OneToMany(() => Playlist, playlist=> playlist.creator)
+    playlists: Playlist[];
 }
