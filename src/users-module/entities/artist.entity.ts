@@ -1,6 +1,7 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, CreateDateColumn, JoinColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, CreateDateColumn, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 import { User } from "./user.entity";
+import { Genre } from "../../music-module/entities/genre.entity";
 
 @Entity()
 export class Artist {
@@ -19,4 +20,8 @@ export class Artist {
     @OneToOne(() => User, user => user.artist)
     @JoinColumn()
     user: User;
+
+    @ManyToMany(() => Genre)
+    @JoinTable()
+    genres: Genre[];
 }

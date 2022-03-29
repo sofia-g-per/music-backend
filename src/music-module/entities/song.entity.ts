@@ -1,5 +1,6 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Genre } from "./genre.entity";
 import { PlaylistsSongs } from "./playlistsSongs.entity";
 
 @Entity()
@@ -25,4 +26,7 @@ export class Song {
     @OneToMany(() => PlaylistsSongs, playlistsSongs => playlistsSongs.song)
     public songs!: PlaylistsSongs[];
 
+    @ManyToMany(() => Genre)
+    @JoinTable()
+    genres: Genre[];
 }

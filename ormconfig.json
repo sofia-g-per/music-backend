@@ -5,6 +5,7 @@
     "username" : "root",
     "password" : "",
     "database" : "music",
-    "entities": ["dist/**/*.entity{.ts,.js}"],
-    "synchronize": false
+    "entities": ["dist/**/*.entities{.ts,.js}"],
+    "synchronize": false,
+    "migrations": ["src/migration/**/*.ts", "dist/migration/**/*.js"]
 }
