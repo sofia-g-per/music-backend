@@ -1,7 +1,7 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
-import { Artist } from "./artist.entity";
-import { Song } from "../../music-module/entities/song.entity";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Artist } from "../../users/entities/artist.entity";
+import { Song } from "./song.entity";
 
 @Entity()
 export class ArtistsToSongs {
@@ -17,10 +17,15 @@ export class ArtistsToSongs {
     @Column()
     public is_featured!: boolean;
 
+    //------------------ 
+    //      СВЯЗИ
+    //------------------ 
+
+    //Связь с артистами
     @ManyToOne(() => Artist, artist => artist.songs)
     public artist!: Artist;
 
+    //Связь с песнями
     @ManyToOne(() => Song, song => song.artists)
     public song!: Song;
-
 }

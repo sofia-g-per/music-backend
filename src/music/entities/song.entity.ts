@@ -2,7 +2,8 @@ import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Genre } from "./genre.entity";
 import { PlaylistsSongs } from "./playlistsSongs.entity";
-import { ArtistsToSongs } from "../../users-module/entities/artistsToSongs.entity";
+import { ArtistsToSongs } from "./artistsToSongs.entity";
+import { UsersToSongs } from "../../favourites/entities/usersToSongs.entity";
 
 @Entity()
 export class Song {
@@ -41,4 +42,8 @@ export class Song {
     //Связь артистов
     @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
     public artists!: ArtistsToSongs[];
+
+    //Пользователи, добавившие песню в избранные
+    @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.user)
+    public users!: UsersToSongs[];
 }
