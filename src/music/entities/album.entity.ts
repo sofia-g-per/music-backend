@@ -3,6 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMan
 import { Genre } from "./genre.entity";
 import { Artist } from "../../users/entities/artist.entity";
 import { UsersToAlbums } from "../../favourites/entities/usersToAlbums.entity";
+import { SongsToAlbums } from "./songsToAlbums.entity";
 
 @Entity()
 export class Album {
@@ -37,4 +38,8 @@ export class Album {
     //Пользователи, добавившие альбом в избранные
     @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
     public listeners!: UsersToAlbums[];
+
+    //Песни в данном альбоме
+    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song)
+    public songs!: SongsToAlbums[];
 }

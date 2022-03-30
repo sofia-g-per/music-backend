@@ -1,7 +1,7 @@
 import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
 import { User } from "../../users/entities/user.entity";
-import { SongsToPlaylists } from "./SongsToPlaylists.entity";
+import { SongsToPlaylists } from "./songsToPlaylists.entity";
 import { UsersToPlaylists } from "../../favourites/entities/usersToPlaylists.entity";
 
 @Entity()
@@ -29,7 +29,7 @@ export class Playlist {
     @ManyToOne(() => User, user=> user.playlists)
     creator: User;
 
-    //Связь с песнями, внутри плейлиста
+    //Песни в данном плейлисте
     @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song)
     public songs!: SongsToPlaylists[];
 
