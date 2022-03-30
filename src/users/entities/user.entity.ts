@@ -54,6 +54,6 @@ export class User {
     public songs!: UsersToSongs[];
 
     //Избранные песни
-    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.albums)
+    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.album)
     public favoriteAlbums!: UsersToAlbums[];
 }

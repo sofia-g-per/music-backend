@@ -7,7 +7,7 @@ import { Playlist } from "./playlist.entity";
 export class PlaylistsSongs {
 
     @PrimaryGeneratedColumn()
-    public postToCategoryId!: number;
+    public id!: number;
 
     @Column()
     public playlistId!: number;

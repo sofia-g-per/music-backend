@@ -6,7 +6,7 @@ import { Song } from "../../music/entities/song.entity";
 @Entity()
 export class UsersToSongs {
     @PrimaryGeneratedColumn()
-    public postToCategoryId!: number;
+    public id!: number;
 
     @Column()
     public userId!: number;

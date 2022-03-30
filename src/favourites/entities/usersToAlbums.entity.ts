@@ -6,7 +6,7 @@ import { Album } from "../../music/entities/album.entity";
 @Entity()
 export class UsersToAlbums {
     @PrimaryGeneratedColumn()
-    public postToCategoryId!: number;
+    public id!: number;
 
     @Column()
     public userId!: number;
@@ -21,6 +21,6 @@ export class UsersToAlbums {
     public user!: User;
 
     @ManyToOne(() => Album, album => album.listeners)
-    public albums!: Album;
+    public album!: Album;
 
 }
