@@ -4,7 +4,7 @@ import { Song } from "./song.entity";
 import { Playlist } from "./playlist.entity";
 
 @Entity()
-export class PlaylistsSongs {
+export class SongsToPlaylists {
 
     @PrimaryGeneratedColumn()
     public id!: number;
