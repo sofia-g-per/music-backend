@@ -5,6 +5,7 @@ import { Artist } from "./artist.entity";
 import { Playlist } from "../../music/entities/playlist.entity";
 import { UsersToSongs } from "../../favourites/entities/usersToSongs.entity";
 import { UsersToAlbums } from "../../favourites/entities/usersToAlbums.entity";
+import { UsersToPlaylists } from "../../favourites/entities/usersToPlaylists.entity";
 
 @Entity()
 export class User {
@@ -53,7 +54,11 @@ export class User {
     @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.song)
     public favoriteSongs!: UsersToSongs[];
 
-    //Избранные песни
+    //Избранные альбомы
     @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.album)
     public favoriteAlbums!: UsersToAlbums[];
+
+    //Избранные плейлисты
+    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
+    public favoritePlaylists!: UsersToPlaylists[];
 }
