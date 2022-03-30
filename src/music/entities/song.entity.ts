@@ -45,5 +45,5 @@ export class Song {
 
     //Пользователи, добавившие песню в избранные
     @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.user)
-    public users!: UsersToSongs[];
+    public listeners!: UsersToSongs[];
 }

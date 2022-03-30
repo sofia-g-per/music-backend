@@ -17,10 +17,10 @@ export class UsersToSongs {
     @Column()
     added_at!: boolean;
 
-    @ManyToOne(() => User, user => user.songs)
+    @ManyToOne(() => User, user => user.favoriteSongs)
     public user!: User;
 
-    @ManyToOne(() => Song, song => song.users)
+    @ManyToOne(() => Song, song => song.listeners)
     public song!: Song;
 
 }
