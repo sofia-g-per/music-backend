@@ -36,5 +36,5 @@ export class Album {
 
     //Пользователи, добавившие альбом в избранные
     @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
-    public users!: UsersToAlbums[];
+    public listeners!: UsersToAlbums[];
 }
