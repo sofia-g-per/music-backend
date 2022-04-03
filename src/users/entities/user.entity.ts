@@ -1,11 +1,11 @@
 import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
 import { UserRole } from "./userRole.entity";
-import { Artist } from "./artist.entity";
-import { Playlist } from "../../music/entities/playlist.entity";
-import { UsersToSongs } from "../../favourites/entities/usersToSongs.entity";
-import { UsersToAlbums } from "../../favourites/entities/usersToAlbums.entity";
-import { UsersToPlaylists } from "../../favourites/entities/usersToPlaylists.entity";
+import { Artist } from "../../music/artist/artist.entity";
+import { Playlist } from "../../music/playlist/playlist.entity";
+import { UsersToSongs } from "../../music/favourites/usersToSongs.entity";
+import { UsersToAlbums } from "../../music/favourites/usersToAlbums.entity";
+import { UsersToPlaylists } from "../../music/favourites/usersToPlaylists.entity";
 
 @Entity()
 export class User {
