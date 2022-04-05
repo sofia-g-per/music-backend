@@ -8,7 +8,6 @@ export class CreateSongDto {
 
     file_path: string;
 
-
     @IsDate()
     released_at: Date;
 
@@ -22,14 +21,5 @@ export class CreateSongDto {
     lyrics?: string;
 
     @IsOptional()
-    playlists?: Playlist[];
-
-    @IsOptional()
-    albums?: Album[];
-
-    @IsOptional()
     genres?: Genre[];
-
-    @IsOptional()
-    listeners?: User[];
 }
