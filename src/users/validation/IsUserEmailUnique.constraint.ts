@@ -11,7 +11,6 @@ export class IsUserEmailUnique implements ValidatorConstraintInterface {
   async validate(email: string) {
     try {
       const user = await this.usersRepository.findByEmail(email);
-      console.log(user, user instanceof User)
       if(user instanceof User){
         return false;
       }else{
@@ -19,7 +18,6 @@ export class IsUserEmailUnique implements ValidatorConstraintInterface {
       }
 
     } catch (e) {
-      console.log(e);
       return false;
     }
   }

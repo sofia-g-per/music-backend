@@ -1,9 +1,10 @@
-import { IsEmail, IsOptional, ValidateNested, IsNotEmpty, Validate } from "class-validator";
+import { IsEmail, IsOptional, ValidateNested, IsNotEmpty, Validate, IsEmpty } from "class-validator";
 import { Type } from 'class-transformer';
 
 import { UserRoleExists } from "../validation/UserRoleExists.constraint";
-import { Artist } from "src/music/artist/artist.entity";
+import { CreateArtistDto } from "src/music/artist/createArtist.dto";
 import { IsUserEmailUnique } from "../validation/IsUserEmailUnique.constraint";
+import { UserRole } from "../entities/userRole.entity";
 
 export class CreateUserDto {
 
@@ -31,7 +32,7 @@ export class CreateUserDto {
     roleId: number;
 
     @IsOptional()
-    @Type(() => Artist)
+    @Type(() => CreateArtistDto)
     @ValidateNested()
-    artist: Artist;
+    artist: CreateArtistDto;
 }

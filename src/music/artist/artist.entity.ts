@@ -25,6 +25,9 @@ export class Artist {
 
     // Связь с аккаунтом самого артиста на платформе 
     // (если он на ней зарегистрирован)
+    @Column()
+    userId: number;
+    
     @OneToOne(() => User, user => user.artist)
     @JoinColumn()
     user: User;

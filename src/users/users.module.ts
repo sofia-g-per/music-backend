@@ -11,18 +11,27 @@ import { User } from './entities/user.entity';
 import { UserRole } from './entities/userRole.entity';
 import { UserRoleExists } from './validation/UserRoleExists.constraint';
 import { IsUserEmailUnique } from './validation/IsUserEmailUnique.constraint';
+import { Artist } from 'src/music/artist/artist.entity';
+import { MusicModule } from 'src/music/music.module';
 
 @Module({
   controllers: [UsersController],
   providers: [
     UsersService, 
     UserRolesService, 
-    UserRolesRepository, 
     UserRoleExists, 
     IsUserEmailUnique,
     LocalStrategy, 
     SessionSerializer],
-  imports: [TypeOrmModule.forFeature([User, UserRole, UsersRepository, UserRolesRepository])],
+  imports: [
+    MusicModule,
+    TypeOrmModule.forFeature([
+    User, 
+    UserRole, 
+    UsersRepository, 
+    UserRolesRepository, 
+    Artist
+  ])],
   
 })
 export class UsersModule {
