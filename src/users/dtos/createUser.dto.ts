@@ -1,9 +1,9 @@
 import { IsEmail, IsOptional, ValidateNested, IsNotEmpty, Validate } from "class-validator";
 import { Type } from 'class-transformer';
 
-import { UserRoleExists } from "../validation/UserRoleExists";
+import { UserRoleExists } from "../validation/UserRoleExists.constraint";
 import { Artist } from "src/music/artist/artist.entity";
-import { IsUserEmailUnique } from "../validation/IsUserEmailUnique";
+import { IsUserEmailUnique } from "../validation/IsUserEmailUnique.constraint";
 
 export class CreateUserDto {
 

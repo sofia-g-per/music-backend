@@ -6,8 +6,9 @@
     "password" : "",
     "database" : "music",
     "entities": ["dist/**/*.entity{.ts,.js}"],
+    "autoLoadEntities": true,
     "synchronize": true,
-    "migrations": ["src/migration/**/*.ts"],
+    "migrations": ["src/migration/**/*.{ts, .js}"],
     "cli": {
         "entitiesDir": "src/entity",
         "migrationsDir": "src/migration",

@@ -7,7 +7,7 @@ import { LoginDto } from './dtos/login.dto';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
-    @Post('/register')
+    @Post('/sign-up')
     @UsePipes(ValidationPipe)
     async create(@Body() userData: CreateUserDto) {
         this.usersService.create(userData);

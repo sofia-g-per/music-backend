@@ -13,6 +13,7 @@ export class UsersService {
     constructor(@InjectRepository(UsersRepository) private usersRepository: UsersRepository){}
 
     async findById(id: number): Promise<User | undefined> {
+        console.log(id);
         return await this.usersRepository.findOne(id);
     }
 
@@ -20,7 +21,10 @@ export class UsersService {
         return this.usersRepository.findByEmail(email);
     }
 
-    async create(userData: CreateUserDto): Promise<User | undefined> {
+    async create(userData: CreateUserDto): Promise <User | undefined> {
+        const salt = 10;
+        const password = await bcrypt.hash(userData.password, salt);
+        userData.password = password;
         return await this.usersRepository.save(userData);
     }
 

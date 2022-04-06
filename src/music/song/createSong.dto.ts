@@ -4,22 +4,22 @@ import {
   } from 'class-validator';
 
 export class CreateSongDto {  
-    name: string; 
+    // name: string; 
 
-    file_path: string;
+    // file_path: string;
 
-    @IsDate()
-    released_at: Date;
+    // @IsDate()
+    // released_at: Date;
 
-    @IsOptional()
-    artists: Artist[];
+    // @IsOptional()
+    // artists: Artist[];
 
-    @IsOptional()
-    description?: string;
+    // @IsOptional()
+    // description?: string;
 
-    @IsOptional()
-    lyrics?: string;
+    // @IsOptional()
+    // lyrics?: string;
 
-    @IsOptional()
-    genres?: Genre[];
+    // @IsOptional()
+    // genres?: Genre[];
 }

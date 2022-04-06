@@ -11,7 +11,7 @@ import { UsersToPlaylists } from "../../music/favourites/usersToPlaylists.entity
 export class User {
 
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     username: string;
@@ -23,9 +23,10 @@ export class User {
     surname: string;
 
     @Column({ 
-        nullable: true
+        nullable: true,
+        default: null,
     })
-    avatar?: string;
+    avatar: string;
 
     @Column()
     email: string;
@@ -41,27 +42,27 @@ export class User {
     //------------------ 
 
     //Связь с ролью
-    @ManyToOne(({}) => UserRole, userRole => userRole.users)
-    role?: UserRole;
+    @ManyToOne(() => UserRole, userRole => userRole.users)
+    role: UserRole;
     
     //Связь с артистом 
     // (если пользователь является артистом)
     @OneToOne(() => Artist, artist => artist.user)
-    artist?: Artist;
+    artist: Artist;
 
     //Связь с созданными данным пользователям плейлистами 
     @OneToMany(() => Playlist, playlist=> playlist.creator)
-    playlists?: Playlist[];
+    playlists: Playlist[];
 
     //Избранные песни
     @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.song)
-    public favoriteSongs?: UsersToSongs[];
+    public favoriteSongs: UsersToSongs[];
 
     //Избранные альбомы
     @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.album)
-    public favoriteAlbums?: UsersToAlbums[];
+    public favoriteAlbums: UsersToAlbums[];
 
     //Избранные плейлисты
     @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
-    public favoritePlaylists?: UsersToPlaylists[];
+    public favoritePlaylists: UsersToPlaylists[];
 }

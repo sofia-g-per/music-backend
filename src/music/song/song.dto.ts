@@ -1,23 +1,23 @@
 export class SongDto {  
-    id: number; 
+    // id: number; 
 
-    name: string; 
+    // name: string; 
 
-    file_path: string;
+    // file_path: string;
 
-    artists: Artist[];
+    // artists: Artist[];
 
-    released_at: Date;
+    // released_at: Date;
 
-    description?: string;
+    // description?: string;
 
-    lyrics?: string;
+    // lyrics?: string;
 
-    playlists?: Playlist[];
+    // playlists?: Playlist[];
 
-    albums?: Album[];
+    // albums?: Album[];
 
-    genres?: Genre[];
+    // genres?: Genre[];
 
-    listeners?: User[];
+    // listeners?: User[];
 }
