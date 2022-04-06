@@ -30,8 +30,8 @@ export class UsersService {
 
     async validateUser(userData: LoginDto): Promise<any> {
         //add eager loading for artist
-        const user = await this.findByEmail(userData.email);
-        
+        const user = await this.usersRepository.findByEmail(userData.email);
+        console.log(userData.email);
         if (user) {
             const passwordsMatch = await bcrypt.compare(userData.password, user.password);
             
@@ -39,8 +39,10 @@ export class UsersService {
                 const { password, ...result } = user;
                 return result;
             }
-            return null;
+            console.log('passwords');
+            return false;
         }
-        return null;
+        console.log('user', user);
+        return false;
     }
 }

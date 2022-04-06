@@ -10,13 +10,13 @@ export class UsersController {
     @Post('/sign-up')
     @UsePipes(ValidationPipe)
     async create(@Body() userData: CreateUserDto) {
-        this.usersService.create(userData);
+        return await this.usersService.create(userData);
     }
 
     @Post('/log-in')
     @UsePipes(ValidationPipe)
     async login(@Body() userData: LoginDto){
-        this.usersService.validateUser(userData);
+        return await this.usersService.validateUser(userData);
     }
 
 }
