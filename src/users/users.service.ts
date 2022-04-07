@@ -6,7 +6,7 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersRepository } from './users.repository';
 import { UserRolesRepository } from './userRoles.repository';
-import { ArtistsRepository } from 'src/music/artist/userRoles.repository';
+import { ArtistsRepository } from 'src/music/artist/artist.repository';
 import { LoginDto } from './dtos/login.dto';
 import { Artist } from 'src/music/artist/artist.entity';
 import { classToPlain, instanceToInstance, instanceToPlain } from 'class-transformer';
@@ -20,25 +20,18 @@ export class UsersService {
 
     ){}
 
-    async findById(id: number): Promise<User | undefined> {
-        console.log(id);
-        return await this.usersRepository.findOne(id);
-    }
-
-    async findByEmail(email: string): Promise<User | undefined> {
-        return this.usersRepository.findByEmail(email);
-    }
-
     async create(userData: CreateUserDto): Promise <User | Artist | undefined> {
         const salt = 10;
         const password = await bcrypt.hash(userData.password, salt);
         userData.password = password;
 
+        //добавить зазгрузку картинки (аватара)
         const userRole = await this.userRolesRepository.findById(userData.roleId);
         let newUser = instanceToPlain(userData);
         newUser.role = userRole;
         let user =  await this.usersRepository.save(newUser);
 
+        //перенести в artist controller
         if( userRole && userRole.name === "artists"){
             let artistData = instanceToPlain(userData.artist);
             artistData.user = user;
@@ -49,6 +42,7 @@ export class UsersService {
                 return artist;
             }
         }
+
         return user;
     }
 

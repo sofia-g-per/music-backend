@@ -12,7 +12,10 @@ export class Genre {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
     description: string;
 
     @ManyToMany(() => Song)
