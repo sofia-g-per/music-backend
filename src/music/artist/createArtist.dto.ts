@@ -1,6 +1,7 @@
 import { IsEmpty, IsNotEmpty, IsOptional, ValidateNested} from "class-validator";
 import { Genre } from "../genre/genre.entity";
 import { Type } from "class-transformer";
+import { User } from "src/users/entities/user.entity";
 
 export class CreateArtistDto {
 
@@ -15,7 +16,9 @@ export class CreateArtistDto {
     @ValidateNested()
     genres: Genre[];
 
-    @IsEmpty()
-    userId: number;
+    @IsOptional()
+    @Type(() => User)
+    @ValidateNested()
+    user: User;
 
 }

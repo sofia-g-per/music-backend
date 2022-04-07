@@ -6,7 +6,7 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersRepository } from './users.repository';
 import { UserRolesRepository } from './userRoles.repository';
-import { ArtistsRepository } from 'src/music/artist/artist.repository';
+import { ArtistService } from 'src/music/artist/artist.service';
 import { LoginDto } from './dtos/login.dto';
 import { Artist } from 'src/music/artist/artist.entity';
 import { classToPlain, instanceToInstance, instanceToPlain } from 'class-transformer';
@@ -16,7 +16,7 @@ export class UsersService {
     constructor(
         @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
         @InjectRepository(UserRolesRepository) private userRolesRepository: UserRolesRepository,
-        @InjectRepository(ArtistsRepository) private artistsRepository: ArtistsRepository,
+        private artistService: ArtistService,
 
     ){}
 
@@ -25,18 +25,17 @@ export class UsersService {
         const password = await bcrypt.hash(userData.password, salt);
         userData.password = password;
 
-        //добавить зазгрузку картинки (аватара)
+        //добавить загрузку картинки (аватара)
         const userRole = await this.userRolesRepository.findById(userData.roleId);
         let newUser = instanceToPlain(userData);
         newUser.role = userRole;
         let user =  await this.usersRepository.save(newUser);
 
-        //перенести в artist controller
+        //Создание артиста
         if( userRole && userRole.name === "artists"){
-            let artistData = instanceToPlain(userData.artist);
-            artistData.user = user;
-            const artist = await this.artistsRepository.save(artistData);
-            if(!artist){
+            userData.artist.user = user;
+            const artist = await this.artistService.create(userData.artist);            
+            if(artist !instanceof Artist){
                 return undefined;
             }else{
                 return artist;
