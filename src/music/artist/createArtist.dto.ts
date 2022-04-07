@@ -11,6 +11,11 @@ export class CreateArtistDto {
     @IsOptional()
     description: string;
 
+    //существующие жанры
+    @IsOptional()
+    genreIds: [];
+
+    //новые жанры
     @IsOptional()
     @Type(() => Genre)
     @ValidateNested()

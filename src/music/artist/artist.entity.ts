@@ -33,7 +33,7 @@ export class Artist {
     user: User;
 
     // Связь с жанрами
-    @ManyToMany(() => Genre)
+    @ManyToMany(() => Genre, genre => genre.artists)
     @JoinTable()
     genres: Genre[];
 

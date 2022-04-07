@@ -24,6 +24,6 @@ export class Genre {
     @ManyToMany(() => Album)
     albums: Album[];
 
-    @ManyToMany(() => Artist)
+    @ManyToMany(() => Artist, artist => artist.genres)
     artists: Artist[];
 }
