@@ -8,6 +8,7 @@
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "autoLoadEntities": true,
     "synchronize": true,
+    "keepConnectionAlive": true,
     "migrations": ["src/migration/**/*.{ts, .js}"],
     "cli": {
         "entitiesDir": "src/entity",

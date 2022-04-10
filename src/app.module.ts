@@ -13,18 +13,28 @@ import { UserRolesService } from './users/userRoles.service';
 import { UserRolesRepository } from './users/userRoles.repository';
 import { UsersRepository } from './users/users.repository';
 import { UsersService } from './users/users.service';
+import { ArtistsRepository } from './music/artist/artist.repository';
+import { ArtistService } from './music/artist/artist.service';
+import { SongsRepository } from './music/song/song.repository';
+import { GenreService } from './music/genre/genre.service';
+import { GenresRepository } from './music/genre/genre.repository';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), UsersModule, MusicModule, SharedModule],
   controllers: [AppController, SongController, PlaylistController],
   providers: [
     AppService, 
+    ArtistsRepository,
     SongService, 
     PlaylistService, 
     UsersService,
     UserRolesService,
+    ArtistService,
+    GenreService,
     UserRolesRepository,
-    UsersRepository
+    UsersRepository,
+    SongsRepository,
+    GenresRepository
   ],
 })
 

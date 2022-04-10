@@ -1,15 +1,36 @@
-import { Injectable, Query } from '@nestjs/common';
-import { Song } from './song.entity';
-
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { instanceToPlain } from 'class-transformer';
+import { User } from 'src/users/entities/user.entity';
+import { GenreService } from '../genre/genre.service';
+import { CreateSongDto } from './createSong.dto';
+import { SongsRepository } from './song.repository';
+import { ArtistService } from '../artist/artist.service';
 @Injectable()
 export class SongService {
-    songs: Song[] = [];
+    constructor(@InjectRepository(SongsRepository) private songsRepository: SongsRepository,
+    private genreService: GenreService,
+    private artistService: ArtistService
+    ) {}
+    
+    async create(user: User, songData: CreateSongDto) {
+        let song = instanceToPlain(songData);
+        if(!song.artists){
+            song.artists = []
+        }
+        song.artists = await this.artistService.addExistingArtists(songData, song);
+        song.artists.push(user);
 
-    create(song: Song) {
-        // add the artist associated with the current user as song artist
-        // this.songs.push(song);
-
-        // return 
+        if(!song.genres){
+            song.genres = [];
+        }
+        // прикрепление сущестувующих жанров
+        song.genres = await this.genreService.addExistingGenres(songData, song);
+        // прикрепление новых жанров
+        song.genres = await this.genreService.addExistingGenres(songData, song);
+        
+        const newSong = await this.songsRepository.save(song);
+        return newSong;
     }
 }
 

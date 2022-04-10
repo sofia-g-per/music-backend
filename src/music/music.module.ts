@@ -7,7 +7,7 @@ import { ArtistsRepository } from './artist/artist.repository';
 import { ArtistService } from './artist/artist.service';
 import { GenreController } from './genre/genre.controller';
 import { Genre } from './genre/genre.entity';
-import { GenresRepository } from './genre/Genre.repository';
+import { GenresRepository } from './genre/genre.repository';
 import { GenreService } from './genre/genre.service';
 import { MusicController } from './music.controller';
 import { SongController } from './song/song.controller';
@@ -28,8 +28,8 @@ import { SongService } from './song/song.service';
     SongService
   ],
   imports: [TypeOrmModule.forFeature([
-    Artist, 
     ArtistsRepository,
+    Artist, 
     Genre,
     GenresRepository,
     Song,
