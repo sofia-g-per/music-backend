@@ -10,7 +10,6 @@ export class GenresRepository extends Repository<Genre>{
 
     async findMultipleByIds(ids: number[]): Promise<Genre[]>{
         let genres: Genre[] = [];
-    
           
         for (let id of ids) {
             const genre = await this.findById(id);

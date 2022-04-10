@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { SongService } from './song.service';
 import { Song } from './song.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -7,9 +8,10 @@ import { AuthGuard } from '@nestjs/passport';
 export class SongController {
     constructor(private readonly songService: SongService) {}
     
-    @UseGuards(AuthGuard('local'))
-    @Post('/create-song')
-    async create(@Body() song: Song) {
-        this.songService.create(song);
+    // @UseGuards(AuthGuard('local'))
+    @Post('/upload-song')
+    async create(@Req() request: Request) {
+        return request.user;
+        // this.songService.create(song);
     }
 }

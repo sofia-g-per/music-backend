@@ -2,6 +2,7 @@ import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards } from '@ne
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { LoginDto } from './dtos/login.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api')
 export class UsersController {
@@ -13,6 +14,8 @@ export class UsersController {
         return await this.usersService.create(userData);
     }
 
+    // LocalAuthenticationGuard
+    @UseGuards(AuthGuard('local'))
     @Post('/log-in')
     @UsePipes(ValidationPipe)
     async login(@Body() userData: LoginDto){

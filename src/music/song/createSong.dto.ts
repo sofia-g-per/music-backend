@@ -1,25 +1,27 @@
-import {
-    IsDate,
-    IsOptional
-  } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
+import { Artist } from '../artist/artist.entity';
+import { Genre } from '../genre/genre.entity';
 
 export class CreateSongDto {  
-    // name: string; 
+    @IsNotEmpty()
+    name: string; 
 
-    // file_path: string;
+    // @IsNotEmpty()
+    @IsOptional()
+    file_path: string;
 
-    // @IsDate()
-    // released_at: Date;
+    @IsDate()
+    released_at: Date;
 
-    // @IsOptional()
-    // artists: Artist[];
+    @IsOptional()
+    artists: Artist[];
 
-    // @IsOptional()
-    // description?: string;
+    @IsOptional()
+    description: string;
 
-    // @IsOptional()
-    // lyrics?: string;
+    @IsOptional()
+    lyrics: string;
 
-    // @IsOptional()
-    // genres?: Genre[];
+    @IsOptional()
+    genres: Genre[];
 }

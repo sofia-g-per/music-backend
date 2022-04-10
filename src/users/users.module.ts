@@ -13,6 +13,7 @@ import { UserRoleExists } from './validation/UserRoleExists.constraint';
 import { IsUserEmailUnique } from './validation/IsUserEmailUnique.constraint';
 import { Artist } from 'src/music/artist/artist.entity';
 import { MusicModule } from 'src/music/music.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   controllers: [UsersController],
@@ -24,6 +25,7 @@ import { MusicModule } from 'src/music/music.module';
     LocalStrategy, 
     SessionSerializer],
   imports: [
+    PassportModule,
     MusicModule,
     TypeOrmModule.forFeature([
     User, 

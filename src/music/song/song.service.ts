@@ -6,12 +6,10 @@ export class SongService {
     songs: Song[] = [];
 
     create(song: Song) {
-        // add current the artist associated with the current user as song artist
-        this.songs.push(song);
-    }
+        // add the artist associated with the current user as song artist
+        // this.songs.push(song);
 
-    // find(): Song[]{
-    //     return this.songs;
-    // }
+        // return 
+    }
 }
 

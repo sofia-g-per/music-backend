@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'src/users/users.module';
 import { ArtistController } from './artist/artist.controller';
 import { Artist } from './artist/artist.entity';
 import { ArtistsRepository } from './artist/artist.repository';
@@ -9,23 +10,32 @@ import { Genre } from './genre/genre.entity';
 import { GenresRepository } from './genre/Genre.repository';
 import { GenreService } from './genre/genre.service';
 import { MusicController } from './music.controller';
+import { SongController } from './song/song.controller';
+import { Song } from './song/song.entity';
+import { SongsRepository } from './song/song.repository';
+import { SongService } from './song/song.service';
 
 @Module({
   controllers: [
     MusicController,
     GenreController,
-    ArtistController
+    ArtistController,
+    SongController
   ],
   providers: [
     GenreService,
-    ArtistService
+    ArtistService,
+    SongService
   ],
   imports: [TypeOrmModule.forFeature([
     Artist, 
     ArtistsRepository,
     Genre,
-    GenresRepository
-  ])],
+    GenresRepository,
+    Song,
+    SongsRepository
+  ]),
+  UsersModule],
   exports: [TypeOrmModule, ArtistService]
 })
 export class MusicModule {}

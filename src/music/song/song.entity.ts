@@ -14,13 +14,25 @@ export class Song {
     @Column()
     name: string;
 
-    @Column({ nullable: true })
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
     description: string;
 
     @Column()
     file_path: string;
 
-    @Column({ nullable: true })
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
+    cover_img: string;
+
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
     lyrics: string;
 
     @Column()

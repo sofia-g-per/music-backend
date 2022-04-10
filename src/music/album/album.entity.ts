@@ -13,7 +13,10 @@ export class Album {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
     description: string;
 
     @Column()
