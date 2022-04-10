@@ -1,11 +1,19 @@
-import { extname
- } from "path";
+import { extname } from "path";
+
 export const imageFileFilter = (req, file, callback) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
       return callback(new Error('Загрузите фотографию формата jpg, jpeg, png'), false);
     }
     callback(null, true);
 };
+
+export const audioFileFilter = (req, file, callback) => {
+    if (!file.originalname.match(/\.(mp3)$/)) {
+      return callback(new Error('Загрузите аудифайл формата mp3'), false);
+    }
+    callback(null, true);
+};
+
 
 export const editFileName = (req, file, callback) => {
     const name = file.originalname.split('.')[0];

@@ -7,11 +7,8 @@ export class CreateSongDto {
     @IsNotEmpty()
     name: string; 
 
-    // @IsNotEmpty()
-    @IsOptional()
-    file_path: string;
-
-    @IsDate()
+    @IsNotEmpty()
+    // @IsDate()
     released_at: Date;
 
     @IsOptional()
@@ -21,11 +18,11 @@ export class CreateSongDto {
     lyrics: string;
 
     @IsOptional()
-    artist_ids: number[];
+    artistIds: number[];
 
     @IsOptional()
     genres: CreateGenreDto[];
 
     @IsOptional()
-    genre_ids: number[];
+    genreIds: number[];
 }

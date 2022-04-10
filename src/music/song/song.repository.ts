@@ -22,4 +22,8 @@ export class SongsRepository extends Repository<Song>{
         }
         return songs;
     }
+
+    public async customSave(entity) {
+        return await getRepository(Song).save(entity);
+      }
 }

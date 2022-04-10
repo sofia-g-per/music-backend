@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, UseGuards, Req, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req, Request, UseInterceptors, ValidationPipe, UsePipes, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { SongService } from './song.service';
-import { Song } from './song.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateSongDto } from './createSong.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
+
 
 @Controller('/api')
 export class SongController {
@@ -10,7 +13,25 @@ export class SongController {
     
     // @UseGuards(AuthGuard('local'))
     @Post('/upload-song')
-    async create(@Request() req, @Body() songData: CreateSongDto) {
-        return await this.songService.create(req.user, songData);
+    //добавить валидацию форматов для файлов
+    @UseInterceptors(
+        FileFieldsInterceptor(
+            [
+                {name:'audioFile', maxCount: 1}, 
+                {name:'cover', maxCount: 1}, 
+            ],
+            {
+                storage: diskStorage({
+                    destination: './uploaded/songs',
+                    filename: editFileName
+                }),
+                
+            }),
+        )
+    @UsePipes(ValidationPipe)
+    async create(@Request() req, @Body() songData: CreateSongDto,
+         @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
+    {
+        return await this.songService.create(req.user, songData, files);
     }
 }
