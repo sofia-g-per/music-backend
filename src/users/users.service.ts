@@ -31,7 +31,7 @@ export class UsersService {
         if(avatar){
             newUser.avatar = avatar.filename;
         }
-        let user =  await this.usersRepository.save(newUser);
+        let user =  await this.usersRepository.customSave(newUser);
 
         //Создание артиста
         if( userRole && userRole.name === "artists"){
