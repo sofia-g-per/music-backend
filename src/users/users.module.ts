@@ -14,6 +14,7 @@ import { IsUserEmailUnique } from './validation/IsUserEmailUnique.constraint';
 import { Artist } from 'src/music/artist/artist.entity';
 import { MusicModule } from 'src/music/music.module';
 import { PassportModule } from '@nestjs/passport';
+import { LocalAuthGuard } from './local-auth.guard';
 
 @Module({
   controllers: [UsersController],
@@ -23,16 +24,17 @@ import { PassportModule } from '@nestjs/passport';
     UserRoleExists, 
     IsUserEmailUnique,
     LocalStrategy, 
-    SessionSerializer],
+    SessionSerializer,
+    LocalAuthGuard
+  ],
   imports: [
-    PassportModule,
+    PassportModule.register({session: true}),
     MusicModule,
     TypeOrmModule.forFeature([
     User, 
     UserRole, 
     UsersRepository, 
-    UserRolesRepository, 
-    Artist
+    UserRolesRepository
   ])],
   
 })

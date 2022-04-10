@@ -53,6 +53,7 @@ export class UsersService {
             
             if(passwordsMatch){
                 const { password, ...result } = user;
+                // passport.authenticate('local', { failureRedirect: '/login' })
                 return result;
             }
             console.log('passwords');

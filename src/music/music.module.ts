@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
 import { ArtistController } from './artist/artist.controller';
@@ -35,7 +35,7 @@ import { SongService } from './song/song.service';
     Song,
     SongsRepository
   ]),
-  UsersModule],
+  forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]
 })
 export class MusicModule {}
