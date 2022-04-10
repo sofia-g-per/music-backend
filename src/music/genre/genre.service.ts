@@ -17,7 +17,6 @@ export class GenreService {
 
     async create(genreData: CreateGenreDto): Promise<Genre | undefined>{
         const genre = instanceToPlain(genreData);
-        console.log('genre to be created', genre);
         return await this.genresRepository.save(genre);
     }
 

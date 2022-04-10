@@ -1,21 +1,32 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Req, Request } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Req, Request, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { LoginDto } from './dtos/login.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './local-auth.guard';
-
+import { UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
+import { diskStorage } from 'multer';
 @Controller('api')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post('/sign-up')
+    @UseInterceptors(
+        FileInterceptor('avatar', {
+            storage: diskStorage({
+                destination: './uploaded/avatars',
+                filename: editFileName
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
     @UsePipes(ValidationPipe)
-    async create(@Body() userData: CreateUserDto) {
-        return await this.usersService.create(userData);
+    async create(@Body() userData: CreateUserDto, @UploadedFile() avatar: Express.Multer.File) {
+        return await this.usersService.create(userData, avatar);
     }
 
-    // LocalAuthenticationGuard
     @UseGuards(LocalAuthGuard)
     @Post('/log-in')
     @UsePipes(ValidationPipe)

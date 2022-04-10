@@ -18,10 +18,24 @@ import { ArtistService } from './music/artist/artist.service';
 import { SongsRepository } from './music/song/song.repository';
 import { GenreService } from './music/genre/genre.service';
 import { GenresRepository } from './music/genre/genre.repository';
+import { UsersController } from './users/users.controller';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UsersModule, MusicModule, SharedModule],
-  controllers: [AppController, SongController, PlaylistController],
+  imports: [
+    TypeOrmModule.forRoot(), 
+    MulterModule.register({
+      dest: './uploaded'
+    }),
+    UsersModule, 
+    MusicModule, 
+    SharedModule],
+  controllers: [
+    UsersController,
+    AppController, 
+    SongController, 
+    PlaylistController
+  ],
   providers: [
     AppService, 
     ArtistsRepository,

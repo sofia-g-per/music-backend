@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/user.entity';
@@ -9,26 +9,28 @@ import { UserRolesRepository } from './userRoles.repository';
 import { ArtistService } from 'src/music/artist/artist.service';
 import { LoginDto } from './dtos/login.dto';
 import { Artist } from 'src/music/artist/artist.entity';
-import { classToPlain, instanceToInstance, instanceToPlain } from 'class-transformer';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
         @InjectRepository(UserRolesRepository) private userRolesRepository: UserRolesRepository,
-        private artistService: ArtistService,
+        private artistService: ArtistService
 
     ){}
 
-    async create(userData: CreateUserDto): Promise <User | Artist | undefined> {
+    async create(userData: CreateUserDto, avatar): Promise <User | Artist | undefined> {
         const salt = 10;
         const password = await bcrypt.hash(userData.password, salt);
         userData.password = password;
-
-        //добавить загрузку картинки (аватара)
         const userRole = await this.userRolesRepository.findById(userData.roleId);
         let newUser = instanceToPlain(userData);
         newUser.role = userRole;
+        
+        if(avatar){
+            newUser.avatar = avatar.filename;
+        }
         let user =  await this.usersRepository.save(newUser);
 
         //Создание артиста
@@ -53,7 +55,6 @@ export class UsersService {
             
             if(passwordsMatch){
                 const { password, ...result } = user;
-                // passport.authenticate('local', { failureRedirect: '/login' })
                 return result;
             }
             console.log('passwords');
