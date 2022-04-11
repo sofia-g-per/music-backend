@@ -1,6 +1,12 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
+import { AlbumController } from './album/album.controller';
+import { Album } from './album/album.entity';
+import { AlbumService } from './album/album.service';
+import { AlbumsRepository } from './album/albums.repository';
+import { SongsToAlbums } from './album/songsToAlbums.entity';
+import { SongsToAlbumsRepository } from './album/songsToAlbums.repository';
 import { ArtistController } from './artist/artist.controller';
 import { Artist } from './artist/artist.entity';
 import { ArtistsRepository } from './artist/artist.repository';
@@ -26,12 +32,14 @@ import { SongService } from './song/song.service';
     MusicController,
     GenreController,
     ArtistController,
-    SongController
+    SongController,
+    AlbumController
   ],
   providers: [
     GenreService,
     ArtistService,
-    SongService
+    SongService,
+    AlbumService
   ],
   imports: [TypeOrmModule.forFeature([
     ArtistsRepository,
@@ -45,7 +53,11 @@ import { SongService } from './song/song.service';
     SongsToPlaylists,
     SongsToPlaylistsRepository,
     Playlist, 
-    PlaylistsRepository
+    PlaylistsRepository,
+    Album,
+    AlbumsRepository,
+    SongsToAlbums,
+    SongsToAlbumsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

@@ -25,11 +25,19 @@ export class PlaylistService {
         playlist.isPublic = Boolean(playlist.isPublic);
 
         //прикрепление жанров
+        let genres;
         if(!playlist.genres){
             playlist.genres = [];
         }
-        playlist.genres = await this.genreService.addExistingGenres(playlistData, playlist);
-        playlist.genres = await this.genreService.addExistingGenres(playlistData, playlist);
+        
+        genres = await this.genreService.addExistingGenres(playlistData, playlist);
+        if(genres){
+            playlist.genres.push(genres);
+        }
+        genres = await this.genreService.createNewGenres(playlistData, playlist);
+        if(genres){
+            playlist.genres.push(genres);
+        }
 
         //прикреление песен
         playlist.songs = [];

@@ -29,12 +29,18 @@ export class SongService {
         }
 
         //прикрепление жанров
+        let genres;
         if(!song.genres){
             song.genres = [];
         }
-        song.genres = await this.genreService.addExistingGenres(songData, song);
-        song.genres = await this.genreService.addExistingGenres(songData, song);
-
+        genres = await this.genreService.addExistingGenres(songData, song);
+        if(genres){
+            song.genres.push(genres);
+        }
+        genres = await this.genreService.createNewGenres(songData, song);
+        if(genres){
+            song.genres.push(genres);
+        }
         
         //прикреление артистов
         song.artists = []
@@ -42,7 +48,6 @@ export class SongService {
         if(artists){
             song.artists = artists;
         }
-        
         //протестировать - раньше добавлялся поользователь, а не артист
         song.artists.push(user.artist);
 
@@ -62,7 +67,7 @@ export class SongService {
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)
 
-    //прикрепление существующих артистов
+    //прикрепление существующих песен
     async addExistingSongs(formData, targetObject){
         if(formData.songIds && formData.songIds.length > 0){
             let songs = await this.songsRepository.addMultipleByIds(formData.songIds);

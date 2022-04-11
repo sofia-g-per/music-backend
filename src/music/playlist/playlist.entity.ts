@@ -18,6 +18,12 @@ export class Playlist {
     })
     description: string;
 
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
+    coverImg: string;
+
     @Column()
     isPublic: boolean;
 

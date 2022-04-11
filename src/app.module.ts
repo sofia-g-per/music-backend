@@ -26,6 +26,12 @@ import { SongsToPlaylists } from './music/playlist/songsToPlaylists.entity';
 import { SongsToPlaylistsRepository } from './music/playlist/songsToPlaylists.repository';
 import { Playlist } from './music/playlist/playlist.entity';
 import { PlaylistsRepository } from './music/playlist/playlists.repository';
+import { Album } from './music/album/album.entity';
+import { AlbumsRepository } from './music/album/albums.repository';
+import { SongsToAlbums } from './music/album/songsToAlbums.entity';
+import { SongsToAlbumsRepository } from './music/album/songsToAlbums.repository';
+import { AlbumController } from './music/album/album.controller';
+import { AlbumService } from './music/album/album.service';
 
 @Module({
   imports: [
@@ -40,7 +46,9 @@ import { PlaylistsRepository } from './music/playlist/playlists.repository';
     UsersController,
     AppController, 
     SongController, 
-    PlaylistController
+    PlaylistController,
+    PlaylistController,
+    AlbumController
   ],
   providers: [
     AppService, 
@@ -51,6 +59,7 @@ import { PlaylistsRepository } from './music/playlist/playlists.repository';
     UserRolesService,
     ArtistService,
     GenreService,
+    AlbumService,
     UserRolesRepository,
     UsersRepository,
     SongsRepository,
@@ -60,7 +69,11 @@ import { PlaylistsRepository } from './music/playlist/playlists.repository';
     SongsToPlaylists,
     SongsToPlaylistsRepository,
     Playlist, 
-    PlaylistsRepository
+    PlaylistsRepository,
+    Album,
+    AlbumsRepository,
+    SongsToAlbums,
+    SongsToAlbumsRepository
   ],
 })
 

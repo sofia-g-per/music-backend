@@ -7,11 +7,11 @@ export class CreateAlbumDto{
     name: string;
 
     @IsNotEmpty()
-    cover_img: string;
+    coverImg: string;
 
-    //добавить информацию о порядке песен
     @IsNotEmpty()
-    song_ids: number[];
+    //для постмана
+    songIds: string;
 
     @IsNotEmpty()
     released_at: Date;
@@ -20,7 +20,7 @@ export class CreateAlbumDto{
     description: string;
 
     @IsOptional()
-    artist_ids: number[];
+    artistIds: number[];
 
     @IsOptional()
     @Type(() => CreateGenreDto)
@@ -28,5 +28,5 @@ export class CreateAlbumDto{
     genres: CreateGenreDto[];
 
     @IsOptional()
-    genre_ids: number[];
+    genreIds: number[];
 }

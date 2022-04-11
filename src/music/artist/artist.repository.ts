@@ -1,5 +1,5 @@
 import { EntityRepository, Repository, getRepository } from "typeorm";
-import { AddExistingArtistDto } from "./addExistingArtistDto.dto copy";
+import { AddExistingArtistDto } from "./addExistingArtistDto.dto";
 import { Artist } from "./artist.entity";
 
 @EntityRepository(Artist)

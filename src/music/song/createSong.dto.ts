@@ -1,7 +1,5 @@
 import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
-import { Genre } from '../genre/genre.entity';
 import { CreateGenreDto } from "../genre/createGenre.dto";
-import { AddExistingArtistDto } from '../artist/addExistingArtistDto.dto copy';
 
 
 export class CreateSongDto {  
@@ -23,7 +21,6 @@ export class CreateSongDto {
     //для тестирования с постманом
     @IsOptional()
     artistIds;
-
 
     @IsOptional()
     genres: CreateGenreDto[];
