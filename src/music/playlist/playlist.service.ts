@@ -35,9 +35,8 @@ export class PlaylistService {
             playlist.songs = songs;
         }
 
-
         // добавление авторизированного пользователя как создателя
-
+        songs.creator = user;
 
         // сохранение плейлист в БД
         const newPlaylist = await this.playlistsRepository.customSave(playlist);
@@ -49,9 +48,6 @@ export class PlaylistService {
         }
 
         return newPlaylist;
-
-        // add current user as creator
-        // this.playlists.push(playlist);
     }
 
     // async update(id: number , playlist: Playlist) {
