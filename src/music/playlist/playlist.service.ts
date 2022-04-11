@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ParseBoolPipe } from '@nestjs/common';
 import { Playlist } from './playlist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PlaylistsRepository } from './playlists.repository';
@@ -7,6 +7,7 @@ import { GenreService } from '../genre/genre.service';
 import { instanceToPlain } from 'class-transformer';
 import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
+import { CreatePlaylistDto } from './createPlaylist.dto';
 
 @Injectable()
 export class PlaylistService {
@@ -18,8 +19,10 @@ export class PlaylistService {
 
     ) {}
 
-    async create(user: User, playlistData: Playlist) {
+    async create(user: User, playlistData: CreatePlaylistDto, coverImg:Express.Multer.File) {
         let playlist = instanceToPlain(playlistData);
+
+        playlist.isPublic = Boolean(playlist.isPublic);
 
         //прикрепление жанров
         if(!playlist.genres){
@@ -35,19 +38,28 @@ export class PlaylistService {
             playlist.songs = songs;
         }
 
+        // прикарепление обложки плейлиста при наличии
+        if(coverImg){
+            playlist.coverImg = coverImg.filename;
+        }
+
         // добавление авторизированного пользователя как создателя
-        songs.creator = user;
+        playlist.creator = user;
 
         // сохранение плейлист в БД
+        console.log('service', playlist);
         const newPlaylist = await this.playlistsRepository.customSave(playlist);
 
         // сохранение связей песен и плейлистов 
-        let songsToplaylists;
+        let songsToPlaylists;
         if(newPlaylist){
-            songsToplaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
+            songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
+        }else{
+            return undefined
         }
 
-        return newPlaylist;
+        //поменять return на dto
+        return newPlaylist.songs;
     }
 
     // async update(id: number , playlist: Playlist) {

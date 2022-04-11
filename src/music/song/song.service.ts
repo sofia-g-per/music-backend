@@ -64,9 +64,9 @@ export class SongService {
 
     //прикрепление существующих артистов
     async addExistingSongs(formData, targetObject){
-        if(formData.artistIds && formData.artistIds.length > 0){
-            let artists = await this.songsRepository.addMultipleByIds(formData.artistIds);
-            return targetObject.artists.concat(artists);
+        if(formData.songIds && formData.songIds.length > 0){
+            let songs = await this.songsRepository.addMultipleByIds(formData.songIds);
+            return targetObject.songs.concat(songs);
         }
     }
 }

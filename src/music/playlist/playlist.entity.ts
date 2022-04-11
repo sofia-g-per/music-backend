@@ -19,7 +19,7 @@ export class Playlist {
     description: string;
 
     @Column()
-    is_public: boolean;
+    isPublic: boolean;
 
     @CreateDateColumn()
     created_at: Date;

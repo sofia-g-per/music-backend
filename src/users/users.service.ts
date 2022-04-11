@@ -21,19 +21,27 @@ export class UsersService {
     ){}
 
     async create(userData: CreateUserDto, avatar): Promise <User | Artist | undefined> {
+
+        let newUser = instanceToPlain(userData);
+
+        //шифрование пароля
         const salt = 10;
         const password = await bcrypt.hash(userData.password, salt);
         userData.password = password;
+
+        //добавление роли пользователя
         const userRole = await this.userRolesRepository.findById(userData.roleId);
-        let newUser = instanceToPlain(userData);
         newUser.role = userRole;
         
+        //добавления аватара (изображения) при наличии
         if(avatar){
             newUser.avatar = avatar.filename;
         }
-        let user =  await this.usersRepository.customSave(newUser);
 
-        //Создание артиста
+        //Сохранение пользователя в БД
+        let user = await this.usersRepository.customSave(newUser);
+
+        //Создание записи артиста при выборе соответствующей роли
         if( userRole && userRole.name === "artists"){
             userData.artist.user = user;
             const artist = await this.artistService.create(userData.artist);            

@@ -25,6 +25,7 @@ export class PlaylistsRepository extends Repository<Playlist>{
     }
 
     public async customSave(entity) {
-        return await getRepository(Song).save(entity);
+        console.log('repo', entity);
+        return await getRepository(Playlist).save(entity);
       }
 }
