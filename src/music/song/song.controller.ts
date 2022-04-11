@@ -32,6 +32,11 @@ export class SongController {
     async create(@Request() req, @Body() songData: CreateSongDto,
          @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
     {
+        //Для тестировани с постманом
+        if(songData.artistIds){
+            songData.artistIds = JSON.parse(songData.artistIds[0]);
+        }
+
         return await this.songService.create(req.user, songData, files);
     }
 }

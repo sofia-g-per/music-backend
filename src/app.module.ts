@@ -20,6 +20,8 @@ import { GenreService } from './music/genre/genre.service';
 import { GenresRepository } from './music/genre/genre.repository';
 import { UsersController } from './users/users.controller';
 import { MulterModule } from '@nestjs/platform-express';
+import { ArtistsToSongs } from './music/artist/artistsToSongs.entity';
+import { ArtistsToSongsRepository } from './music/artist/artistsToSongs.repository';
 
 @Module({
   imports: [
@@ -48,7 +50,9 @@ import { MulterModule } from '@nestjs/platform-express';
     UserRolesRepository,
     UsersRepository,
     SongsRepository,
-    GenresRepository
+    GenresRepository,
+    ArtistsToSongs,
+    ArtistsToSongsRepository
   ],
 })
 

@@ -6,10 +6,13 @@ import { GenreService } from '../genre/genre.service';
 import { CreateSongDto } from './createSong.dto';
 import { SongsRepository } from './song.repository';
 import { ArtistService } from '../artist/artist.service';
+import { ArtistsToSongsRepository } from '../artist/artistsToSongs.repository';
+
 @Injectable()
 export class SongService {
     constructor(
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
+        @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
         private genreService: GenreService,
         private artistService: ArtistService
     ) {}
@@ -18,15 +21,12 @@ export class SongService {
         let song = instanceToPlain(songData);
 
         //прикреление артистов
-        if(!song.artists){
-            song.artists = []
-        }
+        song.artists = []
         let artists = await this.artistService.addExistingArtists(songData, song);
         if(artists){
             song.artists = artists;
         }
         song.artists.push(user);
-
 
         //прикреление аудиофайла
         song.file_path = files.audioFile[0]['filename'];
@@ -45,6 +45,10 @@ export class SongService {
 
         
         const newSong = await this.songsRepository.customSave(song);
+        let artistsToSongs;
+        if(newSong){
+            artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(song.artists, newSong);
+        }
         return newSong;
     }
 }

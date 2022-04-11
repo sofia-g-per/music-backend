@@ -6,16 +6,16 @@ import { Song } from "../song/song.entity";
 @Entity()
 export class ArtistsToSongs {
     @PrimaryGeneratedColumn()
-    public id!: number;
+    public id: number;
 
     @Column()
-    public playlistId!: number;
+    public artistId!: number;
 
     @Column()
     public songId!: number;
 
     @Column()
-    public is_featured!: boolean;
+    public isFeatured!: boolean;
 
     //------------------ 
     //      СВЯЗИ

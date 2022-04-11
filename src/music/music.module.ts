@@ -5,6 +5,8 @@ import { ArtistController } from './artist/artist.controller';
 import { Artist } from './artist/artist.entity';
 import { ArtistsRepository } from './artist/artist.repository';
 import { ArtistService } from './artist/artist.service';
+import { ArtistsToSongs } from './artist/artistsToSongs.entity';
+import { ArtistsToSongsRepository } from './artist/artistsToSongs.repository';
 import { GenreController } from './genre/genre.controller';
 import { Genre } from './genre/genre.entity';
 import { GenresRepository } from './genre/genre.repository';
@@ -33,7 +35,9 @@ import { SongService } from './song/song.service';
     Genre,
     GenresRepository,
     Song,
-    SongsRepository
+    SongsRepository,
+    ArtistsToSongs,
+    ArtistsToSongsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

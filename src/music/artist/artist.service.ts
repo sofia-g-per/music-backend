@@ -44,7 +44,7 @@ export class ArtistService {
     //прикрепление существующих артистов
     async addExistingArtists(formData, targetObject){
         if(formData.artistIds && formData.artistIds.length > 0){
-            let artists = await this.artistsRepository.findMultipleByIds(formData.artistIds);
+            let artists = await this.artistsRepository.addMultipleByIds(formData.artistIds);
             return targetObject.artists.concat(artists);
         }
     }

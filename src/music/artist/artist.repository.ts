@@ -1,26 +1,44 @@
 import { EntityRepository, Repository, getRepository } from "typeorm";
+import { AddExistingArtistDto } from "./addExistingArtistDto.dto copy";
 import { Artist } from "./artist.entity";
 
 @EntityRepository(Artist)
 export class ArtistsRepository extends Repository<Artist>{
     
     async findById(id: number){
-        return this.findOne({ id: id });
+        return getRepository(Artist).findOne({ id: id });
     }
 
     async findMultipleByIds(ids: number[]): Promise<Artist[]>{
-        let genres: Artist[] = [];
+        let artists: Artist[] = [];
           
         for (let id of ids) {
-            const genre = await this.findById(id);
+            const artist = await this.findById(id);
             
-            if(genre instanceof Artist){
-                genres.push(genre);
+            if(artist instanceof Artist){
+                artists.push(artist);
             }else{
-                //return genre array
+                //return artist array
                 return undefined
             }
         }
-        return genres;
+        return artists;
+    }
+
+    async addMultipleByIds(addArtistsData: AddExistingArtistDto[]): Promise<Artist[]>{
+        let artists = [];
+
+        for (let artistData of addArtistsData) {
+            const artist = await this.findById(artistData.artistId);
+            
+            if(artist){
+
+                artists.push({artist: artist, isFeatured: artistData.isFeatured});
+            }else{
+                //return artist array
+                return undefined
+            }
+        }
+        return artists;
     }
 }
