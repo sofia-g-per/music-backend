@@ -22,6 +22,10 @@ import { UsersController } from './users/users.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { ArtistsToSongs } from './music/artist/artistsToSongs.entity';
 import { ArtistsToSongsRepository } from './music/artist/artistsToSongs.repository';
+import { SongsToPlaylists } from './music/playlist/songsToPlaylists.entity';
+import { SongsToPlaylistsRepository } from './music/playlist/songsToPlaylists.repository';
+import { Playlist } from './music/playlist/playlist.entity';
+import { PlaylistsRepository } from './music/playlist/playlists.repository';
 
 @Module({
   imports: [
@@ -52,7 +56,11 @@ import { ArtistsToSongsRepository } from './music/artist/artistsToSongs.reposito
     SongsRepository,
     GenresRepository,
     ArtistsToSongs,
-    ArtistsToSongsRepository
+    ArtistsToSongsRepository,
+    SongsToPlaylists,
+    SongsToPlaylistsRepository,
+    Playlist, 
+    PlaylistsRepository
   ],
 })
 

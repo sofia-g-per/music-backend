@@ -20,14 +20,6 @@ export class SongService {
     async create(user: User, songData: CreateSongDto, files) {
         let song = instanceToPlain(songData);
 
-        //прикреление артистов
-        song.artists = []
-        let artists = await this.artistService.addExistingArtists(songData, song);
-        if(artists){
-            song.artists = artists;
-        }
-        song.artists.push(user);
-
         //прикреление аудиофайла
         song.file_path = files.audioFile[0]['filename'];
 
@@ -44,12 +36,38 @@ export class SongService {
         song.genres = await this.genreService.addExistingGenres(songData, song);
 
         
+        //прикреление артистов
+        song.artists = []
+        let artists = await this.artistService.addExistingArtists(songData, song);
+        if(artists){
+            song.artists = artists;
+        }
+        
+        //протестировать - раньше добавлялся поользователь, а не артист
+        song.artists.push(user.artist);
+
+        // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
+
+        // сохранение связей артистами авторами песни 
         let artistsToSongs;
         if(newSong){
             artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(song.artists, newSong);
         }
+
         return newSong;
+    }
+
+    // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
+    // targetObject - объект который послужит для создания сущности  (ex. songData)
+    // formData - объект с информацией от пользователя (ex. song)
+
+    //прикрепление существующих артистов
+    async addExistingSongs(formData, targetObject){
+        if(formData.artistIds && formData.artistIds.length > 0){
+            let artists = await this.songsRepository.addMultipleByIds(formData.artistIds);
+            return targetObject.artists.concat(artists);
+        }
     }
 }
 

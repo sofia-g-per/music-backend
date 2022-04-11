@@ -12,6 +12,10 @@ import { Genre } from './genre/genre.entity';
 import { GenresRepository } from './genre/genre.repository';
 import { GenreService } from './genre/genre.service';
 import { MusicController } from './music.controller';
+import { Playlist } from './playlist/playlist.entity';
+import { PlaylistsRepository } from './playlist/playlists.repository';
+import { SongsToPlaylists } from './playlist/songsToPlaylists.entity';
+import { SongsToPlaylistsRepository } from './playlist/songsToPlaylists.repository';
 import { SongController } from './song/song.controller';
 import { Song } from './song/song.entity';
 import { SongsRepository } from './song/song.repository';
@@ -37,7 +41,11 @@ import { SongService } from './song/song.service';
     Song,
     SongsRepository,
     ArtistsToSongs,
-    ArtistsToSongsRepository
+    ArtistsToSongsRepository,
+    SongsToPlaylists,
+    SongsToPlaylistsRepository,
+    Playlist, 
+    PlaylistsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

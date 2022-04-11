@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Request } from '@nestjs/common';
 import { Playlist } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
 
@@ -7,8 +7,8 @@ export class PlaylistController {
     constructor(private readonly playlistService: PlaylistService) {}
 
     @Post('/create-playlist')
-    async create(@Body() playlist: Playlist) {
-        this.playlistService.create(playlist);
+    async create(@Request() req, @Body() playlist: Playlist) {
+        this.playlistService.create(req.user, playlist);
     } 
 
     @Get('/playlist/:id')

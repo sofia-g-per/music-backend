@@ -15,8 +15,11 @@ export class SongsToPlaylists {
     @Column()
     public songId!: number;
 
+    @Column()
+    public songIndex!: number;
+
     @CreateDateColumn()
-    created_at: Date;
+    createdAt: Date;
 
     @ManyToOne(() => Playlist, playlist => playlist.songs)
     public playlist!: Playlist;

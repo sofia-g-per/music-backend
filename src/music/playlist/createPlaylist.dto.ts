@@ -1,20 +1,21 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { CreateGenreDto } from "../genre/createGenre.dto";
 import { Type } from "class-transformer";
+import { AddExistingSongsToCollectionDto } from "./addExistingSongsToCollection.dto";
 
-export class CreateAlbumDto{
+export class CreatePlaylsitDto{
     @IsNotEmpty()
     name: string;
 
     //добавить информацию о порядке песен
     @IsNotEmpty()
-    song_ids: number[];
+    songIds: AddExistingSongsToCollectionDto[];
     
     @IsOptional()
     description: string;
 
     @IsOptional()
-    cover_img: string;
+    coverImg: string;
 
     @IsOptional()
     @Type(() => CreateGenreDto)
@@ -22,5 +23,5 @@ export class CreateAlbumDto{
     genres: CreateGenreDto[];
 
     @IsOptional()
-    genre_ids: number[];
+    genreIds: number[];
 }
