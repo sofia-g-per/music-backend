@@ -5,8 +5,8 @@
     "username" : "root",
     "password" : "",
     "database" : "music",
-    "entities": ["dist/**/*.entity.{js,ts}"],
     "autoLoadEntities": true,
+    "entities": ["dist/**/*.entity.{js,ts}"],
     "synchronize": true,
     "migrations": ["src/migration/**/*.{ts, .js}"],
     "cli": {

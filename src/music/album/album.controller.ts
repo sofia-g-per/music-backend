@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { CreateAlbumDto } from './createAlbum.dto';
-import { Album } from './Album.entity';
+import { Album } from './album.entity';
 import { AlbumService } from './album.service';
 
 @Controller('/api')

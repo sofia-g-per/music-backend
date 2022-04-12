@@ -1,4 +1,3 @@
-import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { Genre } from "../genre/genre.entity";
 import { Artist } from "../artist/artist.entity";

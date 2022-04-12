@@ -1,5 +1,5 @@
 import { EntityRepository, Repository, getRepository } from "typeorm";
-import { Album } from "./Album.entity";
+import { Album } from "./album.entity";
 
 @EntityRepository(Album)
 export class AlbumsRepository extends Repository<Album>{
