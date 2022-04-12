@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { CreateGenreDto } from "../genre/createGenre.dto";
 import { Type } from 'class-transformer';
+import { AddExistingArtistDto } from "../artist/addExistingArtistDto.dto";
 
 export class CreateAlbumDto{
     @IsNotEmpty()
@@ -17,7 +18,8 @@ export class CreateAlbumDto{
     description: string;
 
     @IsOptional()
-    artistIds: number[];
+    // для постмана
+    artistIds: string;
 
     @IsOptional()
     @Type(() => CreateGenreDto)

@@ -19,7 +19,7 @@ export class Album {
     description: string;
 
     @Column()
-    cover_img: string;
+    coverImg: string;
 
     @Column()
     released_at: Date;
@@ -35,6 +35,7 @@ export class Album {
 
     //Связь с артистами, (авторы альбома)
     @ManyToMany(() => Artist)
+    @JoinTable()
     artists: Artist[];
 
     //Пользователи, добавившие альбом в избранные

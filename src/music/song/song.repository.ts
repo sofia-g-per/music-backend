@@ -54,15 +54,10 @@ export class SongsRepository extends Repository<Song>{
             let song;
 
             //если песня существует (предоставлен id)
-            console.log('song repo addmultiplebyIds')
             if(!songData.song && songData.songId){
-                console.log('song existst')
                 song = await this.findById(songData.songId);
-                console.log('the song that exists', song);
             }else{
-                console.log('song does not exist')
                 song = this.customSave(songData.song);
-                console.log('the song that was created', song);
             }
 
             if(song){
@@ -72,8 +67,6 @@ export class SongsRepository extends Repository<Song>{
                 return undefined
             }
         }
-
-        console.log('repo result', songs)
         return songs;
     }
 

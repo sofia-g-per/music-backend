@@ -39,7 +39,6 @@ export class Artist {
 
     // Связь с альбомами
     @ManyToMany(() => Album)
-    @JoinTable()
     albums: Album[];
 
     // Связь с песнями

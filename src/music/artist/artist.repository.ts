@@ -27,7 +27,6 @@ export class ArtistsRepository extends Repository<Artist>{
 
     async addMultipleByIds(addArtistsData: AddExistingArtistDto[]): Promise<Artist[]>{
         let artists = [];
-
         for (let artistData of addArtistsData) {
             const artist = await this.findById(artistData.artistId);
             
@@ -39,6 +38,8 @@ export class ArtistsRepository extends Repository<Artist>{
                 return undefined
             }
         }
+        console.log('artist repo', artists)
+        
         return artists;
     }
 }

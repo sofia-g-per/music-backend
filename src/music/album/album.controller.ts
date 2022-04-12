@@ -22,10 +22,11 @@ export class AlbumController {
     )
     @UsePipes(ValidationPipe)
     async create(@Request() req, @Body() albumData: CreateAlbumDto, @UploadedFile() coverImg: Express.Multer.File) {
-        console.log('controller initial', albumData);
+        console.log('controller initial', albumData, coverImg);
         //Для тестировани с постманом
         if(albumData.songIds){
             albumData.songIds = JSON.parse(albumData.songIds);
+            albumData.artistIds = JSON.parse(albumData.artistIds);
         }
         console.log('controller parsed', albumData);
 

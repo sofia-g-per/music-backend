@@ -49,9 +49,14 @@ export class AlbumService {
         //прикреление артистов
         album.artists = []
         let artists = await this.artistService.addExistingArtists(albumData, album);
+        // сейчас можно добавлять артистов только без isfeatured, а метод addExistingArtists возврщает с isfeatured (структура AddexistingArtistDto)
+        // поэтому заносится только авторизированный пользователь (мы зансим его именно как массив Artist, а не структуру типо 
+        // AddexistingArtistDto)
+        console.log('album service artist result', artists)
         if(artists){
             album.artists = artists;
         }
+
         // добавление авторизированного пользователя как создателя
         album.artists.push(user.artist);
 

@@ -44,6 +44,8 @@ export class ArtistService {
     //прикрепление существующих артистов
     async addExistingArtists(formData, targetObject){
         if(formData.artistIds && formData.artistIds.length > 0){
+        console.log('artist service', formData.artistIds)
+
             let artists = await this.artistsRepository.addMultipleByIds(formData.artistIds);
             return targetObject.artists.concat(artists);
         }
