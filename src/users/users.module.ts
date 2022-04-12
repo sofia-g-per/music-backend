@@ -14,7 +14,7 @@ import { IsUserEmailUnique } from './validation/IsUserEmailUnique.constraint';
 import { Artist } from 'src/music/artist/artist.entity';
 import { MusicModule } from 'src/music/music.module';
 import { PassportModule } from '@nestjs/passport';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Module({
   controllers: [UsersController],

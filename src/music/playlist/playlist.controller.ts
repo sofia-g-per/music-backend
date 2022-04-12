@@ -1,7 +1,9 @@
-import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
+import { Roles } from 'src/users/guards/roles.decorator';
 import { CreatePlaylistDto } from './createPlaylist.dto';
 import { Playlist } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
@@ -11,6 +13,8 @@ export class PlaylistController {
     constructor(private readonly playlistService: PlaylistService) {}
 
     @Post('/create-playlist')
+    // @Roles('')
+    // @UseGuards()
     @UseInterceptors(
         FileInterceptor('coverImg', {
             storage: diskStorage({

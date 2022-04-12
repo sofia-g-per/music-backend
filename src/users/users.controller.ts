@@ -2,12 +2,12 @@ import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Req, 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { LoginDto } from './dtos/login.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { LocalAuthGuard } from './local-auth.guard';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { diskStorage } from 'multer';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+
 @Controller('api')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}

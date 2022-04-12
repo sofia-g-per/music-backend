@@ -5,14 +5,19 @@ import { CreateSongDto } from './createSong.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
+import { Roles } from 'src/users/guards/roles.decorator';
+import { RolesGuard } from 'src/users/guards/roles.guard';
+import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 
 
 @Controller('/api')
 export class SongController {
     constructor(private readonly songService: SongService) {}
     
-    // @UseGuards(AuthGuard('local'))
+    
     @Post('/upload-song')
+    @Roles('artist')
+    @UseGuards(RolesGuard)
     //добавить валидацию форматов для файлов
     @UseInterceptors(
         FileFieldsInterceptor(

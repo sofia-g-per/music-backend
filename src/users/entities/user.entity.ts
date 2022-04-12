@@ -42,7 +42,9 @@ export class User {
     //------------------ 
 
     //Связь с ролью
-    @ManyToOne(() => UserRole, userRole => userRole.users)
+    @ManyToOne(() => UserRole, userRole => userRole.users, {
+        eager: true
+    })
     role: UserRole;
     
     //Связь с артистом 
