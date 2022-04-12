@@ -7,7 +7,7 @@ import { CreateSongDto } from "./createSong.dto";
 export class SongsRepository extends Repository<Song>{
     
     async findById(id: number): Promise<Song>{
-        return getRepository(Song).findOne({where: { id: id }});
+        return await getRepository(Song).findOne({where: { id: id }});
     }
 
     async findMultipleByIds(ids: number[]): Promise<Song[]>{

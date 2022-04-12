@@ -13,6 +13,10 @@ import { ArtistsRepository } from './artist/artist.repository';
 import { ArtistService } from './artist/artist.service';
 import { ArtistsToSongs } from './artist/artistsToSongs.entity';
 import { ArtistsToSongsRepository } from './artist/artistsToSongs.repository';
+import { FavouritesController } from './favourites/favourites.controller';
+import { FavouritesService } from './favourites/favourites.service';
+import { UsersToSongs } from './favourites/usersToSongs.entity';
+import { UsersToSongsRepository } from './favourites/usersToSongs.repository';
 import { GenreController } from './genre/genre.controller';
 import { Genre } from './genre/genre.entity';
 import { GenresRepository } from './genre/genre.repository';
@@ -33,13 +37,15 @@ import { SongService } from './song/song.service';
     GenreController,
     ArtistController,
     SongController,
-    AlbumController
+    AlbumController,
+    FavouritesController
   ],
   providers: [
     GenreService,
     ArtistService,
     SongService,
-    AlbumService
+    AlbumService,
+    FavouritesService
   ],
   imports: [TypeOrmModule.forFeature([
     ArtistsRepository,
@@ -57,7 +63,9 @@ import { SongService } from './song/song.service';
     Album,
     AlbumsRepository,
     SongsToAlbums,
-    SongsToAlbumsRepository
+    SongsToAlbumsRepository,
+    UsersToSongs,
+    UsersToSongsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]
