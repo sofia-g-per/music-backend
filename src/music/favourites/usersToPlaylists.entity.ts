@@ -1,5 +1,5 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { Playlist } from "../playlist/playlist.entity";
 
@@ -14,7 +14,7 @@ export class UsersToPlaylists {
     @Column()
     public songId!: number;
 
-    @Column()
+    @CreateDateColumn()
     added_at!: Date;
 
     @ManyToOne(() => User, user => user.favoriteAlbums)
