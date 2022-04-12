@@ -7,9 +7,6 @@ export class CreateAlbumDto{
     name: string;
 
     @IsNotEmpty()
-    coverImg: string;
-
-    @IsNotEmpty()
     //для постмана
     songIds: string;
 

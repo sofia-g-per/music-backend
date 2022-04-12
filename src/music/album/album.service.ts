@@ -22,6 +22,7 @@ export class AlbumService {
     ) {}
 
     async create(user: User, albumData: CreateAlbumDto, coverImg:Express.Multer.File) {
+        
         let album = instanceToPlain(albumData);
 
         //прикрепление жанров

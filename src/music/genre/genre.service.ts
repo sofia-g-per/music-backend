@@ -24,9 +24,7 @@ export class GenreService {
         let genres = [];
         let genre;
             for(let genreData of genresData){
-                console.log('genreData of for loop', genreData);
                 genre = await this.create(genreData);
-                console.log('created genre', genre, genre instanceof Genre, typeof genre);
 
                 //изменить чтобы учитывался возврат не просто undefined, а конкретных ошибок
                 if(genre){

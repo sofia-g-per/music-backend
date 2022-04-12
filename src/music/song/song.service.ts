@@ -67,7 +67,7 @@ export class SongService {
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)
 
-    //прикрепление существующих песен
+    //прикрепление существующих песен и создание новых
     async addExistingSongs(formData, targetObject){
         if(formData.songIds && formData.songIds.length > 0){
             let songs = await this.songsRepository.addMultipleByIds(formData.songIds);

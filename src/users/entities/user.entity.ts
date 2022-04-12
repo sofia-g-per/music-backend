@@ -47,7 +47,9 @@ export class User {
     
     //Связь с артистом 
     // (если пользователь является артистом)
-    @OneToOne(() => Artist, artist => artist.user)
+    @OneToOne(() => Artist, artist => artist.user, {
+        eager: true
+    })
     artist: Artist;
 
     //Связь с созданными данным пользователям плейлистами 

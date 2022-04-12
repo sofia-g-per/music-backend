@@ -1,6 +1,7 @@
 import { EntityRepository, Repository, getRepository } from "typeorm";
 import { Song } from "./song.entity";
 import { AddExistingSongsToCollectionDto } from "../playlist/addExistingSongsToCollection.dto";
+import { CreateSongDto } from "./createSong.dto";
 
 @EntityRepository(Song)
 export class SongsRepository extends Repository<Song>{
@@ -24,6 +25,23 @@ export class SongsRepository extends Repository<Song>{
         return songs;
     }
 
+    // async createMultiple(songsData: CreateSongDto[]): Promise<Song[] | undefined>{
+    //     let songs = [];
+    //     let song;
+    //         for(let songData of songsData){
+    //             song = await this.customSave(songData);
+    //             //изменить чтобы учитывался возврат не просто undefined, а конкретных ошибок
+    //             if(song){
+    //                 songs.push(song);
+
+    //             }else{
+    //                 //return all songs that did not fail and songs that did fail
+    //                 return undefined;
+    //             }
+    //         }
+    //     return songs;
+    // }
+
     public async customSave(entity) {
         return await getRepository(Song).save(entity);
     }
@@ -33,16 +51,29 @@ export class SongsRepository extends Repository<Song>{
         let songs = [];
 
         for (let songData of addSongsData) {
-            const song = await this.findById(songData.songId);
-            
-            if(song){
+            let song;
 
+            //если песня существует (предоставлен id)
+            console.log('song repo addmultiplebyIds')
+            if(!songData.song && songData.songId){
+                console.log('song existst')
+                song = await this.findById(songData.songId);
+                console.log('the song that exists', song);
+            }else{
+                console.log('song does not exist')
+                song = this.customSave(songData.song);
+                console.log('the song that was created', song);
+            }
+
+            if(song){
                 songs.push({song: song, songIndex: songData.songIndex});
             }else{
                 //return artist array
                 return undefined
             }
         }
+
+        console.log('repo result', songs)
         return songs;
     }
 

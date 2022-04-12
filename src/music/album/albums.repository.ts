@@ -1,8 +1,7 @@
 import { EntityRepository, Repository, getRepository } from "typeorm";
-import { Song } from "../song/song.entity";
 import { Album } from "./Album.entity";
 
-@EntityRepository(Song)
+@EntityRepository(Album)
 export class AlbumsRepository extends Repository<Album>{
     
     async findById(id: number): Promise<Album>{
