@@ -4,6 +4,7 @@ import { User } from "../../users/entities/user.entity";
 import { Genre } from "../genre/genre.entity";
 import { Album } from "../album/album.entity";
 import { ArtistsToSongs } from "./artistsToSongs.entity";
+import { ArtistsToAlbums } from "../album/artistsToAlbums.entity";
 
 @Entity()
 export class Artist {
@@ -40,10 +41,10 @@ export class Artist {
     genres: Genre[];
 
     // Связь с альбомами
-    @ManyToMany(() => Album, {
+    @OneToMany(() => ArtistsToAlbums, artistsToAlbums=> artistsToAlbums.albums, {
         eager: true,
     })
-    albums: Album[];
+    albums: ArtistsToAlbums[];
 
     // Связь с песнями
     @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, {

@@ -7,8 +7,6 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { Roles } from 'src/users/guards/roles.decorator';
 import { RolesGuard } from 'src/users/guards/roles.guard';
-import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
-
 
 @Controller('/api')
 export class SongController {

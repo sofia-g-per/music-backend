@@ -58,7 +58,10 @@ export class AlbumService {
         }
 
         // добавление авторизированного пользователя как создателя
-        album.artists.push(user.artist);
+        album.artists.push({
+            artist: user.artist,
+            isFeatured: false
+        });
 
         // прикрепление обложки плейлиста при наличии
         if(coverImg){

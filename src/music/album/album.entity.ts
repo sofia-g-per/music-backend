@@ -3,6 +3,8 @@ import { Genre } from "../genre/genre.entity";
 import { Artist } from "../artist/artist.entity";
 import { UsersToAlbums } from "../favourites/usersToAlbums.entity";
 import { SongsToAlbums } from "./songsToAlbums.entity";
+import { ArtistsToSongs } from "../artist/artistsToSongs.entity";
+import { ArtistsToAlbums } from "./artistsToAlbums.entity";
 
 @Entity()
 export class Album {
@@ -36,11 +38,11 @@ export class Album {
     genres: Genre[];
 
     //Связь с артистами, (авторы альбома)
-    @ManyToMany(() => Artist, {
+    @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.artists, {
         eager: true,
     })
     @JoinTable()
-    artists: Artist[];
+    artists: ArtistsToAlbums[];
 
     //Песни в данном альбоме
     @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song, {
