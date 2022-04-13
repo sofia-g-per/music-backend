@@ -14,10 +14,9 @@ import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 export class SongController {
     constructor(private readonly songService: SongService) {}
     
-    
-    @Post('/upload-song')
     @Roles('artist')
     @UseGuards(RolesGuard)
+    @Post('/upload-song')
     //добавить валидацию форматов для файлов
     @UseInterceptors(
         FileFieldsInterceptor(

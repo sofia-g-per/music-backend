@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
+import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 import { Roles } from 'src/users/guards/roles.decorator';
 import { CreatePlaylistDto } from './createPlaylistDto.dto';
 import { Playlist } from './playlist.entity';
@@ -12,9 +13,8 @@ import { PlaylistService } from './playlist.service';
 export class PlaylistController {
     constructor(private readonly playlistService: PlaylistService) {}
 
+    @UseGuards(LoggedInGuard)
     @Post('/create-playlist')
-    // @Roles('')
-    // @UseGuards()
     @UseInterceptors(
         FileInterceptor('coverImg', {
             storage: diskStorage({

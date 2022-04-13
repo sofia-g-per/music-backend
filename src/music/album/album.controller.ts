@@ -1,15 +1,19 @@
-import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { CreateAlbumDto } from './createAlbum.dto';
 import { Album } from './album.entity';
 import { AlbumService } from './album.service';
+import { Roles } from 'src/users/guards/roles.decorator';
+import { RolesGuard } from 'src/users/guards/roles.guard';
 
 @Controller('/api')
 export class AlbumController {
     constructor(private readonly albumService: AlbumService) {}
 
+    @Roles('artist')
+    @UseGuards(RolesGuard)
     @Post('/create-album')
     @UseInterceptors(
         FileInterceptor('coverImg', {
@@ -33,7 +37,7 @@ export class AlbumController {
         return await this.albumService.create(req.user, albumData, coverImg);
     } 
 
-    @Get('/Album/:id')
+    @Get('/album/:id')
     async findById(@Param("id") id: number): Promise<Album> {
         return this.albumService.findById(id);
     }
