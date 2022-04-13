@@ -10,9 +10,9 @@ export class SongDto {
 
     released_at: Date;
 
-    description: string;
+    description?: string;
 
-    lyrics: string;
+    lyrics?: string;
     
     artists: [
         {
@@ -21,9 +21,9 @@ export class SongDto {
         }
     ];
 
-    genres: Genre[];
+    genres?: Genre[];
 
-    coverImg: string;
+    coverImg?: string;
 
     filePath: string;
 

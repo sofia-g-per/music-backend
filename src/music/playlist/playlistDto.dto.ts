@@ -1,7 +1,8 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { Genre } from "../genre/genre.entity";
 import { User } from "src/users/entities/user.entity";
-import { SongDto } from "../song/song.dto";
+import { SongDto } from "../song/songDto.dto";
+
 export class PlaylistDto{
     id: number;
     
@@ -9,11 +10,11 @@ export class PlaylistDto{
 
     isPublic: boolean;
     
-    description: string;
+    description?: string;
 
-    coverImg: string;
+    coverImg?: string;
 
-    genres: Genre[];
+    genres?: Genre[];
 
     songs: SongDto[];
 

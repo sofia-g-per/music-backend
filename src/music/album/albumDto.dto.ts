@@ -3,18 +3,18 @@ import { Song } from "../song/song.entity";
 import { Genre } from "../genre/genre.entity";
 import { User } from "src/users/entities/user.entity";
 import { Artist } from "../artist/artist.entity";
-import { SongDto } from "../song/song.dto";
+import { SongDto } from "../song/songDto.dto";
 import { ArtistDto } from "../artist/artistDto.dto";
 export class AlbumDto{
     id: number;
     
     name: string;
     
-    description: string;
+    description?: string;
 
-    coverImg: string;
+    coverImg?: string;
 
-    genres: Genre[];
+    genres?: Genre[];
 
     songs: SongDto[];
 

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, ValidateNested} from "class-validator";
 import { Genre } from "../genre/genre.entity";
-import { SongDto } from "../song/song.dto";
+import { SongDto } from "../song/songDto.dto";
 import { AlbumDto } from "../album/albumDto.dto";
 
 export class ArtistDto {
@@ -9,12 +9,12 @@ export class ArtistDto {
 
     stagename: string;
 
-    description: string;
+    description?: string;
     
-    genres: Genre[];
+    genres?: Genre[];
 
-    songs: SongDto[];
+    songs?: SongDto[];
 
-    albums: AlbumDto[];
+    albums?: AlbumDto[];
 
 }
