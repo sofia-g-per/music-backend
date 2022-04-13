@@ -20,7 +20,9 @@ export class UsersToPlaylists {
     @ManyToOne(() => User, user => user.favoriteAlbums)
     public user!: User;
 
-    @ManyToOne(() => Playlist, playlist => playlist.listeners)
+    @ManyToOne(() => Playlist, playlist => playlist.listeners, {
+        eager: true,
+    })
     public playlist!: Playlist;
 
 }

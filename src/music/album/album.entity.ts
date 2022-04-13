@@ -29,20 +29,28 @@ export class Album {
     //------------------ 
 
     //Связь с жанрами
-    @ManyToMany(() => Genre)
+    @ManyToMany(() => Genre, {
+        eager: true,
+    })
     @JoinTable()
     genres: Genre[];
 
     //Связь с артистами, (авторы альбома)
-    @ManyToMany(() => Artist)
+    @ManyToMany(() => Artist, {
+        eager: true,
+    })
     @JoinTable()
     artists: Artist[];
+
+    //Песни в данном альбоме
+    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song, {
+        eager: true,
+    })
+    public songs!: SongsToAlbums[];
 
     //Пользователи, добавившие альбом в избранные
     @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
     public listeners!: UsersToAlbums[];
 
-    //Песни в данном альбоме
-    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song)
-    public songs!: SongsToAlbums[];
+
 }

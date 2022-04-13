@@ -35,11 +35,15 @@ export class Playlist {
     //------------------ 
 
     //Связь для избранного пользователей
-    @ManyToOne(() => User, user=> user.playlists)
+    @ManyToOne(() => User, user=> user.playlists, {
+        eager: true,
+    })
     creator: User;
 
     //Песни в данном плейлисте
-    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song)
+    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song, {
+        eager: true,
+    })
     public songs: SongsToPlaylists[];
 
     //Пользователи, добавившие плейлист в избранное

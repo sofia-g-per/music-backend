@@ -33,15 +33,21 @@ export class Artist {
     user: User;
 
     // Связь с жанрами
-    @ManyToMany(() => Genre, genre => genre.artists)
+    @ManyToMany(() => Genre, genre => genre.artists, {
+        eager: true,
+    })
     @JoinTable()
     genres: Genre[];
 
     // Связь с альбомами
-    @ManyToMany(() => Album)
+    @ManyToMany(() => Album, {
+        eager: true,
+    })
     albums: Album[];
 
     // Связь с песнями
-    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
+    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, {
+        eager: true,
+    })
     public songs!: ArtistsToSongs[];
 }
