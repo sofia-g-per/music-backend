@@ -1,4 +1,4 @@
-import { Injectable, ParseBoolPipe } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, ParseBoolPipe } from '@nestjs/common';
 import { Playlist } from './playlist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PlaylistsRepository } from './playlists.repository';
@@ -63,7 +63,12 @@ export class PlaylistService {
         if(newPlaylist){
             songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
         }else{
-            return undefined
+            throw new HttpException(
+                {
+                    message:'Произошла ошибка при добавлении альбома'
+                }, 
+                HttpStatus.BAD_REQUEST
+            );
         }
 
         //поменять return на dto

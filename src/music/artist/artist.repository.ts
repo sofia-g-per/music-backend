@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
 import { EntityRepository, Repository, getRepository } from "typeorm";
 import { AddExistingArtistDto } from "./addExistingArtistDto.dto";
 import { Artist } from "./artist.entity";
@@ -19,7 +20,12 @@ export class ArtistsRepository extends Repository<Artist>{
                 artists.push(artist);
             }else{
                 //return artist array
-                return undefined
+                throw new HttpException(
+                    {
+                        message:'Произошла ошибка при добавлении артиста'
+                    }, 
+                    HttpStatus.BAD_REQUEST
+                );
             }
         }
         return artists;
@@ -35,7 +41,12 @@ export class ArtistsRepository extends Repository<Artist>{
                 artists.push({artist: artist, isFeatured: artistData.isFeatured});
             }else{
                 //return artist array
-                return undefined
+                throw new HttpException(
+                    {
+                        message:'Произошла ошибка при добавлении артиста'
+                    }, 
+                    HttpStatus.BAD_REQUEST
+                );
             }
         }
         console.log('artist repo', artists)

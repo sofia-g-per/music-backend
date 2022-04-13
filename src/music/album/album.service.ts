@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Album } from './album.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumsRepository } from './albums.repository';
@@ -74,7 +74,12 @@ export class AlbumService {
         if(newAlbum){
             songsToAlbums = await this.songsToAlbumsRepository.saveMultipleSongs(album.songs, newAlbum);
         }else{
-            return undefined
+            throw new HttpException(
+                {
+                    message:'Произошла ошибка при добавлении альбома'
+                }, 
+                HttpStatus.BAD_REQUEST
+            );
         }
 
         //поменять return на dto

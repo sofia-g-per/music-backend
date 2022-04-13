@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
 import { EntityRepository, Repository, getRepository } from "typeorm";
 import { Genre } from "./genre.entity";
 
@@ -17,7 +18,12 @@ export class GenresRepository extends Repository<Genre>{
                 genres.push(genre);
             }else{
                 //return genre array
-                return undefined
+                throw new HttpException(
+                    {
+                        message:'Произошла ошибка при добавлении жанра'
+                    }, 
+                    HttpStatus.BAD_REQUEST
+                );
             }
         }
         return genres;
