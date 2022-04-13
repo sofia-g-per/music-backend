@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { Roles } from 'src/users/guards/roles.decorator';
-import { CreatePlaylistDto } from './createPlaylist.dto';
+import { CreatePlaylistDto } from './createPlaylistDto.dto';
 import { Playlist } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
 

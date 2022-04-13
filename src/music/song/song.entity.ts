@@ -21,13 +21,13 @@ export class Song {
     description: string;
 
     @Column()
-    file_path: string;
+    filePath: string;
 
     @Column({ 
         nullable: true,
         default: null,
     })
-    cover_img: string;
+    coverImg: string;
 
     @Column({ 
         nullable: true,

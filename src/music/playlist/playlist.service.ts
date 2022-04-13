@@ -7,7 +7,7 @@ import { GenreService } from '../genre/genre.service';
 import { instanceToPlain } from 'class-transformer';
 import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
-import { CreatePlaylistDto } from './createPlaylist.dto';
+import { CreatePlaylistDto } from './createPlaylistDto.dto';
 
 @Injectable()
 export class PlaylistService {
