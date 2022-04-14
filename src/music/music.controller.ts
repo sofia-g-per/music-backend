@@ -4,7 +4,7 @@ import { Playlist } from './playlist/playlist.entity';
 
 @Controller('api')
 export class MusicController {
-    @Get('/search')
+    // @Get('/search')
     // async find(@Query() query): Promise<[]> {
     //     ;
     // }

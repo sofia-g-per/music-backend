@@ -1,19 +1,26 @@
-import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
-import { Artist } from '../artist/artist.entity';
+import { Exclude, Expose } from 'class-transformer';
 import { ArtistDto } from '../artist/artistDto.dto';
-import { Genre } from '../genre/genre.entity';
+import { GenreDto } from '../genre/genreDto.dto';
 
+@Exclude()
 export class SongDto {  
+
+    @Expose()
     id: number;
 
+    @Expose()
     name: string; 
 
+    @Expose()
     released_at: Date;
 
+    @Expose()
     description?: string;
 
+    @Expose()
     lyrics?: string;
     
+    @Expose()
     artists: [
         {
             artist: ArtistDto,
@@ -21,10 +28,13 @@ export class SongDto {
         }
     ];
 
-    genres?: Genre[];
+    @Expose()
+    genres?: GenreDto[];
 
+    @Expose()
     coverImg?: string;
 
+    @Expose()
     filePath: string;
 
 }

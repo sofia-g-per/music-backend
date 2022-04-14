@@ -30,6 +30,8 @@ import { SongController } from './song/song.controller';
 import { Song } from './song/song.entity';
 import { SongsRepository } from './song/song.repository';
 import { SongService } from './song/song.service';
+import { ArtistsToAlbums } from './album/artistsToAlbums.entity';
+import { ArtistsToAlbumsRepository } from './album/artistsToAlbums.repository';
 
 @Module({
   controllers: [
@@ -65,7 +67,9 @@ import { SongService } from './song/song.service';
     SongsToAlbums,
     SongsToAlbumsRepository,
     UsersToSongs,
-    UsersToSongsRepository
+    UsersToSongsRepository,
+    ArtistsToAlbums,
+    ArtistsToAlbumsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

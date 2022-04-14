@@ -9,6 +9,8 @@ import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
 import { CreateAlbumDto } from './createalbum.dto';
 import { ArtistService } from '../artist/artist.service';
+import { getRepository } from 'typeorm';
+import { ArtistsToAlbums } from './artistsToAlbums.entity';
 
 @Injectable()
 export class AlbumService {
@@ -47,7 +49,8 @@ export class AlbumService {
         }
 
         //прикреление артистов
-        album.artists = []
+        album.artists = [];
+
         let artists = await this.artistService.addExistingArtists(albumData, album);
         // сейчас можно добавлять артистов только без isfeatured, а метод addExistingArtists возврщает с isfeatured (структура AddexistingArtistDto)
         // поэтому заносится только авторизированный пользователь (мы зансим его именно как массив Artist, а не структуру типо 
@@ -61,7 +64,7 @@ export class AlbumService {
         album.artists.push({
             artist: user.artist,
             isFeatured: false
-        });
+        })
 
         // прикрепление обложки плейлиста при наличии
         if(coverImg){
