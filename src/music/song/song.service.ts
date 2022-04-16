@@ -21,7 +21,7 @@ export class SongService {
         let song = instanceToPlain(songData);
 
         //прикреление аудиофайла
-        song.file_path = files.audioFile[0]['filename'];
+        song.filePath = files.audioFile[0]['filename'];
 
         //прикрепление обложки песни
         if(files.cover){
