@@ -6,15 +6,23 @@ import { CreateSongDto } from "./createSong.dto";
 @EntityRepository(Song)
 export class SongsRepository extends Repository<Song>{
     
-    async findById(id: number): Promise<Song>{
-        return await getRepository(Song).findOne({where: { id: id }});
+    async findById(id: number, withArtist:boolean): Promise<Song>{
+        let queryOptions: any = {
+            where: {id: id}
+        }
+        if(withArtist){
+            queryOptions.relations = ['artists'];
+        }
+        console.log(queryOptions)
+        return await getRepository(Song).findOne(queryOptions);
+
     }
 
-    async findMultipleByIds(ids: number[]): Promise<Song[]>{
+    async findMultipleByIds(ids: number[], withArtist:boolean): Promise<Song[]>{
         let songs: Song[] = [];
           
         for (let id of ids) {
-            const song = await this.findById(id);
+            const song = await this.findById(id, withArtist);
             if(song instanceof Song){
                 songs.push(song);
             }else{
@@ -22,6 +30,8 @@ export class SongsRepository extends Repository<Song>{
                 return undefined
             }
         }
+
+        console.log(songs);
         return songs;
     }
 
@@ -47,7 +57,7 @@ export class SongsRepository extends Repository<Song>{
     }
 
     //добавление в плейлиств и альбомы
-    async addMultipleByIds(addSongsData: AddExistingSongsToCollectionDto[]): Promise<Song[]>{
+    async addMultipleByIds(addSongsData: AddExistingSongsToCollectionDto[], withArtist:boolean): Promise<Song[]>{
         let songs = [];
 
         for (let songData of addSongsData) {
@@ -55,7 +65,7 @@ export class SongsRepository extends Repository<Song>{
 
             //если песня существует (предоставлен id)
             if(!songData.song && songData.songId){
-                song = await this.findById(songData.songId);
+                song = await this.findById(songData.songId, withArtist);
             }else{
                 song = this.customSave(songData.song);
             }

@@ -22,7 +22,7 @@ export class ArtistsToSongs {
     //------------------ 
 
     //Связь с артистами
-    @ManyToOne(() => Artist, artist => artist.songs)
+    @ManyToOne(() => Artist, artist => artist.songs, {eager : true})
     public artist!: Artist;
 
     //Связь с песнями

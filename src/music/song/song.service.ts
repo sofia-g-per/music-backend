@@ -70,7 +70,7 @@ export class SongService {
     //прикрепление существующих песен и создание новых
     async addExistingSongs(formData, targetObject){
         if(formData.songIds && formData.songIds.length > 0){
-            let songs = await this.songsRepository.addMultipleByIds(formData.songIds);
+            let songs = await this.songsRepository.addMultipleByIds(formData.songIds, false);
             return targetObject.songs.concat(songs);
         }
     }

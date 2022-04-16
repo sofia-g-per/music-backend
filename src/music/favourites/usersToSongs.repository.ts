@@ -9,6 +9,8 @@ export class UsersToSongsRepository extends Repository<UsersToSongs>{
     }
 
     async findByUser(id: number): Promise<UsersToSongs[]>{
-        return await getRepository(UsersToSongs).find({where: { userId: id }});
+        return await getRepository(UsersToSongs).find({
+            where: { userId: id }
+        });
     }
 }

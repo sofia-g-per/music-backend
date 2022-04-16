@@ -57,7 +57,7 @@ export class Song {
     genres: Genre[];
 
     //авторы песни (связь с артистами)
-    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
+    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, {eager: true})
     public artists: ArtistsToSongs[];
 
     //Пользователи, добавившие песню в избранные

@@ -16,7 +16,7 @@ export class FavouritesService {
 
     async create(songData: AddSongstoFavouritesDto, user: User): Promise<UsersToSongs | undefined>{
         let like = new UsersToSongs;
-        let song = await this.songsRepository.findById(songData.songId);
+        let song = await this.songsRepository.findById(songData.songId, true);
         if(song){
             like.song = song
         }else{

@@ -47,8 +47,6 @@ export class Artist {
     albums: ArtistsToAlbums[];
 
     // Связь с песнями
-    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, {
-        eager: true,
-    })
+    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
     public songs!: ArtistsToSongs[];
 }
