@@ -6,6 +6,8 @@ import { AddSongstoFavouritesDto } from './addSongsToFavouritesDto.dto';
 import { UsersToSongsRepository } from './usersToSongs.repository';
 import { User } from 'src/users/entities/user.entity';
 import { SongsRepository } from '../song/song.repository';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class FavouritesService {
@@ -29,8 +31,18 @@ export class FavouritesService {
         return await this.usersToSongsRepository.save(like);
     }
 
-    async getByUser(user: User): Promise<UsersToSongs[]>{
-        return await this.usersToSongsRepository.findByUser(user.id);
+    async getByUser(user: User): Promise<any[]>{
+        let songs = await this.usersToSongsRepository.findByUser(user.id);
+        // let newSongs = songs.map(song=>{
+        //     console.log('song', song)
+        //     const file = createReadStream(join(process.cwd(), 'uploaded/songs/' + song.song.filePath));
+        //     let newSong = instanceToPlain(song);
+        //     console.log('newSong', newSong);
+        //     newSong.song.filePath = file;
+        //     return newSong;
+        // })
+        // console.log(newSongs);
+        return songs;
     }
 
     

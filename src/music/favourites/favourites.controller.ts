@@ -15,7 +15,7 @@ export class FavouritesController {
 
     @UseGuards(LoggedInGuard)
     @Get('/liked-songs')
-    async getLikedSongs(@Request() req): Promise<UsersToSongs[] | undefined> {
+    async getLikedSongs(@Request() req): Promise<any[] | undefined> {
         return await this.favouritesService.getByUser(req.user);
     } 
 

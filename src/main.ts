@@ -4,16 +4,19 @@ import { useContainer} from "class-validator";
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
-
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { join } from 'path';
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const whitelist = []
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+  );;
   app.enableCors({
     origin: 'http://localhost:8080',
     credentials: true
   });
+  app.useStaticAssets(join(__dirname, '..', 'uploaded'));
   app.use(
     session({
       secret: 'secret',
