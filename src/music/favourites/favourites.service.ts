@@ -29,5 +29,9 @@ export class FavouritesService {
         return await this.usersToSongsRepository.save(like);
     }
 
+    async getByUser(user: User): Promise<UsersToSongs[]>{
+        return await this.usersToSongsRepository.findByUser(user.id);
+    }
+
     
 }

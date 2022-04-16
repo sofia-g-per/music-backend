@@ -13,6 +13,12 @@ export class FavouritesController {
     // async findById(@Param("id") id: number): Promise<Genre> {
     // }
 
+    // @UseGuards(LoggedInGuard)
+    @Get('/liked-songs')
+    async getLikedSongs(@Request() req): Promise<UsersToSongs[] | undefined> {
+        return await this.favouritesService.getByUser(req.user);
+    } 
+
     @UseGuards(LoggedInGuard)
     @Post('/like-song')
     async create(@Body() songData: AddSongstoFavouritesDto, @Request() req): Promise<UsersToSongs | undefined> {

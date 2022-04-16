@@ -5,21 +5,10 @@ import { UsersToSongs } from "./usersToSongs.entity";
 export class UsersToSongsRepository extends Repository<UsersToSongs>{
     
     async findById(id: number): Promise<UsersToSongs>{
-        return getRepository(UsersToSongs).findOne({where: { id: id }});
+        return await getRepository(UsersToSongs).findOne({where: { id: id }});
     }
 
-    // async findMultipleByIds(ids: number[]): Promise<UsersToSongs[]>{
-    //     let genres: UsersToSongs[] = [];
-          
-    //     for (let id of ids) {
-    //         const genre = await this.findById(id);
-    //         if(genre instanceof UsersToSongs){
-    //             genres.push(genre);
-    //         }else{
-    //             //return genre array
-    //             return undefined
-    //         }
-    //     }
-    //     return genres;
-    // }
+    async findByUser(id: number): Promise<UsersToSongs[]>{
+        return await getRepository(UsersToSongs).find({where: { userId: id }});
+    }
 }
