@@ -1,3 +1,4 @@
+import { CreateGenreDto } from './../genre/createGenre.dto';
 import { IsNotEmpty, IsOptional, ValidateNested} from "class-validator";
 import { Genre } from "../genre/genre.entity";
 import { Type } from "class-transformer";
@@ -17,9 +18,9 @@ export class CreateArtistDto {
 
     //новые жанры
     @IsOptional()
-    @Type(() => Genre)
+    @Type(() => CreateGenreDto)
     @ValidateNested()
-    genres: Genre[];
+    genres: CreateGenreDto[];
 
     @IsOptional()
     @Type(() => User)

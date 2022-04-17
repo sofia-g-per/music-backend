@@ -27,21 +27,12 @@ export class CreateUserDto {
     @IsNotEmpty()
     password: string;
 
-    @IsNotEmpty()
-    @Validate(UserRoleExists)
-    roleId: number;
+    @IsOptional()
+    roleId?: string;
 
     @IsOptional()
     @Type(() => CreateArtistDto)
     @ValidateNested()
     artist: CreateArtistDto;
-
-    @IsOptional()
-    @Type(() => CreateGenreDto)
-    @ValidateNested()
-    genres: CreateArtistDto;
-
-    @IsOptional()
-    genreIds: number;
 
 }

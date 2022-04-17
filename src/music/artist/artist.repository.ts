@@ -7,7 +7,7 @@ import { Artist } from "./artist.entity";
 export class ArtistsRepository extends Repository<Artist>{
     
     async findById(id: number){
-        return getRepository(Artist).findOne({ id: id });
+        return await getRepository(Artist).findOne({ id: id });
     }
 
     async findMultipleByIds(ids: number[]): Promise<Artist[]>{
@@ -49,8 +49,11 @@ export class ArtistsRepository extends Repository<Artist>{
                 );
             }
         }
-        console.log('artist repo', artists)
         
         return artists;
+    }
+
+    async customSave(artistData){
+        return await getRepository(Artist).save(artistData); 
     }
 }

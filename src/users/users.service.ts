@@ -30,9 +30,14 @@ export class UsersService {
         userData.password = password;
 
         //добавление роли пользователя
-        const userRole = await this.userRolesRepository.findById(userData.roleId);
+        let userRole;
+        if(userData.roleId){
+            userRole = await this.userRolesRepository.findByName(userData.roleId);
+        }else{
+            userRole = await this.userRolesRepository.findByName('listener');
+        }
         newUser.role = userRole;
-        
+
         //добавления аватара (изображения) при наличии
         if(avatar){
             newUser.avatar = avatar.filename;
@@ -40,9 +45,8 @@ export class UsersService {
 
         //Сохранение пользователя в БД
         let user = await this.usersRepository.customSave(newUser);
-
         //Создание записи артиста при выборе соответствующей роли
-        if( userRole && userRole.name === "artists"){
+        if( userRole && userRole.name === "artist"){
             userData.artist.user = user;
             const artist = await this.artistService.create(userData.artist);            
             if(artist !instanceof Artist){

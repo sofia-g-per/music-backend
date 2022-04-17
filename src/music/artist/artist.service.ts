@@ -16,6 +16,7 @@ export class ArtistService {
         ) {}
 
     async create(artistData: CreateArtistDto): Promise<Artist | undefined>{
+        console.log('artist service', artistData)
         let artist = instanceToPlain(artistData);
         if(!artist.genres){
             artist.genres = [];
@@ -33,8 +34,7 @@ export class ArtistService {
             let genres = await this.genreService.createMultiple(artistData.genres);
             artist.genres = artist.genres.concat(genres);
         }
-
-        return await this.artistsRepository.save(artist);
+        return await this.artistsRepository.customSave(artist);
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
@@ -44,7 +44,6 @@ export class ArtistService {
     //прикрепление существующих артистов
     async addExistingArtists(formData, targetObject){
         if(formData.artistIds && formData.artistIds.length > 0){
-        console.log('artist service', formData.artistIds)
 
             let artists = await this.artistsRepository.addMultipleByIds(formData.artistIds);
             return targetObject.artists.concat(artists);
