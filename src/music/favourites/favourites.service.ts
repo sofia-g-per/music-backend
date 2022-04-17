@@ -33,16 +33,12 @@ export class FavouritesService {
 
     async getByUser(user: User): Promise<any[]>{
         let songs = await this.usersToSongsRepository.findByUser(user.id);
-        // let newSongs = songs.map(song=>{
-        //     console.log('song', song)
-        //     const file = createReadStream(join(process.cwd(), 'uploaded/songs/' + song.song.filePath));
-        //     let newSong = instanceToPlain(song);
-        //     console.log('newSong', newSong);
-        //     newSong.song.filePath = file;
-        //     return newSong;
-        // })
-        // console.log(newSongs);
+
         return songs;
+    }
+
+    async findByQuery(user: User, searchQuery: string): Promise<any>{
+        return await this.usersToSongsRepository.findByQuery(user.id, searchQuery);
     }
 
     

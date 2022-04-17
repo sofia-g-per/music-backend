@@ -1,5 +1,5 @@
 import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, Index } from "typeorm";
 import { Genre } from "../genre/genre.entity";
 import { SongsToPlaylists } from "../playlist/songsToPlaylists.entity";
 import { SongsToAlbums } from "../album/songsToAlbums.entity";
@@ -11,6 +11,7 @@ export class Song {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Index({ fulltext: true })
     @Column()
     name: string;
 

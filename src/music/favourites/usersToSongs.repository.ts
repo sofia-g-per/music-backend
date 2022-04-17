@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, getRepository } from "typeorm";
+import { EntityRepository, Repository, getRepository, Brackets } from "typeorm";
 import { UsersToSongs } from "./usersToSongs.entity";
 
 @EntityRepository(UsersToSongs)
@@ -12,5 +12,21 @@ export class UsersToSongsRepository extends Repository<UsersToSongs>{
         return await getRepository(UsersToSongs).find({
             where: { userId: id }
         });
+    }
+
+    async findByQuery(userId: number, query: string){
+
+        return await getRepository(UsersToSongs)
+        .createQueryBuilder("UsersToSongs")
+        .select()
+        .where("UsersToSongs.userId = :id", { id: userId })
+        .leftJoinAndSelect('UsersToSongs.song', 'song')
+        .leftJoinAndSelect('song.artists', 'artists')
+        .leftJoinAndSelect('artists.artist', 'artist')
+        .andWhere(new Brackets(qb => {
+            qb.where(`MATCH(song.name) AGAINST ('${query}' IN BOOLEAN MODE)`)
+              .orWhere(`MATCH(artist.stagename) AGAINST ('${query}' IN BOOLEAN MODE)`)
+        }))
+        .getMany();
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 import { UsersService } from 'src/users/users.service';
 import { AddSongstoFavouritesDto } from './addSongsToFavouritesDto.dto';
@@ -24,5 +24,15 @@ export class FavouritesController {
     async create(@Body() songData: AddSongstoFavouritesDto, @Request() req): Promise<UsersToSongs | undefined> {
         return await this.favouritesService.create(songData, req.user);
     } 
+
+    @UseGuards(LoggedInGuard)
+    @Get('/search-liked-songs')
+    async search(@Query('searchQuery') searchQuery: string, @Request() req): Promise<any | undefined> {
+        console.log('query', searchQuery)
+        if (searchQuery !== undefined && searchQuery.length > 1) {
+            return await this.favouritesService.findByQuery(req.user, searchQuery);
+        }
+
+    }
 
 }
