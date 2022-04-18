@@ -6,10 +6,6 @@ export class CreateSongDto {
     @IsNotEmpty()
     name: string; 
 
-    @IsNotEmpty()
-    // @IsDate()
-    released_at: Date;
-
     @IsOptional()
     description: string;
 

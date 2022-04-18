@@ -36,7 +36,7 @@ export class Song {
     })
     lyrics: string;
 
-    @Column()
+    @Column({nullable: true, type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     released_at: Date;
 
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
 import { User } from 'src/users/entities/user.entity';
@@ -44,23 +44,25 @@ export class SongService {
         
         //прикреление артистов
         song.artists = []
-        let artists = await this.artistService.addExistingArtists(songData, song);
-        if(artists){
-            song.artists = artists;
-        }
-        //протестировать - раньше добавлялся поользователь, а не артист
-        song.artists.push(user.artist);
-
+        // let artists = await this.artistService.addExistingArtists(songData, song);
+        // if(artists){
+        //     song.artists = artists;
+        // }
+        song.artists.push({
+            artist: user.artist,
+            isFeatured: false
+        })
         // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
 
         // сохранение связей артистами авторами песни 
         let artistsToSongs;
-        if(newSong){
-            artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(song.artists, newSong);
+        if(!newSong){
+            throw new HttpException('Произошла ошибка в создании песни', HttpStatus.BAD_REQUEST);
         }
 
-        return newSong;
+        artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(newSong.artists, newSong);
+        return newSong.id;
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)

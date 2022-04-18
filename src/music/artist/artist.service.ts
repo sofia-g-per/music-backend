@@ -16,7 +16,6 @@ export class ArtistService {
         ) {}
 
     async create(artistData: CreateArtistDto): Promise<Artist | undefined>{
-        console.log('artist service', artistData)
         let artist = instanceToPlain(artistData);
         if(!artist.genres){
             artist.genres = [];
@@ -48,9 +47,10 @@ export class ArtistService {
     //прикрепление существующих артистов
     async addExistingArtists(formData, targetObject){
         if(formData.artistIds && formData.artistIds.length > 0){
-
             let artists = await this.artistsRepository.addMultipleByIds(formData.artistIds);
             return targetObject.artists.concat(artists);
+        }else{
+            return null
         }
     }
 
