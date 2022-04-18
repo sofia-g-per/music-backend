@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/user.entity';
@@ -50,7 +50,8 @@ export class UsersService {
             userData.artist.user = user;
             const artist = await this.artistService.create(userData.artist);            
             if(artist !instanceof Artist){
-                return undefined;
+                throw new HttpException('Произошла ошибка в создании артиста', HttpStatus.BAD_REQUEST);
+
             }else{
                 return artist;
             }
@@ -69,10 +70,8 @@ export class UsersService {
                 const { password, ...result } = user;
                 return result;
             }
-            console.log('passwords');
-            return false;
+            throw new HttpException('Проверьте корректность данных', HttpStatus.BAD_REQUEST);
         }
-        console.log('user', user);
-        return 'No user with email' + userData.email;
+        throw new HttpException('Проверьте корректность данных', HttpStatus.BAD_REQUEST);
     }
 }

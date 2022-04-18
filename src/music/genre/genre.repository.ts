@@ -5,6 +5,10 @@ import { Genre } from "./genre.entity";
 @EntityRepository(Genre)
 export class GenresRepository extends Repository<Genre>{
     
+    async getAll(): Promise<Genre[]>{
+        return getRepository(Genre).find();
+    }
+
     async findById(id: number): Promise<Genre>{
         return getRepository(Genre).findOne({where: { id: id }});
     }

@@ -37,6 +37,10 @@ export class GenreService {
         return genres;
     }
 
+    async getAll():Promise<Genre[] | undefined>{
+        return await this.genresRepository.getAll();
+    }
+
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)

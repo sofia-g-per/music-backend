@@ -37,6 +37,10 @@ export class ArtistService {
         return await this.artistsRepository.customSave(artist);
     }
 
+    async findAllExceptCurrent(currentArtistId: number): Promise<Artist[] | undefined>{
+        return await this.artistsRepository.findAllExceptOne(currentArtistId);
+    }
+
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)

@@ -4,7 +4,7 @@ import { UserRole } from "../entities/userRole.entity";
 import { UserRoleDto } from "./UserRoleDto.dto";
 
 @Exclude()
-export class CreateUserDto {
+export class UserDto {
 
     @Expose()
     id: number;

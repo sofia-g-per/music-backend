@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { EntityRepository, Repository, getRepository } from "typeorm";
+import { EntityRepository, Repository, getRepository, Not } from "typeorm";
 import { AddExistingArtistDto } from "./addExistingArtistDto.dto";
 import { Artist } from "./artist.entity";
 
@@ -7,7 +7,7 @@ import { Artist } from "./artist.entity";
 export class ArtistsRepository extends Repository<Artist>{
     
     async findById(id: number){
-        return await getRepository(Artist).findOne({ id: id });
+        return await getRepository(Artist).findOne({where: { id: id }});
     }
 
     async findMultipleByIds(ids: number[]): Promise<Artist[]>{
@@ -51,6 +51,10 @@ export class ArtistsRepository extends Repository<Artist>{
         }
         
         return artists;
+    }
+
+    async findAllExceptOne(excludeId: number): Promise<Artist[] | undefined>{
+        return await getRepository(Artist).find({ id: Not(excludeId) });
     }
 
     async customSave(artistData){

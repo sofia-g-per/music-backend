@@ -7,9 +7,10 @@ import { CreateGenreDto } from './createGenre.dto';
 export class GenreController {
     constructor(private readonly GenreService: GenreService) {}
 
-    // @Get('/:id')
-    // async findById(@Param("id") id: number): Promise<Genre> {
-    // }
+    @Get('/genres')
+    async getAll(): Promise<Genre[]> {
+        return await this.GenreService.getAll();
+    }
 
     @Post('/create-genre')
     async create(@Body() genreData: CreateGenreDto): Promise<Genre | undefined> {
