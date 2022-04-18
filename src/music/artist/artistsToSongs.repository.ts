@@ -5,7 +5,7 @@ import { ArtistsToSongs } from "./artistsToSongs.entity";
 export class ArtistsToSongsRepository extends Repository<ArtistsToSongs>{
     
     async findById(id: number): Promise<ArtistsToSongs>{
-        return getRepository(ArtistsToSongs).findOne({where: { id: id }});
+        return await getRepository(ArtistsToSongs).findOne({where: { id: id }});
     }
 
 
@@ -26,5 +26,9 @@ export class ArtistsToSongsRepository extends Repository<ArtistsToSongs>{
 
         }
         return artistsToSongs;
+    }
+
+    async getByArtist(artistId: number){
+        return await getRepository(ArtistsToSongs).find({where: { artistId: artistId }});
     }
 }

@@ -1,3 +1,4 @@
+import { ArtistsToSongsRepository } from './artistsToSongs.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
@@ -12,6 +13,7 @@ export class ArtistService {
     constructor(
         @InjectRepository(ArtistsRepository) private artistsRepository: ArtistsRepository,
         @InjectRepository(GenresRepository) private genresRepository: GenresRepository,
+        @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
         private genreService: GenreService
         ) {}
 
@@ -21,8 +23,6 @@ export class ArtistService {
             artist.genres = [];
         }
 
-        // поменять на методы из сервиса жанров !!!!
-        //сущестувующие жанры
         if(artistData.genreIds && artistData.genreIds.length > 0){
             let genres = await this.genresRepository.findMultipleByIds(artistData.genreIds);
             artist.genres = artist.genres.concat(genres);
@@ -52,6 +52,10 @@ export class ArtistService {
         }else{
             return null
         }
+    }
+
+    async getSongs(artistId:number){
+        return await this.artistsToSongsRepository.getByArtist(artistId);
     }
 
 }
