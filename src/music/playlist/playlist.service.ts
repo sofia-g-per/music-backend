@@ -72,7 +72,7 @@ export class PlaylistService {
         }
 
         //поменять return на dto
-        return newPlaylist.songs;
+        return newPlaylist;
     }
 
     // async update(id: number , playlist: Playlist) {

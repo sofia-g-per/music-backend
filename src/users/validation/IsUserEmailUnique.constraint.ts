@@ -23,6 +23,6 @@ export class IsUserEmailUnique implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `An account with this email already exists`;
+    return `Аккаунт с такой почтой уже существует`;
   }
 }

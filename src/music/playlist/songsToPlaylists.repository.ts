@@ -10,11 +10,12 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
 
     // добавление песен к одному плейлисту
     // songs - [{song: Song, songIndex: number}]
-    async saveMultipleSongs(songs, playlist): Promise<SongsToPlaylists[]>{
+    async saveMultipleSongs(songs, playlist): Promise<any>{
         let songsToPlaylists: SongsToPlaylists[] = [];
         let newEntity;
         for (let song of songs) {
             if(song){
+                delete playlist.songs
                 song.playlist = playlist;
                 newEntity = await getRepository(SongsToPlaylists).save(song);
                 if(newEntity){
@@ -25,6 +26,6 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
             }
 
         }
-        return songsToPlaylists;
+        return 'success';
     }
 }
