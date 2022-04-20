@@ -24,6 +24,6 @@ export class SongsToPlaylists {
     @ManyToOne(() => Playlist, playlist => playlist.songs)
     public playlist!: Playlist;
 
-    @ManyToOne(() => Song, song => song.playlists)
+    @ManyToOne(() => Song, song => song.playlists, {eager: true})
     public song!: Song;
 }

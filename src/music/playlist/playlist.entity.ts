@@ -41,7 +41,7 @@ export class Playlist {
     creator: User;
 
     //Песни в данном плейлисте
-    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song, {
+    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.playlist, {
         eager: true,
     })
     public songs: SongsToPlaylists[];

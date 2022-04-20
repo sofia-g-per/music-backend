@@ -1,3 +1,4 @@
+import { SongsToPlaylists } from './songsToPlaylists.entity';
 import { EntityRepository, Repository, getRepository } from "typeorm";
 import { Song } from "../song/song.entity";
 import { Playlist } from "./playlist.entity";
@@ -29,11 +30,19 @@ export class PlaylistsRepository extends Repository<Playlist>{
       }
 
     async getPlaylistsByCreator(userId:number){
-        return await getRepository(Playlist).find({
+
+        let playlists =  await getRepository(Playlist).find({
             where: {creator : 
-                {id: userId}
+                {id: userId},
             }, 
+            relations: ['songs', 'songs.song']
+
         });
+
+        return playlists
+
+
+
     }
 
 
