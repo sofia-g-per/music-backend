@@ -33,7 +33,6 @@ export class PlaylistsRepository extends Repository<Playlist>{
             where: {creator : 
                 {id: userId}
             }, 
-            relations:['songs']
         });
     }
 
