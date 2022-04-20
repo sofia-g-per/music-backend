@@ -73,11 +73,9 @@ export class PlaylistService {
         return newPlaylist;
     }
 
-    // async update(id: number , playlist: Playlist) {
-    //     // add current user as creator
-    //     this.playlists.find((playlist) => playlist.id === id);
-    //     this.playlists.push(playlist);
-    // }
+    async getPlaylistsByCreator(userId:number){
+        return await this.playlistsRepository.getPlaylistsByCreator(userId);
+    }
 
     async findById(id: number): Promise<Playlist> {
         return this.playlistsRepository.findById(id);

@@ -26,17 +26,17 @@ export class PlaylistController {
     )
     @UsePipes(ValidationPipe)
     async create(@Request() req, @Body() playlist: CreatePlaylistDto, @UploadedFile() coverImg: Express.Multer.File) {
-        // console.log('controller initial', playlist);
-        // //Для тестировани с постманом
-        // if(playlist.songIds){
-        //     playlist.songIds = JSON.parse(playlist.songIds);
-        // }
-
         return await this.playlistService.create(req.user, playlist, coverImg);
     } 
 
     @Get('/playlist/:id')
     async findById(@Param("id") id: number): Promise<Playlist> {
         return this.playlistService.findById(id);
+    }
+
+    @UseGuards(LoggedInGuard)
+    @Get('/users-playlists')
+    async getUsersPlaylists(@Request() req){
+        return await this.playlistService.getPlaylistsByCreator(req.user.id)
     }
 }

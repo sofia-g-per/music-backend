@@ -25,7 +25,17 @@ export class PlaylistsRepository extends Repository<Playlist>{
     }
 
     public async customSave(entity) {
-        console.log('repo', entity);
         return await getRepository(Playlist).save(entity);
       }
+
+    async getPlaylistsByCreator(userId:number){
+        return await getRepository(Playlist).find({
+            where: {creator : 
+                {id: userId}
+            }, 
+            relations:['songs']
+        });
+    }
+
+
 }
