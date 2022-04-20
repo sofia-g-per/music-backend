@@ -65,6 +65,14 @@ export class SongService {
         return newSong.id;
     }
 
+    async findAll(){
+        return await this.songsRepository.findAll()
+    }
+
+    async getSongsByArtist(artistId:number){
+        return await this.songsRepository.getAllByArtist(artistId);
+    }
+
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)

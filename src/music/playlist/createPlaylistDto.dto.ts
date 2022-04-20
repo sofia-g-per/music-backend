@@ -7,13 +7,10 @@ export class CreatePlaylistDto{
     @IsNotEmpty()
     name: string;
 
-    //добавить информацию о порядке песен
     @IsNotEmpty()
-    // @Type(() => CreateGenreDto)
-    // @ValidateNested()
-    // songIds: AddExistingSongsToCollectionDto[];
-    // для работы с постманом
-    songIds: string;
+    @Type(() => AddExistingSongsToCollectionDto)
+    @ValidateNested()
+    songIds: AddExistingSongsToCollectionDto[];
 
     @IsNotEmpty()
     isPublic: boolean;

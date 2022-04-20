@@ -36,4 +36,14 @@ export class SongController {
 
         return await this.songService.create(req.user, songData, files);
     }
+
+    @Get('/get-all-songs')
+    async findAll(){
+        return await this.songService.findAll();
+    }
+
+    @Get('/get-song-by-current-artist')
+    async getSongsByCurrentArtist(@Request() req){
+        return await this.songService.getSongsByArtist(req.user.artist.id);
+    }
 }

@@ -26,12 +26,11 @@ export class PlaylistController {
     )
     @UsePipes(ValidationPipe)
     async create(@Request() req, @Body() playlist: CreatePlaylistDto, @UploadedFile() coverImg: Express.Multer.File) {
-        console.log('controller initial', playlist);
-        //Для тестировани с постманом
-        if(playlist.songIds){
-            playlist.songIds = JSON.parse(playlist.songIds);
-        }
-        console.log('controller parsed', playlist);
+        // console.log('controller initial', playlist);
+        // //Для тестировани с постманом
+        // if(playlist.songIds){
+        //     playlist.songIds = JSON.parse(playlist.songIds);
+        // }
 
         return await this.playlistService.create(req.user, playlist, coverImg);
     } 

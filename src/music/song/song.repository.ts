@@ -33,22 +33,19 @@ export class SongsRepository extends Repository<Song>{
         return songs;
     }
 
-    // async createMultiple(songsData: CreateSongDto[]): Promise<Song[] | undefined>{
-    //     let songs = [];
-    //     let song;
-    //         for(let songData of songsData){
-    //             song = await this.customSave(songData);
-    //             //изменить чтобы учитывался возврат не просто undefined, а конкретных ошибок
-    //             if(song){
-    //                 songs.push(song);
+    async findAll(){
+        return await getRepository(Song).find({relations: ['artists']});
+    }
 
-    //             }else{
-    //                 //return all songs that did not fail and songs that did fail
-    //                 return undefined;
-    //             }
-    //         }
-    //     return songs;
-    // }
+    async getAllByArtist(artistId:number){
+        return await getRepository(Song)
+        .createQueryBuilder("Song")
+        .select()
+        .leftJoinAndSelect('Song.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .where('artist.id =:artistId', {artistId: artistId})
+        .getMany();
+    }
 
     public async customSave(entity) {
         return await getRepository(Song).save(entity);
@@ -71,7 +68,6 @@ export class SongsRepository extends Repository<Song>{
             if(song){
                 songs.push({song: song, songIndex: songData.songIndex});
             }else{
-                //return artist array
                 return undefined
             }
         }

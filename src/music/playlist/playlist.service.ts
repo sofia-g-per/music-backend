@@ -55,7 +55,6 @@ export class PlaylistService {
         playlist.creator = user;
 
         // сохранение плейлист в БД
-        console.log('service', playlist);
         const newPlaylist = await this.playlistsRepository.customSave(playlist);
 
         // сохранение связей песен и плейлистов 
@@ -71,7 +70,6 @@ export class PlaylistService {
             );
         }
 
-        //поменять return на dto
         return newPlaylist;
     }
 
