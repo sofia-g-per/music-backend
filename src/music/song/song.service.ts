@@ -35,13 +35,12 @@ export class SongService {
         }
         genres = await this.genreService.addExistingGenres(songData, song);
         if(genres){
-            song.genres.push(genres);
+            song.genres = song.genres.concat(genres);
         }
         genres = await this.genreService.createNewGenres(songData, song);
         if(genres){
-            song.genres.push(genres);
-        }
-        
+            song.genres = song.genres.concat(genres);
+        }        
         //прикреление артистов
         song.artists = []
         // let artists = await this.artistService.addExistingArtists(songData, song);
@@ -71,6 +70,10 @@ export class SongService {
 
     async getSongsByArtist(artistId:number){
         return await this.songsRepository.getAllByArtist(artistId);
+    }
+
+    async delete(songId:number){
+        return await this.songsRepository.deleteById(songId);
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)

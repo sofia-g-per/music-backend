@@ -17,10 +17,13 @@ export class UsersToSongs {
     @CreateDateColumn()
     added_at!: Date;
 
-    @ManyToOne(() => User, user => user.favoriteSongs)
+    @ManyToOne(() => User, user => user.favoriteSongs, {onDelete: 'CASCADE'})
     public user!: User;
 
-    @ManyToOne(() => Song, song => song.listeners, {eager: true})
+    @ManyToOne(() => Song, song => song.listeners, {
+        eager: true,
+        onDelete: 'CASCADE'
+    })
     public song!: Song;
 
 }

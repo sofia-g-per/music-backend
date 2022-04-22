@@ -25,7 +25,6 @@ export class SongsRepository extends Repository<Song>{
             if(song instanceof Song){
                 songs.push(song);
             }else{
-                //return Song array
                 return undefined
             }
         }
@@ -51,7 +50,15 @@ export class SongsRepository extends Repository<Song>{
         return await getRepository(Song).save(entity);
     }
 
-    //добавление в плейлиств и альбомы
+    async deleteById(id:number){
+       console.log(id)
+
+       let response =  await getRepository(Song).delete(id);
+       console.log(response)
+       return response;
+    }
+
+    //добавление в плейлисты и альбомы
     async addMultipleByIds(addSongsData: AddExistingSongsToCollectionDto[], withArtist:boolean): Promise<Song[]>{
         let songs = [];
 

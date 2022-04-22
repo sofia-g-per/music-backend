@@ -1,6 +1,6 @@
 import { EntityRepository, Repository, getRepository, Brackets } from "typeorm";
 import { UsersToSongs } from "./usersToSongs.entity";
-
+import { getConnection } from "typeorm";
 @EntityRepository(UsersToSongs)
 export class UsersToSongsRepository extends Repository<UsersToSongs>{
     
@@ -13,6 +13,18 @@ export class UsersToSongsRepository extends Repository<UsersToSongs>{
             where: { userId: id }
         });
     }
+
+    // async customDelete(songId, userId){
+    //     console.log('repository', songId, userId)
+    //     // return await getRepository(UsersToSongs).delete({songId: songId, userId: userId });
+    //     return await getConnection()
+    //     .createQueryBuilder()
+    //     .delete()
+    //     .from(UsersToSongs)
+    //     .where('songId = :songId', {songId: songId})
+    //     .andWhere('userId = :userId', {userId: userId})
+    //     .execute();
+    // }
 
     async findByQuery(userId: number, query: string){
 

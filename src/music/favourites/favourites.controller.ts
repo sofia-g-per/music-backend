@@ -1,6 +1,5 @@
 import { Controller, Post, Body, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
-import { UsersService } from 'src/users/users.service';
 import { AddSongstoFavouritesDto } from './addSongsToFavouritesDto.dto';
 import { FavouritesService } from './favourites.service';
 import { UsersToSongs } from './usersToSongs.entity';
@@ -8,10 +7,6 @@ import { UsersToSongs } from './usersToSongs.entity';
 @Controller('api')
 export class FavouritesController {
     constructor(private readonly favouritesService: FavouritesService) {}
-
-    // @Get('/:id')
-    // async findById(@Param("id") id: number): Promise<Genre> {
-    // }
 
     @UseGuards(LoggedInGuard)
     @Get('/liked-songs')
@@ -33,6 +28,11 @@ export class FavouritesController {
             return await this.favouritesService.findByQuery(req.user, searchQuery);
         }
 
+    }
+
+    @Post('/delete-like')
+    async delete(@Body() songData: AddSongstoFavouritesDto, @Request() req){
+        return await this.favouritesService.delete(songData, req.user);
     }
 
 }

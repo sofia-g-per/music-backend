@@ -1,3 +1,4 @@
+import { LoggedInGuard } from './../../users/guards/loggedIn.guard';
 import { Controller, Get, Post, Body, UseGuards, Req, Request, UseInterceptors, ValidationPipe, UsePipes, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { SongService } from './song.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -33,7 +34,6 @@ export class SongController {
     async create(@Request() req, @Body() songData: CreateSongDto,
          @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
     {
-
         return await this.songService.create(req.user, songData, files);
     }
 
@@ -42,8 +42,17 @@ export class SongController {
         return await this.songService.findAll();
     }
 
+    @UseGuards(LoggedInGuard)
     @Get('/get-song-by-current-artist')
     async getSongsByCurrentArtist(@Request() req){
         return await this.songService.getSongsByArtist(req.user.artist.id);
+    }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Post('/delete-song')
+    async delete(@Body() songData, @Request() req){
+        console.log(songData, songData.songId)
+        return await this.songService.delete(songData.songId);
     }
 }

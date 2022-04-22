@@ -24,9 +24,7 @@ export class AlbumService {
     ) {}
 
     async create(user: User, albumData: CreateAlbumDto, coverImg:Express.Multer.File) {
-        
         let album = instanceToPlain(albumData);
-
         //прикрепление жанров
         let genres;
         if(!album.genres){
@@ -40,41 +38,29 @@ export class AlbumService {
         if(genres){
             album.genres.push(genres);
         }
-
         //прикреление песен
         album.songs = [];
         let songs = await this.songService.addExistingSongs(albumData, album);
         if(songs){
             album.songs = songs;
         }
-
         //прикреление артистов
         album.artists = [];
-
         let artists = await this.artistService.addExistingArtists(albumData, album);
-        // сейчас можно добавлять артистов только без isfeatured, а метод addExistingArtists возврщает с isfeatured (структура AddexistingArtistDto)
-        // поэтому заносится только авторизированный пользователь (мы зансим его именно как массив Artist, а не структуру типо 
-        // AddexistingArtistDto)
-        console.log('album service artist result', artists)
         if(artists){
             album.artists = artists;
         }
-
         // добавление авторизированного пользователя как создателя
         album.artists.push({
             artist: user.artist,
             isFeatured: false
         })
-
         // прикрепление обложки плейлиста при наличии
         if(coverImg){
             album.coverImg = coverImg.filename;
         }
-
         // сохранение плейлиста в БД
-        console.log('service album', album);
         const newAlbum = await this.AlbumsRepository.customSave(album);
-
         // сохранение связей песен и альбома 
         let songsToAlbums;
         if(newAlbum){
@@ -87,16 +73,8 @@ export class AlbumService {
                 HttpStatus.BAD_REQUEST
             );
         }
-
-        //поменять return на dto
-        return newAlbum.songs;
+        return newAlbum;
     }
-
-    // async update(id: number , Album: Album) {
-    //     // add current user as creator
-    //     this.Albums.find((Album) => album.id === id);
-    //     this.Albums.push(Album);
-    // }
 
     async findById(id: number): Promise<Album> {
         return this.AlbumsRepository.findById(id);

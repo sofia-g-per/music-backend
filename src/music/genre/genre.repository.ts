@@ -13,21 +13,18 @@ export class GenresRepository extends Repository<Genre>{
         return getRepository(Genre).findOne({where: { id: id }});
     }
 
-    async findMultipleByIds(ids: number[]): Promise<Genre[]>{
+    async findMultipleByIds(ids: any): Promise<Genre[]>{
         let genres: Genre[] = [];
-          
+        console.log(typeof ids, typeof ids === 'string')
+        if(typeof ids === 'string'){
+            ids.split(',');
+        }
         for (let id of ids) {
+            console.log('genre rep', id)
             const genre = await this.findById(id);
-            if(genre instanceof Genre){
+            console.log('genre id', genre)
+            if(genre){
                 genres.push(genre);
-            }else{
-                //return genre array
-                throw new HttpException(
-                    {
-                        message:'Произошла ошибка при добавлении жанра'
-                    }, 
-                    HttpStatus.BAD_REQUEST
-                );
             }
         }
         return genres;

@@ -22,10 +22,13 @@ export class ArtistsToSongs {
     //------------------ 
 
     //Связь с артистами
-    @ManyToOne(() => Artist, artist => artist.songs, {eager : true})
+    @ManyToOne(() => Artist, artist => artist.songs, {
+        eager : true,
+        onDelete: 'CASCADE'
+    })
     public artist!: Artist;
 
     //Связь с песнями
-    @ManyToOne(() => Song, song => song.artists)
+    @ManyToOne(() => Song, song => song.artists, {onDelete: 'CASCADE'})
     public song!: Song;
 }

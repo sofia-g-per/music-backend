@@ -60,8 +60,6 @@ export class GenreService {
             return targetObject.genres.concat(genres);
         }
     }
-
-
     async addArtist(genre: Genre, artist: Artist) {
         if(!genre.artists){
             genre.artists = [];

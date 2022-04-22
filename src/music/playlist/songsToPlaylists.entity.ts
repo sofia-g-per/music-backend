@@ -21,9 +21,12 @@ export class SongsToPlaylists {
     @CreateDateColumn()
     createdAt: Date;
 
-    @ManyToOne(() => Playlist, playlist => playlist.songs)
+    @ManyToOne(() => Playlist, playlist => playlist.songs, {onDelete: 'CASCADE'})
     public playlist!: Playlist;
 
-    @ManyToOne(() => Song, song => song.playlists, {eager: true})
+    @ManyToOne(() => Song, song => song.playlists, {
+        eager: true,
+        onDelete: 'CASCADE'
+    })
     public song!: Song;
 }

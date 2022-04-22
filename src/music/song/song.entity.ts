@@ -53,7 +53,7 @@ export class Song {
     public albums: SongsToAlbums[];
 
     //Жанры песни
-    @ManyToMany(() => Genre)
+    @ManyToMany(() => Genre, {onDelete: 'CASCADE'})
     @JoinTable()
     genres: Genre[];
 
