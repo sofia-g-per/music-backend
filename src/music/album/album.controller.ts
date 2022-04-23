@@ -61,7 +61,7 @@ export class AlbumController {
     async update(@Body() albumData){
         albumData.id = parseInt(albumData.id)
         albumData.songIds = JSON.parse(albumData.songIds)
-        console.log(albumData.songIds, typeof albumData.songIds, albumData.songIds[0])
+        albumData.genreIds = JSON.parse(albumData.genreIds)
         return await this.albumService.update(albumData);
     }
 }

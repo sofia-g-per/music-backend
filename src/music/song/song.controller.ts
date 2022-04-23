@@ -82,7 +82,6 @@ export class SongController {
             }),
         )
     async update(@Body() songData, @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }){
-        console.log(songData)
         songData.id = parseInt(songData.id)
         songData.genreIds = JSON.parse(songData.genreIds)
         return await this.songService.update(songData, files);

@@ -90,7 +90,12 @@ export class AlbumService {
             await this.songsToAlbumsRepository.updateByPlaylist(albumData.songIds, albumData);
         }
         delete albumData.songIds
-
+        if(albumData.genreIds){
+            albumData.genres = []
+            for(const genreId of albumData.genreIds){
+                albumData.genres.push({id: genreId});
+            }
+        }
         return await this.AlbumsRepository.customSave(albumData);
     }
 
