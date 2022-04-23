@@ -18,9 +18,13 @@ export class ArtistsToAlbums {
     @Column()
     isFeatured: boolean;
 
-    @ManyToOne(() => Album, album => album.artists)
+    @ManyToOne(() => Album, album => album.artists, {
+        onDelete: 'CASCADE'
+    })
     public album!: Album;
 
-    @ManyToOne(() => Artist, artist => artist.albums)
+    @ManyToOne(() => Artist, artist => artist.albums,{
+        onDelete:'CASCADE'
+    })
     public artist!: Artist;
 }

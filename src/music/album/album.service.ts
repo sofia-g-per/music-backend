@@ -92,4 +92,8 @@ export class AlbumService {
     async getAlbumsByArtist(artistId: number): Promise<Album[]>{
         return this.AlbumsRepository.findByArtist(artistId);
     }
+
+    async deleteById(id:number){
+        return await this.AlbumsRepository.deleteById(id);
+     }
 }

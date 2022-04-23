@@ -37,5 +37,9 @@ export class AlbumsRepository extends Repository<Album>{
 
     public async customSave(entity) {
         return await getRepository(Album).save(entity);
-      }
+    }
+
+    async deleteById(albumId:number){
+        return await getRepository(Album).delete(albumId);
+     }
 }

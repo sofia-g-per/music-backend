@@ -46,4 +46,12 @@ export class AlbumController {
     async getUsersAlbums(@Request() req){
         return await this.albumService.getAlbumsByArtist(req.user.artist.id)
     }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Get('/delete-album')
+    async delete(@Query('albumId') albumId:number, @Request() req){
+        console.log(albumId)
+        return await this.albumService.deleteById(albumId);
+    }
 }

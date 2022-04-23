@@ -49,7 +49,6 @@ export class PlaylistController {
     @UseGuards(LoggedInGuard)
     @Get('/delete-playlist')
     async delete(@Query('playlistId') playlistId:number, @Request() req){
-        console.log(playlistId)
         return await this.playlistService.deleteById(playlistId);
     }
 }
