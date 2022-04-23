@@ -24,11 +24,13 @@ export class AlbumsRepository extends Repository<Album>{
     }
 
     async findByArtist(artistId:number){
-        return await getRepository(Album).find({
-            where: {
-                artistId: artistId
-            },
-        });
+        return await getRepository(Album)
+        .createQueryBuilder("Album")
+        .select()
+        .leftJoinAndSelect('Album.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .where('artist.id =:artistId', {artistId: artistId})
+        .getMany();
     }
 
     public async customSave(entity) {

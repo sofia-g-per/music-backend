@@ -41,10 +41,9 @@ export class Album {
     genres: Genre[];
 
     //Связь с артистами, (авторы альбома)
-    @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.artist, {
+    @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.album, {
         eager: true,
     })
-    @JoinTable()
     artists: ArtistsToAlbums[];
 
     //Песни в данном альбоме

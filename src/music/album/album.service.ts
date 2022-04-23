@@ -50,10 +50,11 @@ export class AlbumService {
             album.artists = artists;
         }
         // добавление авторизированного пользователя как создателя
-        album.artists = album.artists.concat({
+        let artist = {
             artist: user.artist,
             isFeatured: false
-        })
+        }
+        album.artists.push(artist)
         // прикрепление обложки альбома при наличии
         if(coverImg){
             album.coverImg = coverImg.filename;
@@ -72,7 +73,16 @@ export class AlbumService {
                 HttpStatus.BAD_REQUEST
             );
         }
-        return newAlbum;
+
+        // сохранение связей артистами авторами песни 
+        let artistsToSongs;
+        if(!newAlbum){
+            throw new HttpException('Произошла ошибка в создании песни', HttpStatus.BAD_REQUEST);
+        }
+
+        artistsToSongs = await this.artistToAlbumsRepository.saveMultipleArtists(newAlbum.artists, newAlbum);
+        return newAlbum.id;
+
     }
 
     async findById(id: number): Promise<Album> {

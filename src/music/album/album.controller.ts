@@ -43,7 +43,7 @@ export class AlbumController {
 
     @Roles('artist')
     @UseGuards(RolesGuard)
-    @Get('/users-albums')
+    @Get('/albums-by-current-artist')
     async getUsersAlbums(@Request() req){
         return await this.albumService.getAlbumsByArtist(req.user.artist.id)
     }
