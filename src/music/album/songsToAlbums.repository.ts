@@ -13,6 +13,7 @@ export class SongsToAlbumsRepository extends Repository<SongsToAlbums>{
     async saveMultipleSongs(songs, album): Promise<SongsToAlbums[]>{
         let songsToAlbums: SongsToAlbums[] = [];
         let newEntity;
+        delete album.songs
         for (let song of songs) {
             if(song){
                 song.album = album;

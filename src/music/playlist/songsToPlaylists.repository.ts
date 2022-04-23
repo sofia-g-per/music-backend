@@ -13,10 +13,10 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
     async saveMultipleSongs(songs, playlist): Promise<any>{
         let songsToPlaylists: SongsToPlaylists[] = [];
         console.log('repo', songs)
+        delete playlist.songs
         let newEntity;
         for (let song of songs) {
             if(song){
-                delete playlist.songs
                 song.playlist = playlist;
                 newEntity = await getRepository(SongsToPlaylists).save(song);
                 if(newEntity){

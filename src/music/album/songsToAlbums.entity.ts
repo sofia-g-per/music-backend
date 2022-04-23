@@ -22,6 +22,7 @@ export class SongsToAlbums {
     public album!: Album;
 
     @ManyToOne(() => Song, song => song.albums, {
+        eager: true,
         onDelete: 'CASCADE'
     })
     public song!: Song;

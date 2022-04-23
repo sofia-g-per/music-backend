@@ -48,7 +48,7 @@ export class Album {
     artists: ArtistsToAlbums[];
 
     //Песни в данном альбоме
-    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song, {
+    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.album, {
         eager: true,
         cascade: true,
         onDelete: 'CASCADE'
