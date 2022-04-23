@@ -4,7 +4,8 @@ import { Song } from './song/song.entity';
 @Controller('api')
 export class MusicController {
     @Get('/global-search')
-    async search(@Query('searchQuery') searchQuery: string, genres:[]|null): Promise<any | undefined> {
+    async search(@Query('searchQuery') searchQuery: string): Promise<any | undefined> {
+
         if (searchQuery !== undefined && searchQuery.length > 1) {
             let query=  getRepository(Song)
             .createQueryBuilder("Song")
@@ -13,16 +14,25 @@ export class MusicController {
             .leftJoinAndSelect('artistToUser.artist', 'artist')
             .where(`MATCH(song.name) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
             .orWhere(`MATCH(artist.stagename) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
-                console.log('music search',genres)
-            if(genres){
-                query.leftJoinAndSelect('Song.genres', 'SongsToGenres')
-                .leftJoinAndSelect('SongsToGenres.genres', 'genres')
-                .andWhere('genres.id IN (:genres)', {genres: genres})
-            }
-            
+
             return await query.getMany();
         }        
     }
 
+    @Get('/global-filter')
+    async filter(@Query('genreIds') genreIds){
+        genreIds = JSON.parse(genreIds);
+
+        if(genreIds){
+            let query =  getRepository(Song)
+            .createQueryBuilder("Song")
+            .select()
+            .leftJoinAndSelect('Song.artists', 'artistToUser')
+            .leftJoinAndSelect('artistToUser.artist', 'artist')
+            .leftJoinAndSelect('Song.genres', 'SongsToGenres')
+            .where('genreId IN (:genres)', {genres: genreIds})
+            return await query.getMany();
+        }
+    }
 
 }
