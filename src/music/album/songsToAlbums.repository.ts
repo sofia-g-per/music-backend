@@ -28,4 +28,11 @@ export class SongsToAlbumsRepository extends Repository<SongsToAlbums>{
         }
         return songsToAlbums;
     }
+
+    async updateByPlaylist(songs, album){
+        await getRepository(SongsToAlbums).delete({
+            albumId: album.id
+        })
+        this.saveMultipleSongs(songs, album)
+    }
 }

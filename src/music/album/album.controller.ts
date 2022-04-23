@@ -54,4 +54,14 @@ export class AlbumController {
         console.log(albumId)
         return await this.albumService.deleteById(albumId);
     }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Post('/edit-album')
+    async update(@Body() albumData){
+        albumData.id = parseInt(albumData.id)
+        albumData.songIds = JSON.parse(albumData.songIds)
+        console.log(albumData.songIds, typeof albumData.songIds, albumData.songIds[0])
+        return await this.albumService.update(albumData);
+    }
 }

@@ -85,6 +85,15 @@ export class AlbumService {
 
     }
 
+    async update(albumData){
+        if(albumData.songIds){
+            await this.songsToAlbumsRepository.updateByPlaylist(albumData.songIds, albumData);
+        }
+        delete albumData.songIds
+
+        return await this.AlbumsRepository.customSave(albumData);
+    }
+
     async findById(id: number): Promise<Album> {
         return this.AlbumsRepository.findById(id);
     }
