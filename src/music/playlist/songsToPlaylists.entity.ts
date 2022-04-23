@@ -1,4 +1,3 @@
-import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from "typeorm";
 import { Song } from "../song/song.entity";
 import { Playlist } from "./playlist.entity";
@@ -21,7 +20,9 @@ export class SongsToPlaylists {
     @CreateDateColumn()
     createdAt: Date;
 
-    @ManyToOne(() => Playlist, playlist => playlist.songs, {onDelete: 'CASCADE'})
+    @ManyToOne(() => Playlist, playlist => playlist.songs, {
+        onDelete: 'CASCADE'
+    })
     public playlist!: Playlist;
 
     @ManyToOne(() => Song, song => song.playlists, {

@@ -65,7 +65,6 @@ export class SongService {
     }
 
     async update(songData, files){
-        console.log(songData, files)
         //прикреление аудиофайла
         if(songData.filePath){
             songData.filePath = files.audioFile[0]['filename'];

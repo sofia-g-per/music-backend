@@ -43,6 +43,8 @@ export class Playlist {
     //Песни в данном плейлисте
     @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.playlist, {
         eager: true,
+        cascade: true,
+        onDelete: 'CASCADE'
     })
     public songs: SongsToPlaylists[];
 

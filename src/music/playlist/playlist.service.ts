@@ -58,19 +58,28 @@ export class PlaylistService {
         const newPlaylist = await this.playlistsRepository.customSave(playlist);
 
         // сохранение связей песен и плейлистов 
-        let songsToPlaylists;
-        if(newPlaylist){
-            songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
-        }else{
-            throw new HttpException(
-                {
-                    message:'Произошла ошибка при добавлении альбома'
-                }, 
-                HttpStatus.BAD_REQUEST
-            );
-        }
+        // let songsToPlaylists;
+        // if(newPlaylist){
+        //     songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
+        // }else{
+        //     throw new HttpException(
+        //         {
+        //             message:'Произошла ошибка при добавлении альбома'
+        //         }, 
+        //         HttpStatus.BAD_REQUEST
+        //     );
+        // }
 
         return newPlaylist;
+    }
+
+    async update(playlistData){
+        if(playlistData.songIds){
+            await this.songsToPlaylistsRepository.updateByPlaylist(playlistData.songIds, playlistData);
+        }
+        delete playlistData.songIds
+
+        return await this.playlistsRepository.customSave(playlistData);
     }
 
     async getPlaylistsByCreator(userId:number){

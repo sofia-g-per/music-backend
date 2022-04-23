@@ -12,6 +12,7 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
     // songs - [{song: Song, songIndex: number}]
     async saveMultipleSongs(songs, playlist): Promise<any>{
         let songsToPlaylists: SongsToPlaylists[] = [];
+        console.log('repo', songs)
         let newEntity;
         for (let song of songs) {
             if(song){
@@ -27,5 +28,12 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
 
         }
         return 'success';
+    }
+
+    async updateByPlaylist(songs, playlist){
+        await getRepository(SongsToPlaylists).delete({
+            playlistId: playlist.id
+        })
+        this.saveMultipleSongs(songs, playlist)
     }
 }

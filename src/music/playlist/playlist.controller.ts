@@ -1,10 +1,8 @@
-import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, Body, Get, Param, Query, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
-import { Roles } from 'src/users/guards/roles.decorator';
 import { CreatePlaylistDto } from './createPlaylistDto.dto';
 import { Playlist } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
@@ -29,14 +27,22 @@ export class PlaylistController {
         return await this.playlistService.create(req.user, playlist, coverImg);
     } 
 
-    @Get('/playlist/:id')
-    async findById(@Param("id") id: number): Promise<Playlist> {
-        return this.playlistService.findById(id);
+    @Get('/get-playlist')
+    async findById(@Query('playlistId') playlistId: number): Promise<Playlist> {
+        return this.playlistService.findById(playlistId);
     }
 
     @UseGuards(LoggedInGuard)
     @Get('/users-playlists')
     async getUsersPlaylists(@Request() req){
         return await this.playlistService.getPlaylistsByCreator(req.user.id)
+    }
+
+    @Post('/edit-playlist')
+    async update(@Body() playlistData){
+        playlistData.id = parseInt(playlistData.id)
+        playlistData.songIds = JSON.parse(playlistData.songIds)
+        console.log(playlistData.songIds, typeof playlistData.songIds, playlistData.songIds[0])
+        return await this.playlistService.update(playlistData);
     }
 }
