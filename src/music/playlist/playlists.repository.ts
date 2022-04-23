@@ -43,5 +43,9 @@ export class PlaylistsRepository extends Repository<Playlist>{
 
     }
 
+    async deleteById(playlistId:number){
+       return await getRepository(Playlist).delete(playlistId);
+    }
+
 
 }

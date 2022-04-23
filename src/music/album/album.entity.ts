@@ -20,10 +20,13 @@ export class Album {
     })
     description: string;
 
-    @Column()
+    @Column({ 
+        nullable: true,
+        default: null,
+    })
     coverImg: string;
 
-    @Column()
+    @Column({nullable: true, type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     released_at: Date;
 
     //------------------ 
@@ -38,7 +41,7 @@ export class Album {
     genres: Genre[];
 
     //Связь с артистами, (авторы альбома)
-    @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.artists, {
+    @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.artist, {
         eager: true,
     })
     @JoinTable()
@@ -47,6 +50,8 @@ export class Album {
     //Песни в данном альбоме
     @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song, {
         eager: true,
+        cascade: true,
+        onDelete: 'CASCADE'
     })
     public songs!: SongsToAlbums[];
 

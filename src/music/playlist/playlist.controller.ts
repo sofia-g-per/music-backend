@@ -45,4 +45,11 @@ export class PlaylistController {
         console.log(playlistData.songIds, typeof playlistData.songIds, playlistData.songIds[0])
         return await this.playlistService.update(playlistData);
     }
+
+    @UseGuards(LoggedInGuard)
+    @Get('/delete-playlist')
+    async delete(@Query('playlistId') playlistId:number, @Request() req){
+        console.log(playlistId)
+        return await this.playlistService.deleteById(playlistId);
+    }
 }

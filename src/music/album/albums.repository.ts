@@ -23,8 +23,15 @@ export class AlbumsRepository extends Repository<Album>{
         return songs;
     }
 
+    async findByArtist(artistId:number){
+        return await getRepository(Album).find({
+            where: {
+                artistId: artistId
+            },
+        });
+    }
+
     public async customSave(entity) {
-        console.log('repo', entity);
         return await getRepository(Album).save(entity);
       }
 }

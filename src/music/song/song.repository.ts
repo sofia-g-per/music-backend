@@ -52,10 +52,8 @@ export class SongsRepository extends Repository<Song>{
     }
 
     async deleteById(id:number){
-       console.log(id)
 
        let response =  await getRepository(Song).delete(id);
-       console.log(response)
        return response;
     }
 

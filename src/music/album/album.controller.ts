@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, Param, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
+import { LoggedInGuard } from './../../users/guards/loggedIn.guard';
+import { Controller, Post, Body, Get, Query, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
@@ -28,17 +29,22 @@ export class AlbumController {
     async create(@Request() req, @Body() albumData: CreateAlbumDto, @UploadedFile() coverImg: Express.Multer.File) {
         console.log('controller initial', albumData, coverImg);
         //Для тестировани с постманом
-        if(albumData.songIds){
-            albumData.songIds = JSON.parse(albumData.songIds);
-            albumData.artistIds = JSON.parse(albumData.artistIds);
-        }
-        console.log('controller parsed', albumData);
-
+        // if(albumData.songIds){
+        //     albumData.songIds = JSON.parse(albumData.songIds);
+        //     albumData.artistIds = JSON.parse(albumData.artistIds);
+        // }
         return await this.albumService.create(req.user, albumData, coverImg);
     } 
 
-    @Get('/album/:id')
-    async findById(@Param("id") id: number): Promise<Album> {
-        return this.albumService.findById(id);
+    @Get('/get-album')
+    async findById(@Query('albumId') albumId: number): Promise<Album> {
+        return this.albumService.findById(albumId);
+    }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Get('/users-albums')
+    async getUsersAlbums(@Request() req){
+        return await this.albumService.getAlbumsByArtist(req.user.artist.id)
     }
 }

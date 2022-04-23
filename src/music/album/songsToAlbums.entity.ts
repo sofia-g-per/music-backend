@@ -21,6 +21,8 @@ export class SongsToAlbums {
     @ManyToOne(() => Album, album => album.songs, {onDelete: 'CASCADE'})
     public album!: Album;
 
-    @ManyToOne(() => Song, song => song.albums, {onDelete: 'CASCADE'})
+    @ManyToOne(() => Song, song => song.albums, {
+        onDelete: 'CASCADE'
+    })
     public song!: Song;
 }

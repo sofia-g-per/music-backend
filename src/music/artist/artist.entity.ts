@@ -42,7 +42,7 @@ export class Artist {
     genres: Genre[];
 
     // Связь с альбомами
-    @OneToMany(() => ArtistsToAlbums, artistsToAlbums=> artistsToAlbums.albums, {
+    @OneToMany(() => ArtistsToAlbums, artistsToAlbums=> artistsToAlbums.album, {
         eager: true,
     })
     albums: ArtistsToAlbums[];

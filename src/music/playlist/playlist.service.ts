@@ -89,4 +89,8 @@ export class PlaylistService {
     async findById(id: number): Promise<Playlist> {
         return this.playlistsRepository.findById(id);
     }
+
+    async deleteById(id:number){
+       return await this.playlistsRepository.deleteById(id);
+    }
 }

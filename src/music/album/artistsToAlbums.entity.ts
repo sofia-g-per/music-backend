@@ -19,8 +19,8 @@ export class ArtistsToAlbums {
     isFeatured: boolean;
 
     @ManyToOne(() => Album, album => album.artists)
-    public albums!: Album;
+    public album!: Album;
 
     @ManyToOne(() => Artist, artist => artist.albums)
-    public artists!: Artist;
+    public artist!: Artist;
 }

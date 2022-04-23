@@ -1,18 +1,19 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
 import { CreateGenreDto } from "../genre/createGenre.dto";
 import { Type } from 'class-transformer';
-import { AddExistingArtistDto } from "../artist/addExistingArtistDto.dto";
+import { AddExistingSongsToCollectionDto } from "../playlist/addExistingSongsToCollection.dto";
 
 export class CreateAlbumDto{
     @IsNotEmpty()
     name: string;
 
     @IsNotEmpty()
-    //для постмана
-    songIds: string;
+    @Type(() => AddExistingSongsToCollectionDto)
+    @ValidateNested()
+    songIds: AddExistingSongsToCollectionDto[];
 
-    @IsNotEmpty()
-    released_at: Date;
+    // @IsNotEmpty()
+    // released_at: Date;
     
     @IsOptional()
     description: string;

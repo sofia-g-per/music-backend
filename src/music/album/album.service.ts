@@ -9,14 +9,13 @@ import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
 import { CreateAlbumDto } from './createalbum.dto';
 import { ArtistService } from '../artist/artist.service';
-import { getRepository } from 'typeorm';
-import { ArtistsToAlbums } from './artistsToAlbums.entity';
-
+import { ArtistsToAlbumsRepository } from './artistsToAlbums.repository';
 @Injectable()
 export class AlbumService {
     constructor(
         @InjectRepository(AlbumsRepository) private AlbumsRepository: AlbumsRepository,
         @InjectRepository(SongsToAlbumsRepository) private songsToAlbumsRepository: SongsToAlbumsRepository,
+        @InjectRepository(ArtistsToAlbumsRepository) private artistToAlbumsRepository: ArtistsToAlbumsRepository,
         private  genreService: GenreService,
         private  songService: SongService,
         private  artistService: ArtistService,
@@ -32,11 +31,11 @@ export class AlbumService {
         }
         genres = await this.genreService.addExistingGenres(albumData, album);
         if(genres){
-            album.genres.push(genres);
+            album.genres = album.genres.concat(genres);
         }
         genres = await this.genreService.createNewGenres(albumData, album);
         if(genres){
-            album.genres.push(genres);
+            album.genres = album.genres.concat(genres);
         }
         //прикреление песен
         album.songs = [];
@@ -51,11 +50,11 @@ export class AlbumService {
             album.artists = artists;
         }
         // добавление авторизированного пользователя как создателя
-        album.artists.push({
+        album.artists = album.artists.concat({
             artist: user.artist,
             isFeatured: false
         })
-        // прикрепление обложки плейлиста при наличии
+        // прикрепление обложки альбома при наличии
         if(coverImg){
             album.coverImg = coverImg.filename;
         }
@@ -78,5 +77,9 @@ export class AlbumService {
 
     async findById(id: number): Promise<Album> {
         return this.AlbumsRepository.findById(id);
+    }
+
+    async getAlbumsByArtist(artistId: number): Promise<Album[]>{
+        return this.AlbumsRepository.findByArtist(artistId);
     }
 }
