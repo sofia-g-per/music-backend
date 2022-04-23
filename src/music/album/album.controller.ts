@@ -1,4 +1,3 @@
-import { LoggedInGuard } from './../../users/guards/loggedIn.guard';
 import { Controller, Post, Body, Get, Query, Request, UseInterceptors, UsePipes, ValidationPipe, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';

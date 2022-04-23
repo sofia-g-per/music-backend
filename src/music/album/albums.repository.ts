@@ -29,6 +29,8 @@ export class AlbumsRepository extends Repository<Album>{
         .select()
         .leftJoinAndSelect('Album.artists', 'artistToUser')
         .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .leftJoinAndSelect('Album.songs', 'songsToAlbums')
+        .leftJoinAndSelect('songsToAlbums.song', 'songs')
         .where('artist.id =:artistId', {artistId: artistId})
         .getMany();
     }
