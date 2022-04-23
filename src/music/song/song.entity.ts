@@ -53,12 +53,12 @@ export class Song {
     public albums: SongsToAlbums[];
 
     //Жанры песни
-    @ManyToMany(() => Genre, {onDelete: 'CASCADE'})
+    @ManyToMany(() => Genre, {onDelete: 'CASCADE', cascade: true, eager:true})
     @JoinTable()
     genres: Genre[];
 
     //авторы песни (связь с артистами)
-    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, {eager: true})
+    @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
     public artists: ArtistsToSongs[];
 
     //Пользователи, добавившие песню в избранные

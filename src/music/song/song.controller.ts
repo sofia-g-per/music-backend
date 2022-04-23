@@ -1,5 +1,5 @@
 import { LoggedInGuard } from './../../users/guards/loggedIn.guard';
-import { Controller, Get, Post, Body, UseGuards, Req, Request, UseInterceptors, ValidationPipe, UsePipes, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query, Request, UseInterceptors, ValidationPipe, UsePipes, UploadedFile, UploadedFiles, Param } from '@nestjs/common';
 import { SongService } from './song.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateSongDto } from './createSong.dto';
@@ -54,5 +54,37 @@ export class SongController {
     async delete(@Body() songData, @Request() req){
         console.log(songData, songData.songId)
         return await this.songService.delete(songData.songId);
+    }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Get('/get-song')
+    async getById(@Query('songId') songId: number, @Request() req){
+        console.log(songId)
+        return await this.songService.getById(songId);
+    }
+
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Post('/edit-song')
+    @UseInterceptors(
+        FileFieldsInterceptor(
+            [
+                {name:'audioFile', maxCount: 1}, 
+                {name:'cover', maxCount: 1}, 
+            ],
+            {
+                storage: diskStorage({
+                    destination: './uploaded/songs',
+                    filename: editFileName
+                }),
+                
+            }),
+        )
+    async update(@Body() songData, @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }){
+        console.log(songData)
+        songData.id = parseInt(songData.id)
+        songData.genreIds = JSON.parse(songData.genreIds)
+        return await this.songService.update(songData, files);
     }
 }

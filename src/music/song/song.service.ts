@@ -25,7 +25,7 @@ export class SongService {
 
         //прикрепление обложки песни
         if(files.cover){
-            song.cover_img = files.cover[0].filename;
+            song.coverImg = files.cover[0].filename;
         }
 
         //прикрепление жанров
@@ -64,8 +64,34 @@ export class SongService {
         return newSong.id;
     }
 
+    async update(songData, files){
+        console.log(songData, files)
+        //прикреление аудиофайла
+        if(songData.filePath){
+            songData.filePath = files.audioFile[0]['filename'];
+        }
+
+        //прикрепление обложки песни
+        if(files.cover){
+            songData.coverImg = files.cover[0].filename;
+        }
+
+        if(songData.genreIds){
+            songData.genres = []
+            for(const genreId of songData.genreIds){
+                songData.genres.push({id: genreId});
+            }
+        }
+
+        return await this.songsRepository.customSave(songData);
+    }
+
     async findAll(){
         return await this.songsRepository.findAll()
+    }
+
+    async getById(songId:number){
+        return await this.songsRepository.findById(songId, false);
     }
 
     async getSongsByArtist(artistId:number){
