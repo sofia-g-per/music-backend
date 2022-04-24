@@ -15,7 +15,10 @@ export class Artist {
     @Column()
     stagename: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+        default: null
+    })
     description: string;
 
     @CreateDateColumn()

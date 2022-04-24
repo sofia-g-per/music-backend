@@ -1,4 +1,5 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Req, Request, UploadedFile } from '@nestjs/common';
+import { LoggedInGuard } from './guards/loggedIn.guard';
+import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Query, Request, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { LoginDto } from './dtos/login.dto';
@@ -34,9 +35,28 @@ export class UsersController {
         return await this.usersService.validateUser(userData);
     }
 
+    // @Get('/get-user')
+    // async getCurrentUser(@Request() req){
+    //     return req.user ;
+    // }
+
+    @UseGuards(LoggedInGuard)
+    @Post('/edit-user')
+    async editUser(@Body() userData, @Request() req){
+        console.log(userData, req.user)
+        return await this.usersService.updateUser(userData, req.user);
+    }
+
+    @UseGuards(LoggedInGuard)
+    @Get('/delete-user')
+    async deleteCurrentUser(@Request() req){
+        return await this.usersService.delete(req.user.id);
+
+    }
+
     @Get('/get-user')
-    async getCurrentUser(@Request() req){
-        return req.user ;
+    async getUserById(@Query('userId') userId:number){
+        return await this.usersService.findById(userId);
     }
 
 }

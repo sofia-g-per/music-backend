@@ -14,5 +14,9 @@ export class UsersRepository extends Repository<User>{
 
     public async customSave(entity) {
         return await getRepository(User).save(entity);
-      }
+    }
+
+    async deleteById(userId:number){
+        return await getRepository(User).delete(userId);
+    }
 }

@@ -60,4 +60,8 @@ export class ArtistsRepository extends Repository<Artist>{
     async customSave(artistData){
         return await getRepository(Artist).save(artistData); 
     }
+
+    async deleteById(artistId:number){
+        return await getRepository(Artist).delete(artistId);
+    }
 }

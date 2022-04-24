@@ -40,6 +40,10 @@ export class ArtistService {
         return await this.artistsRepository.findAllExceptOne(currentArtistId);
     }
 
+    async delete(artistId: number){
+        return await this.artistsRepository.deleteById(artistId);
+    }
+
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)
