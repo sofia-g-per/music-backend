@@ -59,14 +59,16 @@ export class User {
     playlists: Playlist[];
 
     //Избранные песни
-    @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.song)
+    @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.user,{
+        eager: true
+    })
     public favoriteSongs: UsersToSongs[];
 
     //Избранные альбомы
-    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.album)
+    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
     public favoriteAlbums: UsersToAlbums[];
 
     //Избранные плейлисты
-    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
+    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.user)
     public favoritePlaylists: UsersToPlaylists[];
 }

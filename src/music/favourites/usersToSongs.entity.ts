@@ -21,7 +21,6 @@ export class UsersToSongs {
     public user!: User;
 
     @ManyToOne(() => Song, song => song.listeners, {
-        eager: true,
         onDelete: 'CASCADE'
     })
     public song!: Song;

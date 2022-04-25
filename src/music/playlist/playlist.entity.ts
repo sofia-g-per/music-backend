@@ -49,6 +49,6 @@ export class Playlist {
     public songs: SongsToPlaylists[];
 
     //Пользователи, добавившие плейлист в избранное
-    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.user)
+    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
     public listeners: UsersToPlaylists[];
 }

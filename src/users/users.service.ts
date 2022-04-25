@@ -27,11 +27,11 @@ export class UsersService {
         //шифрование пароля
         const salt = 10;
         const password = await bcrypt.hash(userData.password, salt);
-        userData.password = password;
+        newUser.password = password;
 
         //добавление роли пользователя
         let userRole;
-        if(userData.roleId){
+        if(newUser.roleId){
             userRole = await this.userRolesRepository.findByName(userData.roleId);
         }else{
             userRole = await this.userRolesRepository.findByName('listener');
@@ -85,7 +85,6 @@ export class UsersService {
         }
 
         let user;
-        console.log(initialUser, userData)
         if(userData.roleId !== initialUser.role.name){
             //добавление роли пользователя
             userData.role = await this.userRolesRepository.findByName(userData.roleId);
@@ -93,7 +92,6 @@ export class UsersService {
             user = await this.usersRepository.customSave(userData);
 
             //если пользователь сменил роль с артиста на слушателя 
-            console.log(userData.roleId == "artist", 'add new artist')
             if(userData.roleId !== "artist"){
                 // удаление артиста
                 await this.artistService.delete(initialUser.artist.id); 
@@ -107,7 +105,6 @@ export class UsersService {
                 if(artist !instanceof Artist){
                     throw new HttpException('Произошла ошибка в создании артиста', HttpStatus.BAD_REQUEST);
                 }else{
-                    console.log('artist created', artist)
                     userData.artist = artist;
                     return userData;
                 }
