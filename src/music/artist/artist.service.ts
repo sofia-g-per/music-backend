@@ -33,6 +33,7 @@ export class ArtistService {
             let genres = await this.genreService.createMultiple(artistData.genres);
             artist.genres = artist.genres.concat(genres);
         }
+        console.log('artist service', artist)
         return await this.artistsRepository.customSave(artist);
     }
 

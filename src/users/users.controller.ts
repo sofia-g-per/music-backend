@@ -40,11 +40,22 @@ export class UsersController {
     //     return req.user ;
     // }
 
-    @UseGuards(LoggedInGuard)
+    // @UseGuards(LocalAuthGuard)
     @Post('/edit-user')
     async editUser(@Body() userData, @Request() req){
-        console.log(userData, req.user)
-        return await this.usersService.updateUser(userData, req.user);
+        console.log('controller', userData, req.user)
+        let updatedUser = await this.usersService.updateUser(userData, req.user);
+        req.login(updatedUser, async(error) => {
+            if (error) {
+              let res = {
+                err: 'Sorry, there was an error updating your account.'
+              };
+              return;
+            }
+        });
+        req.session.save(function(err) {console.log(err)});
+
+        return updatedUser;
     }
 
     @UseGuards(LoggedInGuard)

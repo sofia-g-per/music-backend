@@ -22,8 +22,8 @@ export class ArtistController {
         return await this.artistService.findAllExceptCurrent(req.user.artist.id)
     }
 
-    @Roles('artist')
-    @UseGuards(RolesGuard)
+    // @Roles('artist')
+    // @UseGuards(RolesGuard)
     @Get('/artist-songs')
     async getSongsByArtist(@Request() req) 
     {

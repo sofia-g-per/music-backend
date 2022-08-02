@@ -101,14 +101,18 @@ export class UsersService {
                 //Создание записи артиста при выборе соответствующей роли
                 let artistToAdd = userData.artist;
                 artistToAdd.user = {id: user.id}
+                console.log('userservice',artistToAdd);
                 const artist = await this.artistService.create(artistToAdd);            
                 if(artist !instanceof Artist){
                     throw new HttpException('Произошла ошибка в создании артиста', HttpStatus.BAD_REQUEST);
                 }else{
                     userData.artist = artist;
+                    console.log(userData);
                     return userData;
                 }
             }
+
+
         }
 
         delete userData.roleId

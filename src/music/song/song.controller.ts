@@ -34,6 +34,7 @@ export class SongController {
     async create(@Request() req, @Body() songData: CreateSongDto,
          @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
     {
+        console.log(req.user)
         return await this.songService.create(req.user, songData, files);
     }
 
@@ -42,9 +43,11 @@ export class SongController {
         return await this.songService.findAll();
     }
 
-    @UseGuards(LoggedInGuard)
+    @Roles('artist')
+    @UseGuards(RolesGuard)
     @Get('/get-song-by-current-artist')
     async getSongsByCurrentArtist(@Request() req){
+        console.log(req.user)
         return await this.songService.getSongsByArtist(req.user.artist.id);
     }
 

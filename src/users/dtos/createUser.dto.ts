@@ -17,9 +17,6 @@ export class CreateUserDto {
     @IsNotEmpty()
     surname: string;
 
-    @IsOptional()
-    avatar: string;
-
     @IsEmail()
     @Validate(IsUserEmailUnique)
     email: string;
