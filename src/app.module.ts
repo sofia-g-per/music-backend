@@ -30,29 +30,34 @@ import { SongsToAlbums } from './music/album/songsToAlbums.entity';
 import { SongsToAlbumsRepository } from './music/album/songsToAlbums.repository';
 import { AlbumController } from './music/album/album.controller';
 import { AlbumService } from './music/album/album.service';
-
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
 @Module({
   imports: [
-    TypeOrmModule.forRoot(), 
-    MulterModule.register({
-      dest: './uploaded'
+    TypeOrmModule.forRoot(),
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
     }),
-    UsersModule, 
-    MusicModule, 
-    SharedModule],
+    MulterModule.register({
+      dest: './uploaded',
+    }),
+    UsersModule,
+    MusicModule,
+    SharedModule,
+  ],
   controllers: [
     UsersController,
-    AppController, 
-    SongController, 
+    AppController,
+    SongController,
     PlaylistController,
     PlaylistController,
-    AlbumController
+    AlbumController,
   ],
   providers: [
-    AppService, 
+    AppService,
     ArtistsRepository,
-    SongService, 
-    PlaylistService, 
+    SongService,
+    PlaylistService,
     UsersService,
     UserRolesService,
     ArtistService,
@@ -69,10 +74,7 @@ import { AlbumService } from './music/album/album.service';
     PlaylistsRepository,
     AlbumsRepository,
     SongsToAlbums,
-    SongsToAlbumsRepository
+    SongsToAlbumsRepository,
   ],
 })
-
-export class AppModule {
-  
-}
+export class AppModule {}
