@@ -1,18 +1,22 @@
-import { RouterModule } from "@nestjs/core";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user.entity";
+import { AutoMap } from '@automapper/classes';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class UserRole {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @AutoMap()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @AutoMap()
+  @Column()
+  name: string;
 
-    @Column()
-    label: string;
+  @AutoMap()
+  @Column()
+  label: string;
 
-    @OneToMany(() => User, user => user.role)
-    users: User[];
+  @AutoMap(() => User)
+  @OneToMany(() => User, (user) => user.role)
+  users: User[];
 }

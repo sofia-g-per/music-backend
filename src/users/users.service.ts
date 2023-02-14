@@ -13,123 +13,140 @@ import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
-        @InjectRepository(UserRolesRepository) private userRolesRepository: UserRolesRepository,
-        private artistService: ArtistService
+  constructor(
+    @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
+    @InjectRepository(UserRolesRepository)
+    private userRolesRepository: UserRolesRepository,
+    private artistService: ArtistService,
+  ) {}
 
-    ){}
+  async create(
+    userData: CreateUserDto,
+    avatar,
+  ): Promise<User | Artist | undefined> {
+    const newUser = instanceToPlain(userData);
 
-    async create(userData: CreateUserDto, avatar): Promise <User | Artist | undefined> {
+    //шифрование пароля
+    const salt = 10;
+    const password = await bcrypt.hash(userData.password, salt);
+    newUser.password = password;
 
-        let newUser = instanceToPlain(userData);
+    //добавление роли пользователя
+    let userRole;
+    if (newUser.roleId) {
+      userRole = await this.userRolesRepository.findByName(userData.roleId);
+    } else {
+      userRole = await this.userRolesRepository.findByName('listener');
+    }
+    newUser.role = userRole;
 
-        //шифрование пароля
+    //добавления аватара (изображения) при наличии
+    if (avatar) {
+      newUser.avatar = avatar.filename;
+    }
+
+    //Сохранение пользователя в БД
+    const user = await this.usersRepository.customSave(newUser);
+    //Создание записи артиста при выборе соответствующей роли
+    if (userRole && userRole.name === 'artist') {
+      userData.artist.user = user;
+      const artist = await this.artistService.create(userData.artist);
+      if (artist! instanceof Artist) {
+        throw new HttpException(
+          'Произошла ошибка в создании артиста',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return artist;
+      }
+    }
+
+    return user;
+  }
+
+  async validateUser(userData: LoginDto): Promise<any> {
+    const user = await this.usersRepository.findByEmail(userData.email);
+    if (user) {
+      const passwordsMatch = await bcrypt.compare(
+        userData.password,
+        user.password,
+      );
+
+      if (passwordsMatch) {
+        const { password, ...result } = user;
+        return result;
+      }
+      throw new HttpException(
+        'Проверьте корректность данных',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    throw new HttpException(
+      'Проверьте корректность данных',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+
+  async updateUser(userData, initialUser) {
+    if (userData.password) {
+      const passwordsMatch = await bcrypt.compare(
+        userData.password,
+        initialUser.password,
+      );
+      if (!passwordsMatch) {
         const salt = 10;
         const password = await bcrypt.hash(userData.password, salt);
-        newUser.password = password;
+        userData.password = password;
+      }
+    }
 
-        //добавление роли пользователя
-        let userRole;
-        if(newUser.roleId){
-            userRole = await this.userRolesRepository.findByName(userData.roleId);
-        }else{
-            userRole = await this.userRolesRepository.findByName('listener');
-        }
-        newUser.role = userRole;
+    let user;
+    if (userData.roleId !== initialUser.role.name) {
+      //добавление роли пользователя
+      userData.role = await this.userRolesRepository.findByName(
+        userData.roleId,
+      );
+      //Сохранение пользователя в БД
+      user = await this.usersRepository.customSave(userData);
 
-        //добавления аватара (изображения) при наличии
-        if(avatar){
-            newUser.avatar = avatar.filename;
-        }
-
-        //Сохранение пользователя в БД
-        let user = await this.usersRepository.customSave(newUser);
-        //Создание записи артиста при выборе соответствующей роли
-        if( userRole && userRole.name === "artist"){
-            userData.artist.user = user;
-            const artist = await this.artistService.create(userData.artist);            
-            if(artist !instanceof Artist){
-                throw new HttpException('Произошла ошибка в создании артиста', HttpStatus.BAD_REQUEST);
-
-            }else{
-                return artist;
-            }
-        }
-
+      //если пользователь сменил роль с артиста на слушателя
+      if (userData.roleId !== 'artist') {
+        // удаление артиста
+        await this.artistService.delete(initialUser.artist.id);
+        delete user.artist;
         return user;
-    }
-
-    async validateUser(userData: LoginDto): Promise<any> {
-        const user = await this.usersRepository.findByEmail(userData.email);
-        if (user) {
-            const passwordsMatch = await bcrypt.compare(userData.password, user.password);
-            
-            if(passwordsMatch){
-                const { password, ...result } = user;
-                return result;
-            }
-            throw new HttpException('Проверьте корректность данных', HttpStatus.BAD_REQUEST);
+      } else {
+        //Создание записи артиста при выборе соответствующей роли
+        const artistToAdd = userData.artist;
+        artistToAdd.user = { id: user.id };
+        console.log('userservice', artistToAdd);
+        const artist = await this.artistService.create(artistToAdd);
+        if (artist! instanceof Artist) {
+          throw new HttpException(
+            'Произошла ошибка в создании артиста',
+            HttpStatus.BAD_REQUEST,
+          );
+        } else {
+          userData.artist = artist;
+          console.log(userData);
+          return userData;
         }
-        throw new HttpException('Проверьте корректность данных', HttpStatus.BAD_REQUEST);
+      }
     }
 
-    async updateUser(userData, initialUser){
-        if(userData.password ){
-            const passwordsMatch = await bcrypt.compare(userData.password, initialUser.password);
-            if(!passwordsMatch){
-                const salt = 10;
-                const password = await bcrypt.hash(userData.password, salt);
-                userData.password = password;
-            }
-        }
+    delete userData.roleId;
+    //Сохранение пользователя в БД
+    user = await this.usersRepository.customSave(userData);
+    return user;
+  }
 
-        let user;
-        if(userData.roleId !== initialUser.role.name){
-            //добавление роли пользователя
-            userData.role = await this.userRolesRepository.findByName(userData.roleId);
-            //Сохранение пользователя в БД
-            user = await this.usersRepository.customSave(userData);
+  async delete(userId: number) {
+    return await this.usersRepository.deleteById(userId);
+  }
 
-            //если пользователь сменил роль с артиста на слушателя 
-            if(userData.roleId !== "artist"){
-                // удаление артиста
-                await this.artistService.delete(initialUser.artist.id); 
-                delete user.artist;
-                return user;           
-            }else{
-                //Создание записи артиста при выборе соответствующей роли
-                let artistToAdd = userData.artist;
-                artistToAdd.user = {id: user.id}
-                console.log('userservice',artistToAdd);
-                const artist = await this.artistService.create(artistToAdd);            
-                if(artist !instanceof Artist){
-                    throw new HttpException('Произошла ошибка в создании артиста', HttpStatus.BAD_REQUEST);
-                }else{
-                    userData.artist = artist;
-                    console.log(userData);
-                    return userData;
-                }
-            }
-
-
-        }
-
-        delete userData.roleId
-        //Сохранение пользователя в БД
-        user = await this.usersRepository.customSave(userData);
-        return user
-        
-    }
-
-    async delete(userId:number){
-        return await this.usersRepository.deleteById(userId)
-    }   
-
-    async findById(userId:number){
-        let result = await this.usersRepository.findById(userId);
-        delete result.password;
-        return result;
-    }
-
+  async findById(userId: number) {
+    const result = await this.usersRepository.findById(userId);
+    delete result.password;
+    return result;
+  }
 }

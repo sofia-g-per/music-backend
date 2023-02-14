@@ -5,18 +5,23 @@ import { UserRoleExists } from "../validation/UserRoleExists.constraint";
 import { CreateArtistDto } from "src/music/artist/createArtist.dto";
 import { IsUserEmailUnique } from "../validation/IsUserEmailUnique.constraint";
 import { CreateGenreDto } from "src/music/genre/createGenre.dto";
+import { AutoMap } from "@automapper/classes";
 
 export class CreateUserDto {
 
+    @AutoMap()
     @IsNotEmpty()
     username: string;
 
+    @AutoMap()
     @IsNotEmpty()
     name: string;
     
+    @AutoMap()
     @IsNotEmpty()
     surname: string;
 
+    @AutoMap()
     @IsEmail()
     @Validate(IsUserEmailUnique)
     email: string;
@@ -24,9 +29,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     password: string;
 
-    @IsOptional()
-    roleId?: string;
+    roleName: string;
 
+    @AutoMap(()=>CreateArtistDto)
     @IsOptional()
     @Type(() => CreateArtistDto)
     @ValidateNested()

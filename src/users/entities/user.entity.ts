@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
 import { UserRole } from "./userRole.entity";
@@ -6,34 +7,42 @@ import { Playlist } from "../../music/playlist/playlist.entity";
 import { UsersToSongs } from "../../music/favourites/usersToSongs.entity";
 import { UsersToAlbums } from "../../music/favourites/usersToAlbums.entity";
 import { UsersToPlaylists } from "../../music/favourites/usersToPlaylists.entity";
+import { AutoMap } from "@automapper/classes";
 
 @Entity()
 export class User {
-
+    @AutoMap()
     @PrimaryGeneratedColumn()
     id: number;
 
+    @AutoMap()
     @Column()
     username: string;
 
+    @AutoMap()
     @Column()
     name: string;
 
+    @AutoMap()
     @Column()
     surname: string;
 
+    @AutoMap()
     @Column({ 
         nullable: true,
         default: null,
     })
     avatar: string;
 
+    @AutoMap()
     @Column()
     email: string;
 
+    @AutoMap()
     @Column()
     password: string;
 
+    @AutoMap()
     @CreateDateColumn()
     created_at?: Date;
 
@@ -42,6 +51,7 @@ export class User {
     //------------------ 
 
     //Связь с ролью
+    @AutoMap(() => UserRole)
     @ManyToOne(() => UserRole, userRole => userRole.users, {
         eager: true
     })
@@ -49,6 +59,7 @@ export class User {
     
     //Связь с артистом 
     // (если пользователь является артистом)
+    @AutoMap(() => Artist)
     @OneToOne(() => Artist, artist => artist.user, {
         eager: true
     })
