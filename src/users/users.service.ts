@@ -10,10 +10,14 @@ import { ArtistService } from 'src/music/artist/artist.service';
 import { LoginDto } from './dtos/login.dto';
 import { Artist } from 'src/music/artist/artist.entity';
 import { instanceToPlain } from 'class-transformer';
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { UserRole } from './entities/userRole.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
+    @InjectMapper() private readonly mapper: Mapper,
     @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
     @InjectRepository(UserRolesRepository)
     private userRolesRepository: UserRolesRepository,
@@ -24,7 +28,8 @@ export class UsersService {
     userData: CreateUserDto,
     avatar,
   ): Promise<User | Artist | undefined> {
-    const newUser = instanceToPlain(userData);
+    const newUser:User = this.mapper.map(userData, CreateUserDto, User);
+    console.log();
 
     //шифрование пароля
     const salt = 10;
@@ -32,13 +37,16 @@ export class UsersService {
     newUser.password = password;
 
     //добавление роли пользователя
-    let userRole;
-    if (newUser.roleId) {
-      userRole = await this.userRolesRepository.findByName(userData.roleId);
+    let userRole: UserRole;
+    console.log(userData.roleName);
+    if (userData.roleName) {
+      userRole = await this.userRolesRepository.findByName(userData.roleName);
     } else {
       userRole = await this.userRolesRepository.findByName('listener');
     }
     newUser.role = userRole;
+    console.log(userRole);
+    console.log(newUser.role);
 
     //добавления аватара (изображения) при наличии
     if (avatar) {
