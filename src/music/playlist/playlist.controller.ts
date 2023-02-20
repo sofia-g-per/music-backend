@@ -23,7 +23,8 @@ export class PlaylistController {
         }),
     )
     @UsePipes(ValidationPipe)
-    async create(@Request() req, @Body() playlist: CreatePlaylistDto, @UploadedFile() coverImg: Express.Multer.File) {
+    async create(@Request() req, @Body() playlist, @UploadedFile() coverImg: Express.Multer.File) {
+        playlist.songIds = JSON.parse(playlist.songIds);
         return await this.playlistService.create(req.user, playlist, coverImg);
     } 
 

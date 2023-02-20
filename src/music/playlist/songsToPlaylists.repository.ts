@@ -12,7 +12,6 @@ export class SongsToPlaylistsRepository extends Repository<SongsToPlaylists>{
     // songs - [{song: Song, songIndex: number}]
     async saveMultipleSongs(songs, playlist): Promise<any>{
         let songsToPlaylists: SongsToPlaylists[] = [];
-        console.log('repo', songs)
         delete playlist.songs
         let newEntity;
         for (let song of songs) {

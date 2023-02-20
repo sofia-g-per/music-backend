@@ -4,14 +4,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PlaylistsRepository } from './playlists.repository';
 import { SongsToPlaylistsRepository } from './songsToPlaylists.repository';
 import { GenreService } from '../genre/genre.service';
-import { instanceToPlain } from 'class-transformer';
 import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
 import { CreatePlaylistDto } from './createPlaylistDto.dto';
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
 
 @Injectable()
 export class PlaylistService {
     constructor(
+        @InjectMapper() private readonly mapper: Mapper,
         @InjectRepository(PlaylistsRepository) private playlistsRepository: PlaylistsRepository,
         @InjectRepository(SongsToPlaylistsRepository) private songsToPlaylistsRepository: SongsToPlaylistsRepository,
         private  genreService: GenreService,
@@ -20,33 +22,31 @@ export class PlaylistService {
     ) {}
 
     async create(user: User, playlistData: CreatePlaylistDto, coverImg:Express.Multer.File) {
-        let playlist = instanceToPlain(playlistData);
-
+        const songIds = playlistData.songIds;
+        let playlist = this.mapper.map(playlistData, CreatePlaylistDto, Playlist);
         playlist.isPublic = Boolean(playlist.isPublic);
-
         //прикрепление жанров
-        let genres;
-        if(!playlist.genres){
-            playlist.genres = [];
-        }
-        
-        genres = await this.genreService.addExistingGenres(playlistData.genreIds, playlist);
-        if(genres){
-            playlist.genres.push(genres);
-        }
-        genres = await this.genreService.createNewGenres(playlistData.genres, playlist);
-        if(genres){
-            playlist.genres.push(genres);
-        }
+        // let genres;
+        // if(!playlist.genres){
+        //     playlist.genres = [];
+        // }
+        // genres = await this.genreService.addExistingGenres(playlistData.genreIds, playlist);
+        // if(genres){
+        //     playlist.genres.push(genres);
+        // }
+        // genres = await this.genreService.createNewGenres(playlistData.genres, playlist);
+        // if(genres){
+        //     playlist.genres.push(genres);
+        // }
 
         //прикреление песен
-        playlist.songs = [];
-        let songs = await this.songService.addExistingSongs(playlistData, playlist);
-        if(songs){
-            playlist.songs = songs;
-        }
+        // playlist.songs = [];
+        // let songs = await this.songService.addExistingSongs(playlistData, playlist);
+        // if(songs){
+        //     playlist.songs = songs;
+        // }
 
-        // прикарепление обложки плейлиста при наличии
+        // прикрепление обложки плейлиста при наличии
         if(coverImg){
             playlist.coverImg = coverImg.filename;
         }
@@ -54,13 +54,13 @@ export class PlaylistService {
         // добавление авторизированного пользователя как создателя
         playlist.creator = user;
 
-        // сохранение плейлист в БД
+        // сохранение плейлиста в БД
         const newPlaylist = await this.playlistsRepository.customSave(playlist);
 
         // сохранение связей песен и плейлистов 
         let songsToPlaylists;
         if(newPlaylist){
-            songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(playlist.songs, newPlaylist);
+            songsToPlaylists = await this.songsToPlaylistsRepository.saveMultipleSongs(songIds, newPlaylist);
         }else{
             throw new HttpException(
                 {
