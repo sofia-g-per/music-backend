@@ -33,6 +33,7 @@ import { AlbumService } from './music/album/album.service';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { UserProfile } from './users/mappers/UserProfile';
+import { SongProfile } from './music/song/songProfile';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -76,7 +77,8 @@ import { UserProfile } from './users/mappers/UserProfile';
     AlbumsRepository,
     SongsToAlbums,
     SongsToAlbumsRepository,
-    UserProfile
+    UserProfile,
+    SongProfile
   ],
 })
 export class AppModule {}

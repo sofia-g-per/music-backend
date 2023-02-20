@@ -31,9 +31,9 @@ export class SongController {
         )
     @UsePipes(ValidationPipe)
     async create(@Request() req, @Body() songData: CreateSongDto,
-         @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
+        @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
     {
-        console.log(req.user)
+        // songData.artistIds = JSON.parse(songData.artistIds)
         return await this.songService.create(req.user, songData, files);
     }
 

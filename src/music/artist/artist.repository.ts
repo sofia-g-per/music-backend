@@ -37,7 +37,6 @@ export class ArtistsRepository extends Repository<Artist>{
             const artist = await this.findById(artistData.artistId);
             
             if(artist){
-
                 artists.push({artist: artist, isFeatured: artistData.isFeatured});
             }else{
                 //return artist array

@@ -30,11 +30,11 @@ export class PlaylistService {
             playlist.genres = [];
         }
         
-        genres = await this.genreService.addExistingGenres(playlistData, playlist);
+        genres = await this.genreService.addExistingGenres(playlistData.genreIds, playlist);
         if(genres){
             playlist.genres.push(genres);
         }
-        genres = await this.genreService.createNewGenres(playlistData, playlist);
+        genres = await this.genreService.createNewGenres(playlistData.genres, playlist);
         if(genres){
             playlist.genres.push(genres);
         }

@@ -46,17 +46,17 @@ export class GenreService {
     // formData - объект с информацией от пользователя (ex. song)
 
     // создание новых жанров
-    async createNewGenres(formData, targetObject){
-        if(formData.genres && formData.genres.length > 0){
-            let genres = await this.createMultiple(formData.genres);
-            return targetObject.genres.concat(genres);
+    async createNewGenres(genres: CreateGenreDto[], targetObject){
+        if(genres && genres.length > 0){
+            const createdGenres = await this.createMultiple(genres);
+            return targetObject.genres.concat(createdGenres);
         }
     }
 
     //прикрепление существующих жанров
-    async addExistingGenres(formData, targetObject){
-        if(formData.genreIds && formData.genreIds.length > 0){
-            let genres = await this.genresRepository.findMultipleByIds(formData.genreIds);
+    async addExistingGenres(genreIds:number[], targetObject){
+        if(genreIds.length > 0){
+            let genres = await this.genresRepository.findMultipleByIds(genreIds);
             return targetObject.genres.concat(genres);
         }
     }

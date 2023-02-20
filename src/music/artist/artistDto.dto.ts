@@ -30,5 +30,4 @@ export class ArtistDto {
 
     @Expose()
     albums?: AlbumDto[];
-
 }

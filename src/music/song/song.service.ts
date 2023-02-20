@@ -7,10 +7,14 @@ import { CreateSongDto } from './createSong.dto';
 import { SongsRepository } from './song.repository';
 import { ArtistService } from '../artist/artist.service';
 import { ArtistsToSongsRepository } from '../artist/artistsToSongs.repository';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { Song } from './song.entity';
 
 @Injectable()
 export class SongService {
     constructor(
+        @InjectMapper() private readonly mapper: Mapper,
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
         private genreService: GenreService,
@@ -18,8 +22,12 @@ export class SongService {
     ) {}
     
     async create(user: User, songData: CreateSongDto, files) {
-        let song = instanceToPlain(songData);
+        console.log(songData);
 
+        const genreIds = songData.genreIds ?? [];
+        const artistIds = songData.artistIds ?? [];
+        const song:Song = this.mapper.map(songData, CreateSongDto, Song);
+        
         //прикреление аудиофайла
         song.filePath = files.audioFile[0]['filename'];
 
@@ -33,34 +41,37 @@ export class SongService {
         if(!song.genres){
             song.genres = [];
         }
-        genres = await this.genreService.addExistingGenres(songData, song);
+        if(genreIds){
+            genres = await this.genreService.addExistingGenres(genreIds, song);
+        }
         if(genres){
             song.genres = song.genres.concat(genres);
         }
-        genres = await this.genreService.createNewGenres(songData, song);
+        genres = await this.genreService.createNewGenres(genres, song);
         if(genres){
             song.genres = song.genres.concat(genres);
         }        
         //прикреление артистов
-        song.artists = []
-        // let artists = await this.artistService.addExistingArtists(songData, song);
+        // let artists = song.artists;
+        // artists = await this.artistService.addExistingArtists(songData, song);
+        // await this.artistService.addExistingArtists(songData, song);
         // if(artists){
         //     song.artists = artists;
         // }
-        song.artists.push({
-            artist: user.artist,
+
+        artistIds.push({
+            artistId: user.artist.id, 
             isFeatured: false
         })
         // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
 
         // сохранение связей артистами авторами песни 
-        let artistsToSongs;
         if(!newSong){
             throw new HttpException('Произошла ошибка в создании песни', HttpStatus.BAD_REQUEST);
         }
+        const artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(artistIds, newSong);
 
-        artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(newSong.artists, newSong);
         return newSong.id;
     }
 

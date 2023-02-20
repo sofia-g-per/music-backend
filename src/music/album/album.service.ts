@@ -29,11 +29,11 @@ export class AlbumService {
         if(!album.genres){
             album.genres = [];
         }
-        genres = await this.genreService.addExistingGenres(albumData, album);
+        genres = await this.genreService.addExistingGenres(albumData.genreIds, album);
         if(genres){
             album.genres = album.genres.concat(genres);
         }
-        genres = await this.genreService.createNewGenres(albumData, album);
+        genres = await this.genreService.createNewGenres(albumData.genres, album);
         if(genres){
             album.genres = album.genres.concat(genres);
         }
