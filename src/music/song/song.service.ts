@@ -22,7 +22,6 @@ export class SongService {
     ) {}
     
     async create(user: User, songData: CreateSongDto, files) {
-        console.log(songData);
 
         const genreIds = songData.genreIds ?? [];
         const artistIds = songData.artistIds ?? [];

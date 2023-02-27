@@ -1,42 +1,40 @@
-import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
-import { Song } from "../song/song.entity";
-import { Genre } from "../genre/genre.entity";
-import { User } from "src/users/entities/user.entity";
-import { Artist } from "../artist/artist.entity";
 import { SongDto } from "../song/songDto.dto";
-import { ArtistDto } from "../artist/artistDto.dto";
 import { Exclude, Expose } from "class-transformer";
 import { GenreDto } from "../genre/genreDto.dto";
+import { AutoMap } from "@automapper/classes";
+import { ArtistAsAuthor } from "../artist/ArtistAsAuthor.dto";
 
 @Exclude()
 export class AlbumDto{
-
+    @AutoMap()
     @Expose()
     id: number;
     
+    @AutoMap()
     @Expose()
     name: string;
 
+    @AutoMap()
     @Expose()
     description?: string;
 
+    @AutoMap()
     @Expose()
     coverImg?: string;
 
+    @AutoMap()
     @Expose()
     genres?: GenreDto[];
 
+    @AutoMap()
     @Expose()
     songs: SongDto[];
 
+    @AutoMap()
     @Expose()
-    artists: [
-        {
-            artist: ArtistDto,
-            isFeatured: boolean,
-        }
-    ];
+    artists: [ArtistAsAuthor];
 
+    @AutoMap()
     @Expose()
     released_at: Date;
 }

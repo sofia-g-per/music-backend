@@ -16,7 +16,7 @@ export class ArtistsToAlbumsRepository extends Repository<ArtistsToAlbums>{
         let newEntity;
         for (let artist of artists) {
             if(artist){
-                artist.album = album;
+                artist.albumId = album;
                 newEntity = await getRepository(ArtistsToAlbums).save(artist);
                 if(newEntity){
                     artistsToAlbums.push(newEntity);

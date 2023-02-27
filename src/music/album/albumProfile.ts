@@ -1,22 +1,22 @@
+import { Album } from './album.entity';
+import { CreateAlbumDto } from './createAlbum.dto';
 import { createMap } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Mapper, MappingProfile } from '@automapper/core';
-import { Song } from './song.entity';
-import { SongDto } from './songDto.dto';
-import { CreateSongDto } from './createSong.dto';
+import { AlbumDto } from './albumDto.dto';
 
 @Injectable()
-export class SongProfile extends AutomapperProfile {
+export class AlbumProfile extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
     super(mapper);
   }
   get profile(): MappingProfile {
     return (mapper) => {
       // entity -> dto
-      createMap(mapper, Song, SongDto)
+      createMap(mapper, Album, AlbumDto)
       // creating -> entity
-      createMap(mapper, CreateSongDto, Song);
+      createMap(mapper, CreateAlbumDto, Album);
     };
   }
 }

@@ -1,3 +1,4 @@
+import { ArtistAsAuthor } from './../artist/ArtistAsAuthor.dto';
 import { AutoMap } from '@automapper/classes';
 import { Exclude, Expose } from 'class-transformer';
 import { ArtistDto } from '../artist/artistDto.dto';
@@ -29,7 +30,7 @@ export class SongDto {
     
     @AutoMap()
     @Expose()
-    artists: [ArtistsToSongs];
+    artists: [ArtistAsAuthor];
 
     @AutoMap(()=>[GenreDto])
     @Expose()

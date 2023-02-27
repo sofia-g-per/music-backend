@@ -25,13 +25,14 @@ export class AlbumController {
         }),
     )
     @UsePipes(ValidationPipe)
-    async create(@Request() req, @Body() albumData: CreateAlbumDto, @UploadedFile() coverImg: Express.Multer.File) {
+    async create(@Request() req, @Body() albumData, @UploadedFile() coverImg: Express.Multer.File) {
         console.log('controller initial', albumData, coverImg);
         //Для тестировани с постманом
-        // if(albumData.songIds){
-        //     albumData.songIds = JSON.parse(albumData.songIds);
-        //     albumData.artistIds = JSON.parse(albumData.artistIds);
-        // }
+        if(albumData.songIds){
+            albumData.songIds = JSON.parse(albumData.songIds);
+            albumData.artistIds = JSON.parse(albumData.artistIds);
+        }
+
         return await this.albumService.create(req.user, albumData, coverImg);
     } 
 

@@ -1,32 +1,39 @@
 import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
-import { CreateGenreDto } from "../genre/createGenre.dto";
 import { Type } from 'class-transformer';
 import { AddExistingSongsToCollectionDto } from "../playlist/addExistingSongsToCollection.dto";
+import { AutoMap } from "@automapper/classes";
+import { AddExistingArtistDto } from "../artist/addExistingArtistDto.dto";
 
 export class CreateAlbumDto{
+    @AutoMap()
     @IsNotEmpty()
     name: string;
 
+    // @AutoMap()
     @IsNotEmpty()
-    @Type(() => AddExistingSongsToCollectionDto)
     @ValidateNested()
     songIds: AddExistingSongsToCollectionDto[];
 
-    // @IsNotEmpty()
-    // released_at: Date;
+    @AutoMap()
+    @IsNotEmpty()
+    released_at: Date;
     
+    @AutoMap()
     @IsOptional()
     description: string;
 
+    // @AutoMap()
+    // @IsOptional()
+    // artistIds: string;
+    @AutoMap()
     @IsOptional()
-    // для постмана
-    artistIds: string;
+    artistIds: AddExistingArtistDto[];
 
-    @IsOptional()
-    @Type(() => CreateGenreDto)
-    @ValidateNested()
-    genres: CreateGenreDto[];
+    // @IsOptional()
+    // @Type(() => CreateGenreDto)
+    // @ValidateNested()
+    // genres: CreateGenreDto[];
 
-    @IsOptional()
-    genreIds: number[];
+    // @IsOptional()
+    // genreIds: number[];
 }

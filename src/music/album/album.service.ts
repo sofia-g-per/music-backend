@@ -1,70 +1,78 @@
+import { ArtistsToAlbums } from './artistsToAlbums.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Album } from './album.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumsRepository } from './albums.repository';
 import { SongsToAlbumsRepository } from './songsToAlbums.repository';
-import { GenreService } from '../genre/genre.service';
-import { instanceToPlain } from 'class-transformer';
-import { SongService } from '../song/song.service';
 import { User } from 'src/users/entities/user.entity';
-import { CreateAlbumDto } from './createalbum.dto';
 import { ArtistService } from '../artist/artist.service';
 import { ArtistsToAlbumsRepository } from './artistsToAlbums.repository';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { Album } from './album.entity';
+import { CreateAlbumDto } from './createAlbum.dto';
+
 @Injectable()
 export class AlbumService {
     constructor(
+        @InjectMapper() private readonly mapper: Mapper,
         @InjectRepository(AlbumsRepository) private AlbumsRepository: AlbumsRepository,
         @InjectRepository(SongsToAlbumsRepository) private songsToAlbumsRepository: SongsToAlbumsRepository,
         @InjectRepository(ArtistsToAlbumsRepository) private artistToAlbumsRepository: ArtistsToAlbumsRepository,
-        private  genreService: GenreService,
-        private  songService: SongService,
         private  artistService: ArtistService,
 
     ) {}
 
     async create(user: User, albumData: CreateAlbumDto, coverImg:Express.Multer.File) {
-        let album = instanceToPlain(albumData);
+        const songIds = albumData.songIds;
+        const artistIds = albumData.artistIds;
+        let album = this.mapper.map(albumData, CreateAlbumDto, Album);
         //прикрепление жанров
-        let genres;
-        if(!album.genres){
-            album.genres = [];
-        }
-        genres = await this.genreService.addExistingGenres(albumData.genreIds, album);
-        if(genres){
-            album.genres = album.genres.concat(genres);
-        }
-        genres = await this.genreService.createNewGenres(albumData.genres, album);
-        if(genres){
-            album.genres = album.genres.concat(genres);
-        }
+        // let genres;
+        // if(!album.genres){
+        //     album.genres = [];
+        // }
+        // genres = await this.genreService.addExistingGenres(albumData.genreIds, album);
+        // if(genres){
+        //     album.genres = album.genres.concat(genres);
+        // }
+        // genres = await this.genreService.createNewGenres(albumData.genres, album);
+        // if(genres){
+        //     album.genres = album.genres.concat(genres);
+        // }
+
         //прикреление песен
-        album.songs = [];
-        let songs = await this.songService.addExistingSongs(albumData, album);
-        if(songs){
-            album.songs = songs;
-        }
+        // album.songs = [];
+        // let songs = await this.songService.addExistingSongs(albumData, album);
+        // if(songs){
+        //     album.songs = songs;
+        // }
         //прикреление артистов
-        album.artists = [];
-        let artists = await this.artistService.addExistingArtists(albumData, album);
-        if(artists){
-            album.artists = artists;
-        }
-        // добавление авторизированного пользователя как создателя
-        let artist = {
-            artist: user.artist,
-            isFeatured: false
-        }
-        album.artists.push(artist)
+        console.log();
+
+
         // прикрепление обложки альбома при наличии
         if(coverImg){
             album.coverImg = coverImg.filename;
         }
         // сохранение плейлиста в БД
+        console.log(album)
         const newAlbum = await this.AlbumsRepository.customSave(album);
         // сохранение связей песен и альбома 
         let songsToAlbums;
         if(newAlbum){
-            songsToAlbums = await this.songsToAlbumsRepository.saveMultipleSongs(album.songs, newAlbum);
+            songsToAlbums = await this.songsToAlbumsRepository.saveMultipleSongs(songIds, newAlbum);
+            // добавление авторизированного пользователя как создателя
+            console.log(artistIds);
+            artistIds.push({'artistId':user.artist.id, 'isFeatured':false});
+            console.log(artistIds);
+
+            // сохранение связей артистами авторами песни 
+            let artistsToSongs;
+            if(!newAlbum){
+                throw new HttpException('Произошла ошибка при добавлении артистов', HttpStatus.BAD_REQUEST);
+            }
+
+        artistsToSongs = await this.artistToAlbumsRepository.saveMultipleArtists(artistIds, newAlbum);
         }else{
             throw new HttpException(
                 {
@@ -74,14 +82,8 @@ export class AlbumService {
             );
         }
 
-        // сохранение связей артистами авторами песни 
-        let artistsToSongs;
-        if(!newAlbum){
-            throw new HttpException('Произошла ошибка в создании песни', HttpStatus.BAD_REQUEST);
-        }
 
-        artistsToSongs = await this.artistToAlbumsRepository.saveMultipleArtists(newAlbum.artists, newAlbum);
-        return newAlbum.id;
+        return newAlbum;
 
     }
 

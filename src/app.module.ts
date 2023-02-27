@@ -1,3 +1,4 @@
+import { AlbumProfile } from './music/album/albumProfile';
 import { PlaylistProfile } from './music/playlist/playlistProfile';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
@@ -80,7 +81,8 @@ import { SongProfile } from './music/song/songProfile';
     SongsToAlbumsRepository,
     UserProfile,
     SongProfile,
-    PlaylistProfile
+    PlaylistProfile, 
+    AlbumProfile
   ],
 })
 export class AppModule {}

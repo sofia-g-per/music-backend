@@ -7,6 +7,7 @@ import { Artist } from './artist.entity';
 import { ArtistsRepository } from './artist.repository';
 import { CreateArtistDto } from './createArtist.dto';
 import { GenresRepository } from '../genre/genre.repository';
+import { AddExistingArtistDto } from './addExistingArtistDto.dto';
 
 @Injectable()
 export class ArtistService {
@@ -50,14 +51,14 @@ export class ArtistService {
     // formData - объект с информацией от пользователя (ex. song)
 
     //прикрепление существующих артистов
-    async addExistingArtists(formData, targetObject){
-        if(formData.artistIds && formData.artistIds.length > 0){
-            let artists = await this.artistsRepository.addMultipleByIds(formData.artistIds);
-            return targetObject.artists.concat(artists);
-        }else{
-            return null
-        }
-    }
+    // async addExistingArtists(artistIds: AddExistingArtistDto[], targetObject){
+    //     if(artistIds && artistIds.length > 0){
+    //         let artists = await this.artistsRepository.addMultipleByIds(artistIds);
+    //         return artistIds.concat(artistIds);
+    //     }else{
+    //         return artistIds;
+    //     }
+    // }
 
     async getSongs(artistId:number){
         return await this.artistsToSongsRepository.getByArtist(artistId);
