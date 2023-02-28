@@ -62,9 +62,7 @@ export class AlbumService {
         if(newAlbum){
             songsToAlbums = await this.songsToAlbumsRepository.saveMultipleSongs(songIds, newAlbum);
             // добавление авторизированного пользователя как создателя
-            console.log(artistIds);
             artistIds.push({'artistId':user.artist.id, 'isFeatured':false});
-            console.log(artistIds);
 
             // сохранение связей артистами авторами песни 
             let artistsToSongs;

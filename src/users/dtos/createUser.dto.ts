@@ -16,10 +16,6 @@ export class CreateUserDto {
     @AutoMap()
     @IsNotEmpty()
     name: string;
-    
-    @AutoMap()
-    @IsNotEmpty()
-    surname: string;
 
     @AutoMap()
     @IsEmail()

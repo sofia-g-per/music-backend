@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, MaxDate, MinDate } from 'class-validator';
 import { CreateGenreDto } from "../genre/createGenre.dto";
 import { AddExistingArtistDto } from '../artist/addExistingArtistDto.dto';
 import { AutoMap } from '@automapper/classes';
@@ -16,6 +16,10 @@ export class CreateSongDto {
     @IsOptional()
     lyrics: string;
 
+    @AutoMap()
+    @IsOptional()
+    coverImg: string;
+
     @IsOptional()
     artistIds: AddExistingArtistDto[];
 
@@ -25,4 +29,11 @@ export class CreateSongDto {
 
     @IsOptional()
     genreIds: number[];
+
+    @AutoMap()
+    @IsOptional()
+    @IsDate()
+    @MinDate(new Date(1900, 1, 1))
+    @MaxDate(new Date())
+    releasedAt: Date;
 }

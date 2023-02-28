@@ -24,27 +24,6 @@ export class PlaylistService {
     async create(user: User, playlistData: CreatePlaylistDto, coverImg:Express.Multer.File) {
         const songIds = playlistData.songIds;
         let playlist = this.mapper.map(playlistData, CreatePlaylistDto, Playlist);
-        playlist.isPublic = Boolean(playlist.isPublic);
-        //прикрепление жанров
-        // let genres;
-        // if(!playlist.genres){
-        //     playlist.genres = [];
-        // }
-        // genres = await this.genreService.addExistingGenres(playlistData.genreIds, playlist);
-        // if(genres){
-        //     playlist.genres.push(genres);
-        // }
-        // genres = await this.genreService.createNewGenres(playlistData.genres, playlist);
-        // if(genres){
-        //     playlist.genres.push(genres);
-        // }
-
-        //прикреление песен
-        // playlist.songs = [];
-        // let songs = await this.songService.addExistingSongs(playlistData, playlist);
-        // if(songs){
-        //     playlist.songs = songs;
-        // }
 
         // прикрепление обложки плейлиста при наличии
         if(coverImg){

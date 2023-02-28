@@ -1,13 +1,10 @@
-/* eslint-disable prettier/prettier */
-import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
+import { FavoriteSong } from '../../music/favourites/favoriteSong.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
 import { UserRole } from "./userRole.entity";
 import { Artist } from "../../music/artist/artist.entity";
 import { Playlist } from "../../music/playlist/playlist.entity";
-import { UsersToSongs } from "../../music/favourites/usersToSongs.entity";
-import { UsersToAlbums } from "../../music/favourites/usersToAlbums.entity";
-import { UsersToPlaylists } from "../../music/favourites/usersToPlaylists.entity";
 import { AutoMap } from "@automapper/classes";
+import { ListenedSong } from "src/music/favourites/listenedSong.entity";
 
 @Entity()
 export class User {
@@ -24,10 +21,6 @@ export class User {
     name: string;
 
     @AutoMap()
-    @Column()
-    surname: string;
-
-    @AutoMap()
     @Column({ 
         nullable: true,
         default: null,
@@ -42,9 +35,9 @@ export class User {
     @Column()
     password: string;
 
-    @AutoMap()
-    @CreateDateColumn()
-    created_at?: Date;
+    // @AutoMap()
+    // @CreateDateColumn()
+    // created_at?: Date;
 
     //------------------ 
     //      СВЯЗИ
@@ -70,16 +63,22 @@ export class User {
     playlists: Playlist[];
 
     //Избранные песни
-    @OneToMany(() => UsersToSongs, usersToSongs => usersToSongs.user,{
+    @OneToMany(() => FavoriteSong, favoriteSongs => favoriteSongs.user,{
         eager: true
     })
-    public favoriteSongs: UsersToSongs[];
+    public favoriteSongs: FavoriteSong[];
 
-    //Избранные альбомы
-    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
-    public favoriteAlbums: UsersToAlbums[];
+    //Избранные песни
+    @OneToMany(() => ListenedSong, listenedSong => listenedSong.user,{
+        eager: true
+    })
+    public listenedSongs: ListenedSong[];
 
-    //Избранные плейлисты
-    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.user)
-    public favoritePlaylists: UsersToPlaylists[];
+    // //Избранные альбомы
+    // @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
+    // public favoriteAlbums: UsersToAlbums[];
+
+    // //Избранные плейлисты
+    // @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.user)
+    // public favoritePlaylists: UsersToPlaylists[];
 }

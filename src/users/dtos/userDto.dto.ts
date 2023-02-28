@@ -18,10 +18,6 @@ export class UserDto {
     @AutoMap()
     @Expose()
     name: string;
-    
-    @AutoMap()
-    @Expose()
-    surname: string;
 
     @AutoMap()
     @Expose()

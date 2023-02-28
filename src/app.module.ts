@@ -1,3 +1,7 @@
+import { ListenedSongsRepository } from './music/favourites/listenedSongs.repository';
+import { ListenedSong } from './music/favourites/listenedSong.entity';
+import { FavoriteSongsRepository } from './music/favourites/favoriteSongs.repository';
+import { FavoriteSong } from './music/favourites/favoriteSong.entity';
 import { AlbumProfile } from './music/album/albumProfile';
 import { PlaylistProfile } from './music/playlist/playlistProfile';
 import { Module } from '@nestjs/common';
@@ -79,6 +83,10 @@ import { SongProfile } from './music/song/songProfile';
     AlbumsRepository,
     SongsToAlbums,
     SongsToAlbumsRepository,
+    FavoriteSong,
+    FavoriteSongsRepository,
+    ListenedSong,
+    ListenedSongsRepository,
     UserProfile,
     SongProfile,
     PlaylistProfile, 

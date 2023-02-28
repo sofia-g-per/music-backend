@@ -18,7 +18,7 @@ export class SongDto {
 
     @AutoMap()
     @Expose()
-    released_at: Date;
+    releaseDate: Date;
 
     @AutoMap()
     @Expose()

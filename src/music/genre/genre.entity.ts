@@ -21,9 +21,9 @@ export class Genre {
     @ManyToMany(() => Song)
     songs: Song[];
 
-    @ManyToMany(() => Album)
-    albums: Album[];
+    // @ManyToMany(() => Album)
+    // albums: Album[];
 
-    @ManyToMany(() => Artist, artist => artist.genres)
-    artists: Artist[];
+    // @ManyToMany(() => Artist, artist => artist.genres)
+    // artists: Artist[];
 }

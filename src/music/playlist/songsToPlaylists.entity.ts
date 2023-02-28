@@ -17,9 +17,6 @@ export class SongsToPlaylists {
     @Column()
     public songIndex!: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
     @ManyToOne(() => Playlist, playlist => playlist.songs, {
         onDelete: 'CASCADE'
     })

@@ -10,10 +10,6 @@ export class UserRole {
 
   @AutoMap()
   @Column()
-  name: string;
-
-  @AutoMap()
-  @Column()
   label: string;
 
   @AutoMap(() => User)

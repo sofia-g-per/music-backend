@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 import { AddSongstoFavouritesDto } from './addSongsToFavouritesDto.dto';
+import { FavoriteSong } from './favoriteSong.entity';
 import { FavouritesService } from './favourites.service';
-import { UsersToSongs } from './usersToSongs.entity';
 
 @Controller('api')
 export class FavouritesController {
@@ -16,7 +16,7 @@ export class FavouritesController {
 
     @UseGuards(LoggedInGuard)
     @Post('/like-song')
-    async create(@Body() songData: AddSongstoFavouritesDto, @Request() req): Promise<UsersToSongs | undefined> {
+    async create(@Body() songData: AddSongstoFavouritesDto, @Request() req): Promise<FavoriteSong | undefined> {
         return await this.favouritesService.create(songData, req.user);
     } 
 

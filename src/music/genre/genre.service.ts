@@ -60,13 +60,13 @@ export class GenreService {
             return targetObject.genres.concat(genres);
         }
     }
-    async addArtist(genre: Genre, artist: Artist) {
-        if(!genre.artists){
-            genre.artists = [];
-        }
-        genre.artists.push(artist);
-        this.genresRepository.save(genre);
-    }
+    // async addArtist(genre: Genre, artist: Artist) {
+    //     if(!genre.artists){
+    //         genre.artists = [];
+    //     }
+    //     genre.artists.push(artist);
+    //     this.genresRepository.save(genre);
+    // }
 
     
 }

@@ -15,8 +15,8 @@ export class SongsToAlbums {
     @Column()
     public songId!: number;
 
-    @CreateDateColumn()
-    created_at: Date;
+    @Column()
+    public songIndex!: number;
 
     @ManyToOne(() => Album, album => album.songs, {onDelete: 'CASCADE'})
     public album!: Album;

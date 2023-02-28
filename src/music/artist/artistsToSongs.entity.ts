@@ -33,6 +33,8 @@ export class ArtistsToSongs {
     public artist!: Artist;
 
     //Связь с песнями
-    @ManyToOne(() => Song, song => song.artists, {onDelete: 'CASCADE'})
+    @ManyToOne(() => Song, song => song.artists, {
+        onDelete: 'CASCADE'
+    })
     public song!: Song;
 }

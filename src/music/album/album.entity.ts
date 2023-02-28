@@ -1,10 +1,7 @@
 import { AutoMap } from '@automapper/classes';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { Genre } from "../genre/genre.entity";
-import { Artist } from "../artist/artist.entity";
-import { UsersToAlbums } from "../favourites/usersToAlbums.entity";
 import { SongsToAlbums } from "./songsToAlbums.entity";
-import { ArtistsToSongs } from "../artist/artistsToSongs.entity";
 import { ArtistsToAlbums } from "./artistsToAlbums.entity";
 
 @Entity()
@@ -33,7 +30,7 @@ export class Album {
 
     @AutoMap()
     @Column({nullable: true, type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    released_at: Date;
+    releaseDate: Date;
 
     //------------------ 
     //      СВЯЗИ
@@ -64,8 +61,6 @@ export class Album {
     public songs!: SongsToAlbums[];
 
     //Пользователи, добавившие альбом в избранные
-    @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
-    public listeners!: UsersToAlbums[];
-
-
+    // @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
+    // public listeners!: UsersToAlbums[];
 }

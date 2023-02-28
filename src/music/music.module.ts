@@ -1,3 +1,4 @@
+import { ListenedSong } from './favourites/listenedSong.entity';
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
@@ -15,8 +16,6 @@ import { ArtistsToSongs } from './artist/artistsToSongs.entity';
 import { ArtistsToSongsRepository } from './artist/artistsToSongs.repository';
 import { FavouritesController } from './favourites/favourites.controller';
 import { FavouritesService } from './favourites/favourites.service';
-import { UsersToSongs } from './favourites/usersToSongs.entity';
-import { UsersToSongsRepository } from './favourites/usersToSongs.repository';
 import { GenreController } from './genre/genre.controller';
 import { Genre } from './genre/genre.entity';
 import { GenresRepository } from './genre/genre.repository';
@@ -32,6 +31,8 @@ import { SongsRepository } from './song/song.repository';
 import { SongService } from './song/song.service';
 import { ArtistsToAlbums } from './album/artistsToAlbums.entity';
 import { ArtistsToAlbumsRepository } from './album/artistsToAlbums.repository';
+import { FavoriteSong } from './favourites/favoriteSong.entity';
+import { ListenedSongsRepository } from './favourites/listenedSongs.repository';
 
 @Module({
   controllers: [
@@ -66,10 +67,12 @@ import { ArtistsToAlbumsRepository } from './album/artistsToAlbums.repository';
     AlbumsRepository,
     SongsToAlbums,
     SongsToAlbumsRepository,
-    UsersToSongs,
-    UsersToSongsRepository,
+    ArtistsToSongsRepository,
+    FavoriteSong,
     ArtistsToAlbums,
-    ArtistsToAlbumsRepository
+    ArtistsToAlbumsRepository,
+    ListenedSong,
+    ListenedSongsRepository
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

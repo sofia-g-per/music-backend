@@ -1,15 +1,15 @@
 import { EntityRepository, Repository, getRepository, Brackets } from "typeorm";
-import { UsersToSongs } from "./usersToSongs.entity";
+import { FavoriteSong } from "./favoriteSong.entity";
 import { getConnection } from "typeorm";
-@EntityRepository(UsersToSongs)
-export class UsersToSongsRepository extends Repository<UsersToSongs>{
+@EntityRepository(FavoriteSong)
+export class FavoriteSongsRepository extends Repository<FavoriteSong>{
     
-    async findById(id: number): Promise<UsersToSongs>{
-        return await getRepository(UsersToSongs).findOne({where: { id: id }});
+    async findById(id: number): Promise<FavoriteSong>{
+        return await getRepository(FavoriteSong).findOne({where: { id: id }});
     }
 
-    async findByUser(id: number): Promise<UsersToSongs[]>{
-        return await getRepository(UsersToSongs).find({
+    async findByUser(id: number): Promise<FavoriteSong[]>{
+        return await getRepository(FavoriteSong).find({
             where: { userId: id },
             relations: ['song', 'song.artists']
         });
@@ -17,7 +17,7 @@ export class UsersToSongsRepository extends Repository<UsersToSongs>{
 
     // async customDelete(songId, userId){
     //     console.log('repository', songId, userId)
-    //     // return await getRepository(UsersToSongs).delete({songId: songId, userId: userId });
+    //     // return await getRepository(FavoriteSong).delete({songId: songId, userId: userId });
     //     return await getConnection()
     //     .createQueryBuilder()
     //     .delete()
@@ -29,11 +29,11 @@ export class UsersToSongsRepository extends Repository<UsersToSongs>{
 
     async findByQuery(userId: number, query: string){
 
-        return await getRepository(UsersToSongs)
-        .createQueryBuilder("UsersToSongs")
+        return await getRepository(FavoriteSong)
+        .createQueryBuilder("FavoriteSong")
         .select()
-        .where("UsersToSongs.userId = :id", { id: userId })
-        .leftJoinAndSelect('UsersToSongs.song', 'song')
+        .where("FavoriteSong.userId = :id", { id: userId })
+        .leftJoinAndSelect('FavoriteSong.song', 'song')
         .leftJoinAndSelect('song.artists', 'artists')
         .leftJoinAndSelect('artists.artist', 'artist')
         .andWhere(new Brackets(qb => {

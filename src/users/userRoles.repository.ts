@@ -8,7 +8,7 @@ export class UserRolesRepository extends Repository<UserRole>{
         return getRepository(UserRole).findOne({ id: id });
     }
 
-    async findByName(name: string){
-        return getRepository(UserRole).findOne({ name: name });
+    async findByName(label: string){
+        return getRepository(UserRole).findOne({ label: label });
     }
 }

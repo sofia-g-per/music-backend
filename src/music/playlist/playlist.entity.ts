@@ -3,7 +3,6 @@ import { RouterModule } from "@nestjs/core";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { SongsToPlaylists } from "./songsToPlaylists.entity";
-import { UsersToPlaylists } from "../favourites/usersToPlaylists.entity";
 
 @Entity()
 export class Playlist {
@@ -30,12 +29,14 @@ export class Playlist {
     coverImg: string;
 
     @AutoMap()
-    @Column()
-    isPublic: boolean;
-
-    @AutoMap()
     @CreateDateColumn()
-    created_at: Date;
+    creationDate: Date;
+
+    // @AutoMap()
+    // @Column()
+    // isPublic: boolean;    // @AutoMap()
+    // @Column()
+    // isPublic: boolean;
 
     //------------------ 
     //      СВЯЗИ
@@ -58,6 +59,6 @@ export class Playlist {
     public songs: SongsToPlaylists[];
 
     //Пользователи, добавившие плейлист в избранное
-    @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
-    public listeners: UsersToPlaylists[];
+    // @OneToMany(() => UsersToPlaylists, usersToPlaylists => usersToPlaylists.playlist)
+    // public listeners: UsersToPlaylists[];
 }

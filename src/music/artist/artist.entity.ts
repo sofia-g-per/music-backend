@@ -21,28 +21,18 @@ export class Artist {
     })
     description: string;
 
-    @CreateDateColumn()
-    created_at: Date;
+    // @CreateDateColumn()
+    // created_at: Date;
 
     //------------------ 
     //      СВЯЗИ
     //------------------ 
 
     // Связь с аккаунтом самого артиста на платформе 
-    // (если он на ней зарегистрирован)
-    @Column()
-    userId: number;
-    
+    // (если он на ней зарегистрирован)    
     @OneToOne(() => User, user => user.artist)
     @JoinColumn()
     user: User;
-
-    // Связь с жанрами
-    @ManyToMany(() => Genre, genre => genre.artists, {
-        eager: true,
-    })
-    @JoinTable()
-    genres: Genre[];
 
     // Связь с альбомами
     @OneToMany(() => ArtistsToAlbums, artistsToAlbums=> artistsToAlbums.album)
@@ -50,5 +40,12 @@ export class Artist {
 
     // Связь с песнями
     @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song)
-    public songs!: ArtistsToSongs[];
+    public songs: ArtistsToSongs[];
+
+    // Связь с жанрами
+    // @ManyToMany(() => Genre, genre => genre.artists, {
+    //     eager: true,
+    // })
+    // @JoinTable()
+    // genres: Genre[];
 }
