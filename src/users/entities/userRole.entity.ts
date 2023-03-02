@@ -9,7 +9,7 @@ export class UserRole {
   id: number;
 
   @AutoMap()
-  @Column()
+  @Column({length: 35})
   label: string;
 
   @AutoMap(() => User)

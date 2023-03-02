@@ -9,12 +9,13 @@ export class Genre {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({length: 70})
     name: string;
 
     @Column({ 
         nullable: true,
         default: null,
+        length: 125
     })
     description: string;
 

@@ -12,12 +12,13 @@ export class Artist {
     id: number;
 
     @Index({ fulltext: true })
-    @Column()
+    @Column({length: 70})
     stagename: string;
 
     @Column({
         nullable: true,
-        default: null
+        default: null,
+        length: 125
     })
     description: string;
 

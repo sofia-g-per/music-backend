@@ -11,13 +11,14 @@ export class Playlist {
     id: number;
 
     @AutoMap()
-    @Column()
+    @Column({length: 70})
     name: string;
 
     @AutoMap()
     @Column({ 
         nullable: true,
         default: null,
+        length: 125
     })
     description: string;
 
@@ -25,11 +26,12 @@ export class Playlist {
     @Column({ 
         nullable: true,
         default: null,
+        length:  225
     })
     coverImg: string;
 
     @AutoMap()
-    @CreateDateColumn()
+    @CreateDateColumn({type:"timestamp"})
     creationDate: Date;
 
     // @AutoMap()
@@ -42,10 +44,11 @@ export class Playlist {
     //      СВЯЗИ
     //------------------ 
 
-    //Связь для избранного пользователей
+    //Связь для создателя плейлиста
     @AutoMap()
     @ManyToOne(() => User, user=> user.playlists, {
         eager: true,
+        nullable: false
     })
     creator: User;
 

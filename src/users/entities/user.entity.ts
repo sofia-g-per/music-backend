@@ -13,26 +13,27 @@ export class User {
     id: number;
 
     @AutoMap()
-    @Column()
+    @Column({length: 35})
     username: string;
 
     @AutoMap()
-    @Column()
-    name: string;
+    @Column({length: 35})
+    firstName: string;
 
     @AutoMap()
     @Column({ 
         nullable: true,
         default: null,
+        length: 255
     })
     avatar: string;
 
     @AutoMap()
-    @Column()
+    @Column({length: 125})
     email: string;
 
     @AutoMap()
-    @Column()
+    @Column({length: 255})
     password: string;
 
     // @AutoMap()
@@ -46,7 +47,8 @@ export class User {
     //Связь с ролью
     @AutoMap(() => UserRole)
     @ManyToOne(() => UserRole, userRole => userRole.users, {
-        eager: true
+        eager: true,
+        nullable: false
     })
     role: UserRole;
     
@@ -68,7 +70,7 @@ export class User {
     })
     public favoriteSongs: FavoriteSong[];
 
-    //Избранные песни
+    //Прослушанные песни
     @OneToMany(() => ListenedSong, listenedSong => listenedSong.user,{
         eager: true
     })

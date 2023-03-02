@@ -11,13 +11,14 @@ export class Album {
     id: number;
 
     @AutoMap()
-    @Column()
+    @Column({length: 70})
     name: string;
 
     @AutoMap()
     @Column({ 
         nullable: true,
         default: null,
+        length: 125
     })
     description: string;
 
@@ -25,11 +26,15 @@ export class Album {
     @Column({ 
         nullable: true,
         default: null,
+        length: 225
     })
     coverImg: string;
 
     @AutoMap()
-    @Column({nullable: true, type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
+    @Column({
+        nullable: true, 
+        type: "timestamp", 
+        default: () => "CURRENT_TIMESTAMP"})
     releaseDate: Date;
 
     //------------------ 
