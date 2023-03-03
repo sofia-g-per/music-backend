@@ -8,7 +8,7 @@ import { ArtistsToSongs } from '../artist/artistsToSongs.entity';
 import { FavoriteSong } from '../favourites/favoriteSong.entity';
 
 @Entity("songs")
-@Check(`"releaseDate" < CURRENT_TIMESTAMP AND "releaseDate" > make_date(1900, 1, 1)`)
+@Check(`"release_date" < CURRENT_TIMESTAMP AND "release_date" > make_date(1900, 1, 1)`)
 export class Song {
     @AutoMap()
     @PrimaryGeneratedColumn()

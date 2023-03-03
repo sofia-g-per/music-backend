@@ -1,11 +1,10 @@
 import { AutoMap } from '@automapper/classes';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany, Check } from "typeorm";
-import { Genre } from "../genre/genre.entity";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, Check } from "typeorm";
 import { SongsToAlbums } from "./songsToAlbums.entity";
 import { ArtistsToAlbums } from "./artistsToAlbums.entity";
 
 @Entity("albums")
-@Check(`"releaseDate" < CURRENT_TIMESTAMP AND "releaseDate" > make_date(1900, 1, 1)`)
+@Check(`"release_date" < CURRENT_TIMESTAMP AND "release_date" > make_date(1900, 1, 1)`)
 export class Album {
     @AutoMap()
     @PrimaryGeneratedColumn()

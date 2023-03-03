@@ -40,9 +40,27 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { UserProfile } from './users/mappers/UserProfile';
 import { SongProfile } from './music/song/songProfile';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      "type" : "postgres",
+      "host" : "localhost",
+      "port" : 5433,
+      "username" : "postgres",
+      "password" : "123",
+      "database" : "music",
+      "autoLoadEntities": true,
+      "entities": ["dist/**/*.entity.{js,ts}"],
+      "synchronize": true,
+      "migrations": ["src/migration/**/*.{ts, .js}"],
+      "cli": {
+          "entitiesDir": "src/entity",
+          "migrationsDir": "src/migration",
+          "subscribersDir": "src/subscriber"
+       },
+       "namingStrategy": new SnakeNamingStrategy
+  }),
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
