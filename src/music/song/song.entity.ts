@@ -7,7 +7,7 @@ import { AutoMap } from "@automapper/classes";
 import { ArtistsToSongs } from '../artist/artistsToSongs.entity';
 import { FavoriteSong } from '../favourites/favoriteSong.entity';
 
-@Entity()
+@Entity("songs")
 @Check(`"releaseDate" < CURRENT_TIMESTAMP AND "releaseDate" > make_date(1900, 1, 1)`)
 export class Song {
     @AutoMap()
@@ -55,7 +55,7 @@ export class Song {
     //Жанры песни
     @AutoMap(()=>[Genre])
     @ManyToMany(() => Genre, {onDelete: 'CASCADE', cascade: true, eager:true})
-    @JoinTable()
+    @JoinTable({name: "songs_to_genres"})
     genres: Genre[];
 
     //авторы песни (связь с артистами)

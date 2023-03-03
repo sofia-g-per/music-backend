@@ -6,7 +6,7 @@ import { Playlist } from "../../music/playlist/playlist.entity";
 import { AutoMap } from "@automapper/classes";
 import { ListenedSong } from "src/music/favourites/listenedSong.entity";
 
-@Entity()
+@Entity("users")
 export class User {
     @AutoMap()
     @PrimaryGeneratedColumn()

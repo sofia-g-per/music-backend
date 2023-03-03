@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } f
 import { User } from "../../users/entities/user.entity";
 import { Song } from "../song/song.entity";
 
-@Entity()
+@Entity("favorite_songs")
 export class FavoriteSong {
     @PrimaryGeneratedColumn()
     public id!: number;
@@ -13,7 +13,7 @@ export class FavoriteSong {
     @Column()
     public songId!: number;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'timestamp'})
     addDate!: Date;
 
     @ManyToOne(() => User, user => user.favoriteSongs, {onDelete: 'CASCADE'})

@@ -1,7 +1,5 @@
-import { LoggedInGuard } from './../../users/guards/loggedIn.guard';
 import { Controller, Get, Post, Body, UseGuards, Query, Request, UseInterceptors, ValidationPipe, UsePipes, UploadedFile, UploadedFiles, Param } from '@nestjs/common';
 import { SongService } from './song.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateSongDto } from './createSong.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';

@@ -1,10 +1,11 @@
 import { AutoMap } from '@automapper/classes';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany, Check } from "typeorm";
 import { Genre } from "../genre/genre.entity";
 import { SongsToAlbums } from "./songsToAlbums.entity";
 import { ArtistsToAlbums } from "./artistsToAlbums.entity";
 
-@Entity()
+@Entity("albums")
+@Check(`"releaseDate" < CURRENT_TIMESTAMP AND "releaseDate" > make_date(1900, 1, 1)`)
 export class Album {
     @AutoMap()
     @PrimaryGeneratedColumn()
@@ -41,14 +42,6 @@ export class Album {
     //      СВЯЗИ
     //------------------ 
 
-    //Связь с жанрами
-    @AutoMap()
-    @ManyToMany(() => Genre, {
-        eager: true,
-    })
-    @JoinTable()
-    genres: Genre[];
-
     @AutoMap()
     //Связь с артистами, (авторы альбома)
     @OneToMany(() => ArtistsToAlbums, artistsToAlbums => artistsToAlbums.album, {
@@ -68,4 +61,12 @@ export class Album {
     //Пользователи, добавившие альбом в избранные
     // @OneToMany(() => UsersToAlbums, usersToAlbums => usersToAlbums.user)
     // public listeners!: UsersToAlbums[];
+
+    // //Связь с жанрами
+    // @AutoMap()
+    // @ManyToMany(() => Genre, {
+    //     eager: true,
+    // })
+    // @JoinTable()
+    // genres: Genre[];
 }

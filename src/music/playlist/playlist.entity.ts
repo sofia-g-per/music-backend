@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, On
 import { User } from "../../users/entities/user.entity";
 import { SongsToPlaylists } from "./songsToPlaylists.entity";
 
-@Entity()
+@Entity("playlists")
 export class Playlist {
     @AutoMap()
     @PrimaryGeneratedColumn()

@@ -1,10 +1,8 @@
-import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 import { Song } from "../song/song.entity";
-import { Album } from "../album/album.entity";
-import { Artist } from "../artist/artist.entity";
 
-@Entity()
+
+@Entity("genres")
 export class Genre {
     @PrimaryGeneratedColumn()
     id: number;

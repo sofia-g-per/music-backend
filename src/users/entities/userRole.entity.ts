@@ -2,7 +2,7 @@ import { AutoMap } from '@automapper/classes';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity()
+@Entity("user_roles")
 export class UserRole {
   @AutoMap()
   @PrimaryGeneratedColumn()
