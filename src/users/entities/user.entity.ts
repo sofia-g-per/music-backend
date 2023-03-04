@@ -5,12 +5,11 @@ import { Artist } from "../../music/artist/artist.entity";
 import { Playlist } from "../../music/playlist/playlist.entity";
 import { AutoMap } from "@automapper/classes";
 import { ListenedSong } from "src/music/favourites/listenedSong.entity";
-import { Factory } from 'nestjs-seeder';
 
 @Entity("users")
 @Unique(["username"])
 @Unique(["email"])
-@Check("`'id' > 0 AND 'id' < 5000`")
+@Check(`"id" > 0 AND "id" < 5000`)
 export class User {
     @AutoMap()
     @PrimaryGeneratedColumn()

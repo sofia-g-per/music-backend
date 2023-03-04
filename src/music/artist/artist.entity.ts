@@ -1,9 +1,10 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Index, JoinColumn, OneToMany} from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Index, JoinColumn, OneToMany, Check} from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { ArtistsToSongs } from "./artistsToSongs.entity";
 import { ArtistsToAlbums } from "../album/artistsToAlbums.entity";
 
 @Entity("artists")
+@Check(`"id" > 0 AND "id" < 10000`)
 export class Artist {
     @PrimaryGeneratedColumn()
     id: number;

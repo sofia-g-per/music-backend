@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Check } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { Song } from "../song/song.entity";
 
 @Entity("song_listen_history")
+@Check(`"id" > 0 AND "id" < 999999`)
 export class ListenedSong {
     @PrimaryGeneratedColumn()
     public id!: number;

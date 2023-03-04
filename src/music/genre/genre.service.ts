@@ -5,8 +5,6 @@ import { GenresRepository } from './genre.repository';
 import { Genre } from './genre.entity';
 import { instanceToPlain } from 'class-transformer';
 import { ArtistsRepository } from '../artist/artist.repository';
-import { Artist } from '../artist/artist.entity';
-
 
 @Injectable()
 export class GenreService {

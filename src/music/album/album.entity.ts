@@ -5,6 +5,7 @@ import { ArtistsToAlbums } from "./artistsToAlbums.entity";
 
 @Entity("albums")
 @Check(`"release_date" < CURRENT_TIMESTAMP AND "release_date" > make_date(1900, 1, 1)`)
+@Check(`"id" > 0 AND "id" < 9999`)
 export class Album {
     @AutoMap()
     @PrimaryGeneratedColumn()

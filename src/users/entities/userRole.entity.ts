@@ -1,8 +1,9 @@
 import { AutoMap } from '@automapper/classes';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity("user_roles")
+@Check(`"id" > 0 AND "id" < 100`)
 export class UserRole {
   @AutoMap()
   @PrimaryGeneratedColumn()

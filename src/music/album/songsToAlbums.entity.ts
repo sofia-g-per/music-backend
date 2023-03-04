@@ -1,9 +1,9 @@
-import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Check } from "typeorm";
 import { Song } from "../song/song.entity";
 import { Album } from "./album.entity";
 
 @Entity()
+@Check(`"id" > 0 AND "id" < 99999`)
 export class SongsToAlbums {
 
     @PrimaryGeneratedColumn()

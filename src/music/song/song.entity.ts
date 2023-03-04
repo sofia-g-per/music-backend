@@ -9,6 +9,7 @@ import { FavoriteSong } from '../favourites/favoriteSong.entity';
 
 @Entity("songs")
 @Check(`"release_date" < CURRENT_TIMESTAMP AND "release_date" > make_date(1900, 1, 1)`)
+@Check(`"id" > 0 AND "id" < 100000`)
 export class Song {
     @AutoMap()
     @PrimaryGeneratedColumn()
@@ -55,6 +56,7 @@ export class Song {
     //Жанры песни
     @AutoMap(()=>[Genre])
     @ManyToMany(() => Genre, {onDelete: 'CASCADE', cascade: true, eager:true})
+    @Check(`"id" > 0 AND "id" < 9999`)
     @JoinTable({name: "songs_to_genres"})
     genres: Genre[];
 

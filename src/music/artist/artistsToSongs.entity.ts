@@ -1,10 +1,10 @@
-import { RouterModule } from "@nestjs/core";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Check } from "typeorm";
 import { Artist } from "./artist.entity";
 import { Song } from "../song/song.entity";
 import { AutoMap } from "@automapper/classes";
 
 @Entity()
+@Check(`"id" > 0 AND "id" < 999999`)
 export class ArtistsToSongs {
     @PrimaryGeneratedColumn()
     public id: number;

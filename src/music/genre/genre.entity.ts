@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, Check } from "typeorm";
 import { Song } from "../song/song.entity";
 
-
 @Entity("genres")
+@Check(`"id" > 0 AND "id" < 999`)
 export class Genre {
     @PrimaryGeneratedColumn()
     id: number;
