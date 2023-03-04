@@ -18,7 +18,8 @@ export class IsUserEmailUnique implements ValidatorConstraintInterface {
       }
 
     } catch (e) {
-      return false;
+      // fix
+      console.log(e);
     }
   }
 
