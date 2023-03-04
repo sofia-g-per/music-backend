@@ -7,10 +7,12 @@ import { User } from "src/users/entities/user.entity";
 export class CreateArtistDto {
     @AutoMap()
     @IsNotEmpty()
+    @AutoMap()
     stagename: string;
 
     @AutoMap()
     @IsOptional()
+    @AutoMap()
     description: string;
 
     @AutoMap()
@@ -26,10 +28,10 @@ export class CreateArtistDto {
     genres: CreateGenreDto[];
 
     // fix !! убрать добавить маппер
-    @AutoMap(() => User)
-    @IsOptional()
-    @Type(() => User)
-    @ValidateNested()
-    user: User;
+    // @AutoMap(() => User)
+    // @IsOptional()
+    // @Type(() => User)
+    // @ValidateNested()
+    // user: User;
 
 }

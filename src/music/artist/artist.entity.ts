@@ -1,3 +1,4 @@
+import { AutoMap } from '@automapper/classes';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Index, JoinColumn, OneToMany, Check} from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { ArtistsToSongs } from "./artistsToSongs.entity";
@@ -9,8 +10,10 @@ export class Artist {
     @PrimaryGeneratedColumn()
     id: number;
 
+
     @Index({ fulltext: true })
     @Column({length: 70})
+    @AutoMap()
     stagename: string;
 
     @Column({
@@ -18,6 +21,7 @@ export class Artist {
         default: null,
         length: 125
     })
+    @AutoMap()
     description: string;
 
     // @CreateDateColumn()

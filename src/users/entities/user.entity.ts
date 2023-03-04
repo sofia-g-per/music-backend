@@ -60,7 +60,8 @@ export class User {
     // (если пользователь является артистом)
     @AutoMap(() => Artist)
     @OneToOne(() => Artist, artist => artist.user, {
-        eager: true
+        eager: true,
+        cascade: ['insert', 'update']
     })
     artist: Artist;
 

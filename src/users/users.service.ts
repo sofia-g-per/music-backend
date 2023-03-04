@@ -48,22 +48,23 @@ export class UsersService {
     if (avatar) {
       newUser.avatar = avatar.filename;
     }
+    console.log(newUser);
 
     //Сохранение пользователя в БД
     const user = await this.usersRepository.customSave(newUser);
-    //Создание записи артиста при выборе соответствующей роли
-    if (userRole && userRole.name === 'artist') {
-      userData.artist.user = user;
-      const artist = await this.artistService.create(userData.artist);
-      if (artist! instanceof Artist) {
-        throw new HttpException(
-          'Произошла ошибка в создании артиста',
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        return artist;
-      }
-    }
+    // //Создание записи артиста при выборе соответствующей роли
+    // if (userRole && userRole.name === 'artist') {
+    //   userData.artist.user = user;
+    //   const artist = await this.artistService.create(userData.artist);
+    //   if (artist! instanceof Artist) {
+    //     throw new HttpException(
+    //       'Произошла ошибка в создании артиста',
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //   } else {
+    //     return artist;
+    //   }
+    // }
 
     return user;
   }
