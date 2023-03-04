@@ -4,7 +4,7 @@ import { Song } from "../song/song.entity";
 
 @Entity("favorite_songs")
 @Check(`"id" > 0 AND "id" < 99999`)
-@Check(`"addDate" = CURRENT_TIMESTAMP`)
+@Check(`"add_date" = CURRENT_TIMESTAMP`)
 export class FavoriteSong {
     @PrimaryGeneratedColumn()
     public id!: number;
