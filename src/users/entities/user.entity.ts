@@ -1,16 +1,21 @@
 import { FavoriteSong } from '../../music/favourites/favoriteSong.entity';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, OneToMany, Unique, Check } from "typeorm";
 import { UserRole } from "./userRole.entity";
 import { Artist } from "../../music/artist/artist.entity";
 import { Playlist } from "../../music/playlist/playlist.entity";
 import { AutoMap } from "@automapper/classes";
 import { ListenedSong } from "src/music/favourites/listenedSong.entity";
+import { Factory } from 'nestjs-seeder';
 
 @Entity("users")
+@Unique(["username"])
+@Unique(["email"])
+@Check("`'id' > 0 AND 'id' < 5000`")
 export class User {
     @AutoMap()
     @PrimaryGeneratedColumn()
     id: number;
+
 
     @AutoMap()
     @Column({length: 35})
@@ -18,7 +23,7 @@ export class User {
 
     @AutoMap()
     @Column({length: 35})
-    firstName: string;
+    name: string;
 
     @AutoMap()
     @Column({ 

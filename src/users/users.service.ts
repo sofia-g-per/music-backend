@@ -29,7 +29,6 @@ export class UsersService {
     avatar,
   ): Promise<User | Artist | undefined> {
     const newUser:User = this.mapper.map(userData, CreateUserDto, User);
-    console.log();
 
     //шифрование пароля
     const salt = 10;
@@ -38,15 +37,12 @@ export class UsersService {
 
     //добавление роли пользователя
     let userRole: UserRole;
-    console.log(userData.roleName);
     if (userData.roleName) {
       userRole = await this.userRolesRepository.findByName(userData.roleName);
     } else {
       userRole = await this.userRolesRepository.findByName('listener');
     }
     newUser.role = userRole;
-    console.log(userRole);
-    console.log(newUser.role);
 
     //добавления аватара (изображения) при наличии
     if (avatar) {
