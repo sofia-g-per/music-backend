@@ -48,7 +48,7 @@ export class UsersController {
         req.login(updatedUser, async(error) => {
             if (error) {
               let res = {
-                err: 'Sorry, there was an error updating your account.'
+                err: 'простите, во время обновления информации произошла ошибка.'
               };
               return;
             }

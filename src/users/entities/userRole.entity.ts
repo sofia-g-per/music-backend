@@ -11,7 +11,7 @@ export class UserRole {
 
   @AutoMap()
   @Column({length: 35})
-  label: string;
+  name: string;
 
   @AutoMap(() => User)
   @OneToMany(() => User, (user) => user.role)

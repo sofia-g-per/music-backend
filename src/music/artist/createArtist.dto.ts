@@ -25,6 +25,7 @@ export class CreateArtistDto {
     @ValidateNested()
     genres: CreateGenreDto[];
 
+    // fix !! убрать добавить маппер
     @AutoMap(() => User)
     @IsOptional()
     @Type(() => User)

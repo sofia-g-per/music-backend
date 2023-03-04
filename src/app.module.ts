@@ -41,6 +41,7 @@ import { classes } from '@automapper/classes';
 import { UserProfile } from './users/mappers/UserProfile';
 import { SongProfile } from './music/song/songProfile';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { ArtistProfile } from './music/artist/artistProfile';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -108,7 +109,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     UserProfile,
     SongProfile,
     PlaylistProfile, 
-    AlbumProfile
+    AlbumProfile,
+    ArtistProfile
   ],
 })
 export class AppModule {}
