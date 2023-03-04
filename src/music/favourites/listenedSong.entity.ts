@@ -4,6 +4,7 @@ import { Song } from "../song/song.entity";
 
 @Entity("song_listen_history")
 @Check(`"id" > 0 AND "id" < 999999`)
+@Check(`"listenDate" = CURRENT_TIMESTAMP`)
 export class ListenedSong {
     @PrimaryGeneratedColumn()
     public id!: number;

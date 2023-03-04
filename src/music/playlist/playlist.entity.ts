@@ -5,6 +5,7 @@ import { SongsToPlaylists } from "./songsToPlaylists.entity";
 
 @Entity("playlists")
 @Check(`"id" > 0 AND "id" < 9999`)
+@Check(`"creationDate" = CURRENT_TIMESTAMP`)
 export class Playlist {
     @AutoMap()
     @PrimaryGeneratedColumn()
