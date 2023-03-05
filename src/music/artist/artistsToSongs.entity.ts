@@ -28,13 +28,13 @@ export class ArtistsToSongs {
     //Связь с артистами
     @ManyToOne(() => Artist, artist => artist.songs, {
         eager : true,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
     })
     public artist!: Artist;
 
     //Связь с песнями
     @ManyToOne(() => Song, song => song.artists, {
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
     })
     public song!: Song;
 }

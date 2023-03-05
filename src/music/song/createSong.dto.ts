@@ -1,7 +1,8 @@
-import { IsDate, IsNotEmpty, IsOptional, MaxDate, MinDate } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, MaxDate, MinDate, ValidateNested } from 'class-validator';
 import { CreateGenreDto } from "../genre/createGenre.dto";
 import { AddExistingArtistDto } from '../artist/addExistingArtistDto.dto';
 import { AutoMap } from '@automapper/classes';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateSongDto {  
     @AutoMap()
@@ -20,20 +21,25 @@ export class CreateSongDto {
     @IsOptional()
     coverImg: string;
 
+    @AutoMap(()=>[AddExistingArtistDto])
     @IsOptional()
-    artistIds: AddExistingArtistDto[];
+    @ValidateNested({ each: true })
+    artists: AddExistingArtistDto[];
 
     @AutoMap(()=>[CreateGenreDto])
     @IsOptional()
+    @ValidateNested({ each: true })
     genres: CreateGenreDto[];
 
+    @Transform(({value}) => JSON.parse(value))
     @IsOptional()
     genreIds: number[];
 
     @AutoMap()
-    @IsOptional()
+    @IsNotEmpty()
+    @Transform(({value}) => new Date(value))
     @IsDate()
     @MinDate(new Date(1900, 1, 1))
     @MaxDate(new Date())
-    releasedAt: Date;
+    releaseDate: Date;
 }

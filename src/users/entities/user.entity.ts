@@ -76,9 +76,7 @@ export class User {
     public favoriteSongs: FavoriteSong[];
 
     //Прослушанные песни
-    @OneToMany(() => ListenedSong, listenedSong => listenedSong.user,{
-        eager: true
-    })
+    @OneToMany(() => ListenedSong, listenedSong => listenedSong.user)
     public listenedSongs: ListenedSong[];
 
     // //Избранные альбомы

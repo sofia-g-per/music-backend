@@ -107,10 +107,10 @@ import { ArtistProfile } from './music/artist/artistProfile';
     ListenedSong,
     ListenedSongsRepository,
     UserProfile,
+    ArtistProfile,
     SongProfile,
     PlaylistProfile, 
     AlbumProfile,
-    ArtistProfile
   ],
 })
 export class AppModule {}

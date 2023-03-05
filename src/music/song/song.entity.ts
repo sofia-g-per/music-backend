@@ -45,14 +45,6 @@ export class Song {
     //      СВЯЗИ
     //------------------ 
 
-    //Плейлисты с данной песней
-    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song)
-    public playlists: SongsToPlaylists[];
-
-    //Альбомы с данной песней
-    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song)
-    public albums: SongsToAlbums[];
-
     //Жанры песни
     @AutoMap(()=>[Genre])
     @ManyToMany(() => Genre, {onDelete: 'CASCADE', cascade: true, eager:true})
@@ -61,9 +53,12 @@ export class Song {
     genres: Genre[];
 
     //авторы песни (связь с артистами)
+    @AutoMap()
     @OneToMany(() => ArtistsToSongs, artistsToSongs => artistsToSongs.song, 
     {
         eager:true,
+        cascade: true,
+        onDelete: 'CASCADE',
         nullable: false
     }
     )
@@ -76,5 +71,14 @@ export class Song {
     //Пользователи, прослушавшие песню в избранные
     @OneToMany(() => ListenedSong, listenedSong => listenedSong.user)
     public listeners: ListenedSong[];
+
+    
+    //Плейлисты с данной песней
+    @OneToMany(() => SongsToPlaylists, SongsToPlaylists => SongsToPlaylists.song)
+    public playlists: SongsToPlaylists[];
+
+    //Альбомы с данной песней
+    @OneToMany(() => SongsToAlbums, songsToAlbums => songsToAlbums.song)
+    public albums: SongsToAlbums[];
 
 }

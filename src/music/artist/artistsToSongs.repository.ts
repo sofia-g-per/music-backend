@@ -12,7 +12,6 @@ export class ArtistsToSongsRepository extends Repository<ArtistsToSongs>{
     async saveMultipleArtists(artists, song): Promise<ArtistsToSongs[]>{
         let artistsToSongs: ArtistsToSongs[] = [];
         let newEntity;
-        console.log('repo', artists);
         for (let artist of artists) {
             if(artist){
                 artist.song = song;

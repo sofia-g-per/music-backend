@@ -1,13 +1,12 @@
 import { ArtistsToSongsRepository } from './artistsToSongs.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { instanceToPlain } from 'class-transformer';
-import { GenreService } from '../genre/genre.service';
 import { Artist } from './artist.entity';
 import { ArtistsRepository } from './artist.repository';
 import { CreateArtistDto } from './createArtist.dto';
 import { GenresRepository } from '../genre/genre.repository';
-import { AddExistingArtistDto } from './addExistingArtistDto.dto';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/types';
 
 @Injectable()
 export class ArtistService {
@@ -15,26 +14,12 @@ export class ArtistService {
         @InjectRepository(ArtistsRepository) private artistsRepository: ArtistsRepository,
         @InjectRepository(GenresRepository) private genresRepository: GenresRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
-        private genreService: GenreService
+        @InjectMapper() private readonly mapper: Mapper,
         ) {}
 
     async create(artistData: CreateArtistDto): Promise<Artist | undefined>{
-        let artist = instanceToPlain(artistData);
-        if(!artist.genres){
-            artist.genres = [];
-        }
+        let artist = this.mapper.map(artistData, CreateArtistDto, Artist);
 
-        if(artistData.genreIds && artistData.genreIds.length > 0){
-            let genres = await this.genresRepository.findMultipleByIds(artistData.genreIds);
-            artist.genres = artist.genres.concat(genres);
-        }
-
-        // новые жанры
-        if(artistData.genres && artistData.genres.length > 0){
-            let genres = await this.genreService.createMultiple(artistData.genres);
-            artist.genres = artist.genres.concat(genres);
-        }
-        console.log('artist service', artist)
         return await this.artistsRepository.customSave(artist);
     }
 

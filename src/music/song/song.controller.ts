@@ -18,7 +18,8 @@ export class SongController {
         FileFieldsInterceptor(
             [
                 {name:'audioFile', maxCount: 1}, 
-                {name:'cover', maxCount: 1}, 
+                {name:'coverImg', maxCount: 1}, 
+                {name:'lyrics', maxCount: 1}, 
             ],
             {
                 storage: diskStorage({
@@ -27,11 +28,12 @@ export class SongController {
                 }),
             }),
         )
-    @UsePipes(ValidationPipe)
+    @UsePipes(new ValidationPipe({transform:true}))
     async create(@Request() req, @Body() songData: CreateSongDto,
-        @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }) 
+        @UploadedFiles() files: { audioFile: Express.Multer.File[], coverImg?: Express.Multer.File[], lyrics?:  Express.Multer.File[]}) 
     {
-        // songData.artistIds = JSON.parse(songData.artistIds)
+        // songData.artists = JSON.parse(songData.artists)
+        // songData.genreIds = JSON.parse(songData.genres)
         return await this.songService.create(req.user, songData, files);
     }
 
@@ -44,7 +46,6 @@ export class SongController {
     @UseGuards(RolesGuard)
     @Get('/get-song-by-current-artist')
     async getSongsByCurrentArtist(@Request() req){
-        console.log(req.user)
         return await this.songService.getSongsByArtist(req.user.artist.id);
     }
 
@@ -52,7 +53,6 @@ export class SongController {
     @UseGuards(RolesGuard)
     @Post('/delete-song')
     async delete(@Body() songData, @Request() req){
-        console.log(songData, songData.songId)
         return await this.songService.delete(songData.songId);
     }
 
@@ -60,7 +60,6 @@ export class SongController {
     @UseGuards(RolesGuard)
     @Get('/get-song')
     async getById(@Query('songId') songId: number, @Request() req){
-        console.log(songId)
         return await this.songService.getById(songId);
     }
 
