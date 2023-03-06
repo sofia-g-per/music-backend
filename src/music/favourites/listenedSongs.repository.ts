@@ -13,6 +13,10 @@ export class ListenedSongsRepository extends Repository<ListenedSong>{
         });
     }
 
+    async customSave(listenedSong){
+        return await getRepository(ListenedSong).save(listenedSong); 
+    }
+
     // async customDelete(songId, userId){
     //     console.log('repository', songId, userId)
     //     // return await getRepository(UsersToSongs).delete({songId: songId, userId: userId });

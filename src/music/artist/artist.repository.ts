@@ -57,7 +57,6 @@ export class ArtistsRepository extends Repository<Artist>{
     }
 
     async customSave(artistData){
-        console.log('repo',artistData)
         return await getRepository(Artist).save(artistData); 
     }
 

@@ -6,6 +6,8 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { Roles } from 'src/users/guards/roles.decorator';
 import { RolesGuard } from 'src/users/guards/roles.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { LoggedInGuard } from 'src/users/guards/loggedIn.guard';
 
 @Controller('/api')
 export class SongController {
@@ -84,5 +86,11 @@ export class SongController {
         songData.id = parseInt(songData.id)
         songData.genreIds = JSON.parse(songData.genreIds)
         return await this.songService.update(songData, files);
+    }
+
+    @UseGuards(LoggedInGuard)
+    @Post('/listened')
+    async addToListenedHistory(@Request() req, @Body() songData){
+        return await this.songService.addToListenedHistory(songData.songId, req.user);
     }
 }

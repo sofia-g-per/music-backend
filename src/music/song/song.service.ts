@@ -1,3 +1,5 @@
+import { ListenedSongsRepository } from './../favourites/listenedSongs.repository';
+import { ListenedSong } from 'src/music/favourites/listenedSong.entity';
 import { AddExistingArtistDto } from './../artist/addExistingArtistDto.dto';
 import { CreateArtistToSongDto } from './../artist/createArtistToSong.dto';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
@@ -18,6 +20,7 @@ export class SongService {
         @InjectMapper() private readonly mapper: Mapper,
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
+        @InjectRepository(ListenedSongsRepository) private listenedSongsRepository: ListenedSongsRepository,
     ) {}
     
     async create(user: User, songData: CreateSongDto, files) {
@@ -99,6 +102,10 @@ export class SongService {
 
     async delete(songId:number){
         return await this.songsRepository.deleteById(songId);
+    }
+
+    async addToListenedHistory(songId, user){
+        return await this.listenedSongsRepository.customSave({userId: user.id, songId: songId});
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
