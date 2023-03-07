@@ -43,6 +43,7 @@ import { SongProfile } from './music/song/songProfile';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ArtistProfile } from './music/artist/artistProfile';
 import { GenreProfile } from './music/genre/genreProfile';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -66,6 +67,7 @@ import { GenreProfile } from './music/genre/genreProfile';
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
+    ScheduleModule.forRoot(),
     MulterModule.register({
       dest: './uploaded',
     }),
