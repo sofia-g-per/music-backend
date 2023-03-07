@@ -30,7 +30,7 @@ export class SongDto {
     
     @AutoMap()
     @Expose()
-    artists: [ArtistAsAuthor];
+    artists: ArtistAsAuthor[];
 
     @AutoMap(()=>[GenreDto])
     @Expose()

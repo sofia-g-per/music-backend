@@ -1,12 +1,14 @@
+import { ArtistAsAuthor } from './../artist/ArtistAsAuthor.dto';
 import { ArtistsToSongs } from './../artist/artistsToSongs.entity';
 import { AddExistingArtistDto } from './../artist/addExistingArtistDto.dto';
-import { createMap, forMember, mapFrom, mapWith } from '@automapper/core';
+import { createMap, forMember, mapFrom, namingConventions, SnakeCaseNamingConvention, CamelCaseNamingConvention, mapWith } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Mapper, MappingProfile } from '@automapper/core';
 import { Song } from './song.entity';
 import { SongDto } from './songDto.dto';
 import { CreateSongDto } from './createSong.dto';
+import { generatedPlaylist } from '../playlist/generatedPlaylist.entity';
 @Injectable()
 export class SongProfile extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
@@ -14,10 +16,14 @@ export class SongProfile extends AutomapperProfile {
   }
   get profile(): MappingProfile {
     return (mapper) => {
+
+
       createMap(mapper, AddExistingArtistDto, ArtistsToSongs);
 
       // entity -> dto
-      createMap(mapper, Song, SongDto)
+      createMap(mapper, Song, SongDto, 
+        // forMember(dto=> dto.artists, mapWith(ArtistsToSongs, ArtistAsAuthor , entity =>  entity.artists))
+        )
 
       // creating -> entity
       createMap(mapper, CreateSongDto, Song,
@@ -39,6 +45,12 @@ export class SongProfile extends AutomapperProfile {
       //     mapWith(AddExistingArtistDto, ArtistsToSongs, (source) => source.artists)
       // )
       );
+
+      createMap(mapper, generatedPlaylist, SongDto, 
+        namingConventions({
+          source: new SnakeCaseNamingConvention(),
+          destination: new CamelCaseNamingConvention(),
+        }));
     };
   }
 }

@@ -42,6 +42,7 @@ import { UserProfile } from './users/mappers/UserProfile';
 import { SongProfile } from './music/song/songProfile';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ArtistProfile } from './music/artist/artistProfile';
+import { GenreProfile } from './music/genre/genreProfile';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -106,6 +107,7 @@ import { ArtistProfile } from './music/artist/artistProfile';
     FavoriteSongsRepository,
     ListenedSong,
     ListenedSongsRepository,
+    GenreProfile,
     UserProfile,
     ArtistProfile,
     SongProfile,

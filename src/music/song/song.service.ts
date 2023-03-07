@@ -1,18 +1,19 @@
+import { instanceToPlain } from 'class-transformer';
+import { PlaylistDto } from './../playlist/playlistDto.dto';
+import { generatedPlaylist } from './../playlist/generatedPlaylist.entity';
 import { ListenedSongsRepository } from './../favourites/listenedSongs.repository';
-import { ListenedSong } from 'src/music/favourites/listenedSong.entity';
 import { AddExistingArtistDto } from './../artist/addExistingArtistDto.dto';
-import { CreateArtistToSongDto } from './../artist/createArtistToSong.dto';
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
-import { GenreService } from '../genre/genre.service';
 import { CreateSongDto } from './createSong.dto';
 import { SongsRepository } from './song.repository';
-import { ArtistService } from '../artist/artist.service';
 import { ArtistsToSongsRepository } from '../artist/artistsToSongs.repository';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { Song } from './song.entity';
+import { EntityManager, getRepository } from 'typeorm';
+import { SongDto } from './songDto.dto';
 
 @Injectable()
 export class SongService {
@@ -21,6 +22,7 @@ export class SongService {
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
         @InjectRepository(ListenedSongsRepository) private listenedSongsRepository: ListenedSongsRepository,
+        @Inject(EntityManager) private entityManager: EntityManager,
     ) {}
     
     async create(user: User, songData: CreateSongDto, files) {
@@ -106,6 +108,27 @@ export class SongService {
 
     async addToListenedHistory(songId, user){
         return await this.listenedSongsRepository.customSave({userId: user.id, songId: songId});
+    }
+
+    async getGeneratedPlaylist(user){
+        
+        const result = await getRepository(generatedPlaylist)
+        .createQueryBuilder("GeneratedPlaylist")
+        .select("song_id", "songId")
+        .where(`user_id = ${user.id}`)
+        .execute();
+
+        if(result){
+            
+            const songIds: number[] = [];
+            result.forEach(song => songIds.push(song.songId));
+            const playlist = new PlaylistDto;
+            playlist.songs = await this.mapper.mapArrayAsync(await getRepository(Song).findByIds(songIds), Song, SongDto);
+            playlist.name = 'Плейлист специально для вас'; 
+            return playlist;
+        }
+
+
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)

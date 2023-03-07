@@ -13,7 +13,6 @@ export class SongsRepository extends Repository<Song>{
         if(withArtist){
             queryOptions.relations = ['artists'];
         }
-        console.log()
         return await getRepository(Song).findOne(queryOptions);
 
     }

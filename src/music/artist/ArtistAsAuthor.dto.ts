@@ -1,9 +1,19 @@
-import { ArtistDto } from 'src/music/artist/artistDto.dto';
 import { AutoMap } from "@automapper/classes";
-import { IsNotEmpty } from "class-validator";
+import { Expose } from 'class-transformer';
 
-export class ArtistAsAuthor extends ArtistDto{  
+export class ArtistAsAuthor{  
     @AutoMap()
-    @IsNotEmpty()
+    @Expose()
+    artistId: number;
+
+    @AutoMap()
+    @Expose()
+    artistStagename: string;
+
+    @AutoMap()
+    @Expose()
+    artistDescription?: string;
+    
+    @AutoMap()
     isFeatured: boolean;
 }

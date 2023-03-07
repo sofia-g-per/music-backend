@@ -26,6 +26,7 @@ export class ArtistsToSongs {
     //------------------ 
 
     //Связь с артистами
+    @AutoMap()
     @ManyToOne(() => Artist, artist => artist.songs, {
         eager : true,
         onDelete: 'CASCADE',

@@ -47,7 +47,6 @@ export class AlbumService {
         //     album.songs = songs;
         // }
         //прикреление артистов
-        console.log();
 
 
         // прикрепление обложки альбома при наличии

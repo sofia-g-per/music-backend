@@ -1,7 +1,8 @@
+import { ArtistAsAuthor } from './ArtistAsAuthor.dto';
 import { AddExistingArtistDto } from './addExistingArtistDto.dto';
 import { ArtistsToSongs } from './artistsToSongs.entity';
 import { CreateArtistDto } from 'src/music/artist/createArtist.dto';
-import { createMap } from '@automapper/core';
+import { createMap, CamelCaseNamingConvention, namingConventions } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Mapper, MappingProfile } from '@automapper/core';
@@ -23,6 +24,8 @@ export class ArtistProfile extends AutomapperProfile {
       // creating -> entity
       createMap(mapper, CreateArtistDto, Artist);
       createMap(mapper, CreateArtistToSongDto, ArtistsToSongs);
+      //entity -> dto
+      createMap(mapper, ArtistsToSongs, ArtistAsAuthor, namingConventions(new CamelCaseNamingConvention()));
     };
   }
 }

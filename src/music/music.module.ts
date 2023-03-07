@@ -33,6 +33,8 @@ import { ArtistsToAlbums } from './album/artistsToAlbums.entity';
 import { ArtistsToAlbumsRepository } from './album/artistsToAlbums.repository';
 import { FavoriteSong } from './favourites/favoriteSong.entity';
 import { ListenedSongsRepository } from './favourites/listenedSongs.repository';
+import { generatedPlaylist } from './playlist/generatedPlaylist.entity';
+import { AbstractSong } from './song/abstractSong.entity';
 
 @Module({
   controllers: [
@@ -72,7 +74,9 @@ import { ListenedSongsRepository } from './favourites/listenedSongs.repository';
     ArtistsToAlbums,
     ArtistsToAlbumsRepository,
     ListenedSong,
-    ListenedSongsRepository
+    ListenedSongsRepository,
+    generatedPlaylist,
+    AbstractSong
   ]),
   forwardRef(() => UsersModule),],
   exports: [TypeOrmModule, ArtistService]

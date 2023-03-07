@@ -93,4 +93,10 @@ export class SongController {
     async addToListenedHistory(@Request() req, @Body() songData){
         return await this.songService.addToListenedHistory(songData.songId, req.user);
     }
+
+    @UseGuards(LoggedInGuard)
+    @Get('/generated/playlist')
+    async getGeneratedPlaylist(@Request() req){
+        return await this.songService.getGeneratedPlaylist(req.user);
+    }
 }

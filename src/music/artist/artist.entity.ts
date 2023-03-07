@@ -8,6 +8,7 @@ import { ArtistsToAlbums } from "../album/artistsToAlbums.entity";
 @Check(`"id" > 0 AND "id" < 10000`)
 export class Artist {
     @PrimaryGeneratedColumn()
+    @AutoMap()
     id: number;
 
 

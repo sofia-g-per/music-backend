@@ -11,8 +11,8 @@ export class PlaylistDto{
     @AutoMap()
     name: string;
 
-    @AutoMap()
-    isPublic: boolean;
+    // @AutoMap()
+    // isPublic: boolean;
     
     @AutoMap()
     description?: string;
@@ -27,8 +27,8 @@ export class PlaylistDto{
     songs: SongDto[];
 
     @AutoMap()
-    creator: User;
+    creator?: User;
 
     @AutoMap()
-    created_at: Date;
+    creationDate?: Date;
 }
