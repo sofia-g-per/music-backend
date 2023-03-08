@@ -33,7 +33,13 @@ export class SongsRepository extends Repository<Song>{
     }
 
     async findAll(){
-        return await getRepository(Song).find({relations: ['artists']});
+        return await getRepository(Song)
+        .createQueryBuilder("Song")
+        .select()
+        .leftJoinAndSelect('Song.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .orderBy("artistToUser.isFeatured", "ASC")
+        .getMany();
     }
 
     async getAllByArtist(artistId:number){
@@ -43,6 +49,7 @@ export class SongsRepository extends Repository<Song>{
         .leftJoinAndSelect('Song.artists', 'artistToUser')
         .leftJoinAndSelect('artistToUser.artist', 'artist')
         .where('artist.id =:artistId', {artistId: artistId})
+        .orderBy("artistToUser.isFeatured", "ASC")
         .getMany();
     }
 
