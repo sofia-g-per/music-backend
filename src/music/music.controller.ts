@@ -10,8 +10,8 @@ export class MusicController {
             let query=  getRepository(Song)
             .createQueryBuilder("Song")
             .select()
-            .leftJoinAndSelect('Song.artists', 'artistToUser')
-            .leftJoinAndSelect('artistToUser.artist', 'artist')
+            .leftJoinAndSelect('Song.artists', 'artistToSong')
+            .leftJoinAndSelect('artistToSong.artist', 'artist')
             .where(`MATCH(song.name) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
             .orWhere(`MATCH(artist.stagename) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
 
@@ -22,15 +22,15 @@ export class MusicController {
     @Get('/global-filter')
     async filter(@Query('genreIds') genreIds){
         genreIds = JSON.parse(genreIds);
-
         if(genreIds){
             let query =  getRepository(Song)
             .createQueryBuilder("Song")
             .select()
             .leftJoinAndSelect('Song.artists', 'artistToUser')
             .leftJoinAndSelect('artistToUser.artist', 'artist')
-            .leftJoinAndSelect('Song.genres', 'SongsToGenres')
-            .where('genreId IN (:genres)', {genres: genreIds})
+            .innerJoinAndSelect('Song.genres', 'genres')
+            .where('genres_id IN (:...genres)', {genres: genreIds})
+
             return await query.getMany();
         }
     }
