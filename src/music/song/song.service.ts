@@ -33,15 +33,14 @@ export class SongService {
             songData.artists = [];
         }
         songData.artists.push(userAsArtist);
-        // const genreIds: number[] = songData.genreIds ?? [];
-        // const artistIds: songsT = songData.artistIds ?? [];
+
         const song:Song = this.mapper.map(songData, CreateSongDto, Song);
 
         //прикреление аудиофайла
         song.filePath = files.audioFile[0]['filename'];
 
         //прикрепление обложки песни
-        if(files.cover){
+        if(files.coverImg){
             song.coverImg = files.coverImg[0].filename;
         }
 
