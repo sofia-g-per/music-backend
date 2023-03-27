@@ -23,8 +23,9 @@ export class PlaylistDto{
     // @AutoMap()
     // genres?: Genre[];
 
+    //fix!!!
     @AutoMap()
-    songs: SongDto[];
+    songs: any;
 
     @AutoMap()
     creator?: User;

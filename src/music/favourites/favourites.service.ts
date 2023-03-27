@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/user.entity';
 import { SongsRepository } from '../song/song.repository';
 import { FavoriteSong } from './favoriteSong.entity';
 import { FavoriteSongsRepository } from './favoriteSongs.repository';
+import { getRepository } from 'typeorm';
 @Injectable()
 export class FavouritesService {
     constructor(
@@ -30,9 +31,12 @@ export class FavouritesService {
     }
 
     async getByUser(user: User): Promise<any[]>{
-        let songs = await this.FavoriteSongsRepository.findByUser(user.id);
+        // let songs = await this.FavoriteSongsRepository.findByUser(user.id);
 
-        return songs;
+        return await getRepository(FavoriteSong).find({
+            where: { userId: user.id },
+            relations: ['song', 'song.artists']
+        });;
     }
 
     async findByQuery(user: User, searchQuery: string): Promise<any>{

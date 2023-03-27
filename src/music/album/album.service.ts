@@ -26,27 +26,6 @@ export class AlbumService {
         const songIds = albumData.songIds;
         const artistIds = albumData.artistIds;
         let album = this.mapper.map(albumData, CreateAlbumDto, Album);
-        //прикрепление жанров
-        // let genres;
-        // if(!album.genres){
-        //     album.genres = [];
-        // }
-        // genres = await this.genreService.addExistingGenres(albumData.genreIds, album);
-        // if(genres){
-        //     album.genres = album.genres.concat(genres);
-        // }
-        // genres = await this.genreService.createNewGenres(albumData.genres, album);
-        // if(genres){
-        //     album.genres = album.genres.concat(genres);
-        // }
-
-        //прикреление песен
-        // album.songs = [];
-        // let songs = await this.songService.addExistingSongs(albumData, album);
-        // if(songs){
-        //     album.songs = songs;
-        // }
-        //прикреление артистов
 
 
         // прикрепление обложки альбома при наличии
@@ -109,4 +88,31 @@ export class AlbumService {
     async deleteById(id:number){
         return await this.AlbumsRepository.deleteById(id);
      }
+
+     async getAll(){
+        return this.AlbumsRepository.getAll();
+     }
+
+
+             //прикрепление жанров
+        // let genres;
+        // if(!album.genres){
+        //     album.genres = [];
+        // }
+        // genres = await this.genreService.addExistingGenres(albumData.genreIds, album);
+        // if(genres){
+        //     album.genres = album.genres.concat(genres);
+        // }
+        // genres = await this.genreService.createNewGenres(albumData.genres, album);
+        // if(genres){
+        //     album.genres = album.genres.concat(genres);
+        // }
+
+        //прикреление песен
+        // album.songs = [];
+        // let songs = await this.songService.addExistingSongs(albumData, album);
+        // if(songs){
+        //     album.songs = songs;
+        // }
+        //прикреление артистов
 }

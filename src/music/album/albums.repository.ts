@@ -23,6 +23,10 @@ export class AlbumsRepository extends Repository<Album>{
         return songs;
     }
 
+    async getAll(){
+        return await getRepository(Album).find();
+    }
+
     async findByArtist(artistId:number){
         return await getRepository(Album)
         .createQueryBuilder("Album")

@@ -55,7 +55,7 @@ export class SongService {
         // if(artists){
         //     song.artists = artists;
         // }
-
+        console.log(song.genres);
         // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
 
@@ -70,13 +70,13 @@ export class SongService {
 
     async update(songData, files){
         //прикреление аудиофайла
-        if(songData.filePath){
+        if(files.audioFile && files.audioFile[0]){
             songData.filePath = files.audioFile[0]['filename'];
         }
 
         //прикрепление обложки песни
-        if(files.cover){
-            songData.coverImg = files.cover[0].filename;
+        if(files.coverImg && files.coverImg[0]){
+            songData.coverImg = files.coverImg[0].filename;
         }
 
         if(songData.genreIds){
@@ -85,6 +85,8 @@ export class SongService {
                 songData.genres.push({id: genreId});
             }
         }
+        delete songData.genreIds
+        console.log(songData)
 
         return await this.songsRepository.customSave(songData);
     }
@@ -110,25 +112,28 @@ export class SongService {
         return await this.listenedSongsRepository.customSave({userId: user.id, songId: songId});
     }
 
+    // получение персонализированного плейлиста
     async getGeneratedPlaylist(user){
-        
+         // запрос к базе данных
         const result = await getRepository(generatedPlaylist)
         .createQueryBuilder("GeneratedPlaylist")
         .select("song_id", "songId")
         .where(`user_id = ${user.id}`)
         .execute();
-
+        // обработка результата запросы
         if(result){
-            
             const songIds: number[] = [];
             result.forEach(song => songIds.push(song.songId));
             const playlist = new PlaylistDto;
-            playlist.songs = await this.mapper.mapArrayAsync(await getRepository(Song).findByIds(songIds), Song, SongDto);
+            // добавление инфорамции для каждой песни плейлиста
+            playlist.songs = await this.songsRepository.findMultipleByIds(songIds, true);
             playlist.name = 'Плейлист специально для вас'; 
+            
             return playlist;
+        // обработка ошибки
+        }else{
+            throw HttpException.createBody({message: 'Не удалось найти плейлист для данного пользователя'})
         }
-
-
     }
 
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)

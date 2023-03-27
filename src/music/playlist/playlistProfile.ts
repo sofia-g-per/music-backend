@@ -16,6 +16,8 @@ export class PlaylistProfile extends AutomapperProfile {
     return (mapper) => {
       // entity -> dto
       createMap(mapper, Playlist, PlaylistDto)
+      createMap(mapper, CreatePlaylistDto, Playlist)
+
     };
   }
 }

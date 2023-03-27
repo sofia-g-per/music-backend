@@ -29,7 +29,8 @@ export class CreateSongDto {
     @AutoMap(()=>[CreateGenreDto])
     @IsOptional()
     @ValidateNested({ each: true })
-    genres: CreateGenreDto[];
+    // genres: CreateGenreDto[];
+    genres: any;
 
     @Transform(({value}) => JSON.parse(value))
     @IsOptional()

@@ -72,7 +72,7 @@ export class SongController {
         FileFieldsInterceptor(
             [
                 {name:'audioFile', maxCount: 1}, 
-                {name:'cover', maxCount: 1}, 
+                {name:'coverImg', maxCount: 1}, 
             ],
             {
                 storage: diskStorage({
@@ -82,9 +82,10 @@ export class SongController {
                 
             }),
         )
-    async update(@Body() songData, @UploadedFiles() files: { audioFile: Express.Multer.File[], cover?: Express.Multer.File[] }){
+    async update(@Body() songData, @UploadedFiles() files: { audioFile: Express.Multer.File[], coverImg?: Express.Multer.File[] }){
         songData.id = parseInt(songData.id)
         songData.genreIds = JSON.parse(songData.genreIds)
+        // songData.genreIds = JSON.parse(songData.artists)
         return await this.songService.update(songData, files);
     }
 
@@ -94,6 +95,7 @@ export class SongController {
         return await this.songService.addToListenedHistory(songData.songId, req.user);
     }
 
+    // запрос персонализированного плейлиста
     @UseGuards(LoggedInGuard)
     @Get('/generated/playlist')
     async getGeneratedPlaylist(@Request() req){

@@ -28,7 +28,7 @@ export class PlaylistController {
         return await this.playlistService.create(req.user, playlist, coverImg);
     } 
 
-    @Get('/get-playlist')
+    @Get('/playlist')
     async findById(@Query('playlistId') playlistId: number): Promise<Playlist> {
         return this.playlistService.findById(playlistId);
     }

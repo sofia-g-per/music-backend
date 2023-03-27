@@ -18,18 +18,16 @@ export class SongsRepository extends Repository<Song>{
     }
 
     async findMultipleByIds(ids: number[], withArtist:boolean): Promise<Song[]>{
-        let songs: Song[] = [];
-          
-        for (let id of ids) {
-            const song = await this.findById(id, withArtist);
-            if(song instanceof Song){
-                songs.push(song);
-            }else{
-                return undefined
-            }
-        }
+        let query =  getRepository(Song)
+        .createQueryBuilder("Song")
+        .select()
+        .leftJoinAndSelect('Song.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .where('song_id IN (:...ids)', {ids: ids})
+        .orderBy("artistToUser.isFeatured", "ASC")
 
-        return songs;
+        return await query.getMany();
+
     }
 
     async findAll(){

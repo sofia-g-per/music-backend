@@ -14,6 +14,7 @@ export class MusicController {
             .leftJoinAndSelect('artistToSong.artist', 'artist')
             .where(`MATCH(song.name) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
             .orWhere(`MATCH(artist.stagename) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
+            .orderBy("artistToUser.isFeatured", "ASC")
 
             return await query.getMany();
         }        
@@ -30,6 +31,7 @@ export class MusicController {
             .leftJoinAndSelect('artistToUser.artist', 'artist')
             .innerJoinAndSelect('Song.genres', 'genres')
             .where('genres_id IN (:...genres)', {genres: genreIds})
+            .orderBy("artistToUser.isFeatured", "ASC")
 
             return await query.getMany();
         }

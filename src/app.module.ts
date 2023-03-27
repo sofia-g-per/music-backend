@@ -44,25 +44,30 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ArtistProfile } from './music/artist/artistProfile';
 import { GenreProfile } from './music/genre/genreProfile';
 import { ScheduleModule } from '@nestjs/schedule';
+
 @Module({
   imports: [
+    // подключение базы данных
     TypeOrmModule.forRoot({
+      // данные о базе данных
       "type" : "postgres",
       "host" : "localhost",
       "port" : 5433,
       "username" : "postgres",
       "password" : "123",
       "database" : "music",
-      "autoLoadEntities": true,
+      "namingStrategy": new SnakeNamingStrategy,
+      // путь до сущностей 
       "entities": ["dist/**/*.entity.{js,ts}"],
-      "synchronize": true,
       "migrations": ["src/migration/**/*.{ts, .js}"],
+       // для разработки
+      //   "synchronize": true,
+      // уточнение путей папок создания файлов через командную строку
       "cli": {
-          "entitiesDir": "src/entity",
-          "migrationsDir": "src/migration",
-          "subscribersDir": "src/subscriber"
-       },
-       "namingStrategy": new SnakeNamingStrategy
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+     },
   }),
     AutomapperModule.forRoot({
       strategyInitializer: classes(),

@@ -36,6 +36,11 @@ export class AlbumController {
         return await this.albumService.create(req.user, albumData, coverImg);
     } 
 
+    @Get('/albums')
+    async getAll(@Query('albumId') albumId: number): Promise<Album> {
+        return this.albumService.findById(albumId);
+    }
+
     @Get('/get-album')
     async findById(@Query('albumId') albumId: number): Promise<Album> {
         return this.albumService.findById(albumId);

@@ -34,5 +34,4 @@ export class FavouritesController {
     async delete(@Body() songData: AddSongstoFavouritesDto, @Request() req){
         return await this.favouritesService.delete(songData, req.user);
     }
-
 }

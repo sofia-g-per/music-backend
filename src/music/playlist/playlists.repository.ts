@@ -7,7 +7,7 @@ import { Playlist } from "./playlist.entity";
 export class PlaylistsRepository extends Repository<Playlist>{
     
     async findById(id: number): Promise<Playlist>{
-        return getRepository(Playlist).findOne({where: { id: id }});
+        return getRepository(Playlist).findOne({where: { id: id }, relations: ['songs']});
     }
 
     async findMultipleByIds(ids: number[]): Promise<Playlist[]>{

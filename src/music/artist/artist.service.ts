@@ -31,6 +31,11 @@ export class ArtistService {
         return await this.artistsRepository.deleteById(artistId);
     }
 
+    async getSongs(artistId:number){
+        return await this.artistsToSongsRepository.getByArtist(artistId);
+    }
+
+    
     // СОЗДАНИЕ СВЯЗЕЙ (вызываются при создании других сущностей)
     // targetObject - объект который послужит для создания сущности  (ex. songData)
     // formData - объект с информацией от пользователя (ex. song)
@@ -44,9 +49,5 @@ export class ArtistService {
     //         return artistIds;
     //     }
     // }
-
-    async getSongs(artistId:number){
-        return await this.artistsToSongsRepository.getByArtist(artistId);
-    }
 
 }
