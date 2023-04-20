@@ -9,6 +9,8 @@ import { Song } from './song.entity';
 import { SongDto } from './songDto.dto';
 import { CreateSongDto } from './createSong.dto';
 import { generatedPlaylist } from '../playlist/generatedPlaylist.entity';
+import { NameDto } from './name.dto';
+import { ContentStatus } from './contentStatus.entity';
 @Injectable()
 export class SongProfile extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
@@ -16,7 +18,6 @@ export class SongProfile extends AutomapperProfile {
   }
   get profile(): MappingProfile {
     return (mapper) => {
-
 
       createMap(mapper, AddExistingArtistDto, ArtistsToSongs);
 
@@ -31,15 +32,19 @@ export class SongProfile extends AutomapperProfile {
           // condition((createDto) => {return createDto.genreIds && createDto.genreIds.length > 0}),
           mapFrom((createDto) => {
             const existingGenres = [];
-            for (let i = 0; i < createDto.genreIds.length; i++)  {
-              existingGenres.push({id: createDto.genreIds[i]});
+            if(createDto.genreIds){
+              for (let i = 0; i < createDto.genreIds.length; i++)  {
+                existingGenres.push({id: createDto.genreIds[i]});
+              }
             }
             if(createDto.genres){
               return existingGenres.concat(createDto.genres);
             }
             return existingGenres;
-          })
-        ),
+        })),
+        forMember(entity => entity.status,
+          mapFrom(dto => {return {name: dto.status}})
+          ),
       //   forMember(
       //     (destination) => destination.artists,
       //     mapWith(AddExistingArtistDto, ArtistsToSongs, (source) => source.artists)
