@@ -1,5 +1,5 @@
 import { AutoMap } from "@automapper/classes";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { RequestStatus } from "./requestStatus.entity";
 import { User } from "./user.entity";
 
@@ -13,8 +13,9 @@ export abstract class CollabRequest {
 
     @UpdateDateColumn()
     updated_date: Date;
-
+        
     @ManyToOne(() => RequestStatus, requestStatus => requestStatus.requests)
+    @JoinColumn({ name: 'status', referencedColumnName: 'name' })
     status: RequestStatus;
 
     @ManyToOne(() => User, user => user.id)

@@ -44,7 +44,6 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ArtistProfile } from './music/artist/artistProfile';
 import { GenreProfile } from './music/genre/genreProfile';
 import { ScheduleModule } from '@nestjs/schedule';
-import { CollabRequest } from './users/entities/collabRequest.entity';
 import { SongCollabRequest } from './users/entities/songCollabRequest.entity';
 import { RequestStatus } from './users/entities/requestStatus.entity';
 
@@ -63,6 +62,7 @@ import { RequestStatus } from './users/entities/requestStatus.entity';
       // путь до сущностей 
       "entities": ["dist/**/*.entity.{js,ts}"],
       "migrations": ["src/migration/**/*.{ts, .js}"],
+      "autoLoadEntities": true,
        // для разработки
         "synchronize": true,
       // уточнение путей папок создания файлов через командную строку

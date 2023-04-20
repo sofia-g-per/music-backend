@@ -48,7 +48,7 @@ export class Song{
     
     //статус
     @ManyToOne(() => ContentStatus, contentStatus => contentStatus.songs,
-    {})
+    { cascade: true, eager: true})
     status: ContentStatus;
 
     //Жанры песни

@@ -48,14 +48,6 @@ export class SongService {
             song.lyrics = files.lyrics[0].filename;
         }
 
-        //прикреление артистов
-        // let artists = song.artists;
-        // artists = await this.artistService.addExistingArtists(songData, song);
-        // await this.artistService.addExistingArtists(songData, song);
-        // if(artists){
-        //     song.artists = artists;
-        // }
-        console.log(song.genres);
         // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
 

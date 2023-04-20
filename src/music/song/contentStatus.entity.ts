@@ -1,13 +1,11 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Song } from "./song.entity";
 import { Album } from "../album/album.entity";
 
 @Entity("content_statuses")
 export class ContentStatus{
-    @PrimaryGeneratedColumn()
-    id: number;
 
-    @Column()
+    @PrimaryColumn()
     name: string;
 
     @OneToMany(()=> Song, song => song.status, {
