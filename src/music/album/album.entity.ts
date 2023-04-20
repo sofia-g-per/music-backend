@@ -1,7 +1,8 @@
 import { AutoMap } from '@automapper/classes';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, Check } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, Check, ManyToOne } from "typeorm";
 import { SongsToAlbums } from "./songsToAlbums.entity";
 import { ArtistsToAlbums } from "./artistsToAlbums.entity";
+import { ContentStatus } from '../song/contentStatus.entity';
 
 @Entity("albums")
 @Check(`"release_date" < CURRENT_TIMESTAMP AND "release_date" > make_date(1900, 1, 1)`)
@@ -41,6 +42,8 @@ export class Album {
     //------------------ 
     //      СВЯЗИ
     //------------------ 
+    @ManyToOne(()=> ContentStatus, contentStatus => contentStatus.albums)
+    status: ContentStatus;
 
     @AutoMap()
     //Связь с артистами, (авторы альбома)

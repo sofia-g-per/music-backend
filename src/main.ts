@@ -16,7 +16,7 @@ async function bootstrap() {
   });
   app.useStaticAssets(join(__dirname, '..', 'uploaded/coverImg'), { prefix: "/coverimg/" });
   app.useStaticAssets(join(__dirname, '..', 'uploaded/avatars'), { prefix: "/avatars/" })
-app.useStaticAssets(join(__dirname, '..', 'uploaded/songs'), { prefix: "/songs/" })
+  app.useStaticAssets(join(__dirname, '..', 'uploaded/songs'), { prefix: "/songs/" })
   app.use(
     session({
       secret: 'secret',

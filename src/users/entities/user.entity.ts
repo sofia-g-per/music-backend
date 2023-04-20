@@ -15,7 +15,6 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-
     @AutoMap()
     @Column({length: 35})
     username: string;
