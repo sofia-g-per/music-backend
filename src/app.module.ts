@@ -47,6 +47,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SongCollabRequest } from './users/entities/songCollabRequest.entity';
 import { RequestStatus } from './users/entities/requestStatus.entity';
 import { CollabRequestsService } from './users/services/collabRequests.service';
+import { CollabRequestProfile } from './users/mappers/CollabRequestsProfile';
 
 @Module({
   imports: [
@@ -121,6 +122,7 @@ import { CollabRequestsService } from './users/services/collabRequests.service';
     // new
     RequestStatus,
     SongCollabRequest,
+    CollabRequestProfile,
 
     GenreProfile,
     UserProfile,

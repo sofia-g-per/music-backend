@@ -8,10 +8,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName, imageFileFilter } from 'src/shared/file-uploading.utils';
 import { diskStorage } from 'multer';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { CollabRequestsService } from './services/collabRequests.service';
+import { EditCollabStatusDto } from './dtos/editCollabStatus.dto';
 
 @Controller('api')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService,
+        private readonly collabRequestService: CollabRequestsService) {}
 
     @Post('/sign-up')
     @UseInterceptors(
@@ -40,10 +43,9 @@ export class UsersController {
     //     return req.user ;
     // }
 
-    // @UseGuards(LocalAuthGuard)
+    @UseGuards(LoggedInGuard)
     @Post('/edit-user')
     async editUser(@Body() userData, @Request() req){
-        console.log('controller', userData, req.user)
         let updatedUser = await this.usersService.updateUser(userData, req.user);
         req.login(updatedUser, async(error) => {
             if (error) {
@@ -68,6 +70,19 @@ export class UsersController {
     @Get('/get-user')
     async getUserById(@Query('userId') userId:number){
         return await this.usersService.findById(userId);
+    }
+    
+    @UseGuards(LoggedInGuard)
+    @Get('/collabRequests')
+    async getRecipientCollabRequests(@Request() req){
+        return await this.collabRequestService.getReceived(req.user);
+    }
+
+    @UseGuards(LoggedInGuard)
+    @UsePipes(ValidationPipe)
+    @Post('edit/colabrequest/status')
+    async editCollabRequestStatus(@Body() collabRequest: EditCollabStatusDto){
+        return await this.collabRequestService.editStatus(collabRequest);
     }
 
 }

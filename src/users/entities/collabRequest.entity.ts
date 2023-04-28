@@ -9,18 +9,19 @@ export abstract class CollabRequest {
     id: number;
 
     @CreateDateColumn()
-    creation_date: Date;
+    creation_date?: Date;
 
     @UpdateDateColumn()
-    updated_date: Date;
+    updated_date?: Date;
         
-    @ManyToOne(() => RequestStatus, requestStatus => requestStatus.requests)
+    @AutoMap()
+    @ManyToOne(() => RequestStatus, requestStatus => requestStatus.requests, {eager: true})
     @JoinColumn({ name: 'status', referencedColumnName: 'name' })
     status: RequestStatus;
 
     @ManyToOne(() => User, user => user.id)
-    sender: User;
+    sender?: User;
 
     @ManyToOne(() => User, user => user.id)
-    recipient: User;
+    recipient?: User;
 }

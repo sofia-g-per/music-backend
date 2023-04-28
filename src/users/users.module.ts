@@ -16,6 +16,7 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { IsUsernameUnique } from './validation/IsUsernameUnique.constraint';
 import { CollabRequestsService } from './services/collabRequests.service';
+import { CollabRequestProfile } from './mappers/CollabRequestsProfile';
 
 @Module({
   controllers: [UsersController],
@@ -28,7 +29,8 @@ import { CollabRequestsService } from './services/collabRequests.service';
     LocalStrategy, 
     SessionSerializer,
     LocalAuthGuard,
-    CollabRequestsService
+    CollabRequestsService,
+    CollabRequestProfile
   ],
   imports: [
     PassportModule.register({session: true}),
