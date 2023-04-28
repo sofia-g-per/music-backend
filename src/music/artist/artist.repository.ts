@@ -61,7 +61,10 @@ export class ArtistsRepository extends Repository<Artist>{
     }
 
     async findAllExceptOne(excludeId: number): Promise<Artist[] | undefined>{
-        return await getRepository(Artist).find({ id: Not(excludeId) });
+        return await getRepository(Artist).createQueryBuilder("Artist")
+        .select()
+        .where('"id" != :excludeId', {excludeId: excludeId})
+        .andWhere('"user_id" IS NOT NULL').getMany();
     }
 
     async customSave(artistData){
