@@ -9,5 +9,5 @@ export class RequestStatus{
     name: string;
 
     @OneToMany(() => SongCollabRequest, SongCollabRequest => SongCollabRequest.status)
-    requests: SongCollabRequest[];
+    requests?: SongCollabRequest[];
 }

@@ -10,6 +10,14 @@ export class ArtistsRepository extends Repository<Artist>{
         return await getRepository(Artist).findOne({where: { id: id }});
     }
 
+    async getWithUserByArtistId(id: number){
+        return await getRepository(Artist).findOne({
+            relations: ["user"],
+            where: { id: id }, 
+        });
+        
+    }
+
     async findMultipleByIds(ids: number[]): Promise<Artist[]>{
         let artists: Artist[] = [];
           

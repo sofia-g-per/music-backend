@@ -22,8 +22,9 @@ export class CreateSongDto {
     @IsOptional()
     coverImg: string;
 
-    @AutoMap(()=>[AddExistingArtistDto])
+    @Transform(({value}) => JSON.parse(value))
     @IsOptional()
+    @AutoMap(()=>[AddExistingArtistDto])
     @ValidateNested({ each: true })
     artists?: AddExistingArtistDto[];
 

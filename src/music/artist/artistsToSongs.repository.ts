@@ -18,7 +18,10 @@ export class ArtistsToSongsRepository extends Repository<ArtistsToSongs>{
                 newEntity = await getRepository(ArtistsToSongs).save(artist);
                 if(newEntity){
                     artistsToSongs.push(newEntity);
+                    console.log("newEntity", newEntity);
                 }else{
+                    console.log("undefined");
+
                     return undefined;
                 }
             }

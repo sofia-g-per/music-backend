@@ -14,6 +14,8 @@ import { Mapper } from '@automapper/core';
 import { Song } from './song.entity';
 import { EntityManager, getRepository } from 'typeorm';
 import { SongDto } from './songDto.dto';
+import { CollabRequestsService } from 'src/users/services/collabRequests.service';
+import { Artist } from '../artist/artist.entity';
 
 @Injectable()
 export class SongService {
@@ -22,6 +24,7 @@ export class SongService {
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
         @InjectRepository(ListenedSongsRepository) private listenedSongsRepository: ListenedSongsRepository,
+        @Inject(CollabRequestsService) private collabService:CollabRequestsService,
         @Inject(EntityManager) private entityManager: EntityManager,
     ) {}
     
@@ -29,7 +32,9 @@ export class SongService {
         const userAsArtist = new AddExistingArtistDto();
         userAsArtist.artistId = user.artist.id;
         userAsArtist.isFeatured = false;
-        if(!songData.artists){
+        if(songData.artists){
+            songData.status='draft';
+        }else{
             songData.artists = [];
         }
         songData.artists.push(userAsArtist);
@@ -51,11 +56,19 @@ export class SongService {
         // сохранение песни в БД
         const newSong = await this.songsRepository.customSave(song);
 
-        // сохранение связей артистами авторами песни 
+        // сохранение связей с артистами авторами песни 
         if(!newSong){
             throw new HttpException('Произошла ошибка в создании песни', HttpStatus.BAD_REQUEST);
         }
         const artistsToSongs = await this.artistsToSongsRepository.saveMultipleArtists(songData.artists, newSong);
+        if(songData.artists.length > 1){
+            const artistIds: number[] = songData.artists.map(artistToSong => {
+                if(artistToSong.artistId != user.artist.id){
+                    return artistToSong.artistId;
+                }
+            })
+            this.collabService.createSongRequestsForMany(user, artistIds, newSong)
+        }
 
         return newSong.id;
     }
@@ -78,7 +91,6 @@ export class SongService {
             }
         }
         delete songData.genreIds
-        console.log(songData)
 
         return await this.songsRepository.customSave(songData);
     }
