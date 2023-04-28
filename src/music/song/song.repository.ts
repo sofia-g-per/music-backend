@@ -31,13 +31,14 @@ export class SongsRepository extends Repository<Song>{
     }
 
     async findAll(){
-        return await getRepository(Song)
+        const query =  await getRepository(Song)
         .createQueryBuilder("Song")
         .select()
         .leftJoinAndSelect('Song.artists', 'artistToUser')
         .leftJoinAndSelect('artistToUser.artist', 'artist')
-        .orderBy("artistToUser.isFeatured", "ASC")
-        .getMany();
+        .where('Song.status_name = :status', {status: 'released'})
+        .orderBy("artistToUser.isFeatured", "ASC");
+        return await query.getMany();
     }
 
     async getAllByArtist(artistId:number){

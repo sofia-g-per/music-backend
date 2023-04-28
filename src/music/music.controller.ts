@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { getRepository } from 'typeorm';
+import { Brackets, getRepository } from 'typeorm';
 import { Song } from './song/song.entity';
 @Controller('api')
 export class MusicController {
@@ -7,14 +7,18 @@ export class MusicController {
     async search(@Query('searchQuery') searchQuery: string): Promise<any | undefined> {
 
         if (searchQuery !== undefined && searchQuery.length > 1) {
+            searchQuery = `%${searchQuery}%`;
             let query=  getRepository(Song)
             .createQueryBuilder("Song")
             .select()
             .leftJoinAndSelect('Song.artists', 'artistToSong')
             .leftJoinAndSelect('artistToSong.artist', 'artist')
-            .where(`MATCH(song.name) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
-            .orWhere(`MATCH(artist.stagename) AGAINST ('${searchQuery}' IN BOOLEAN MODE)`)
-            .orderBy("artistToUser.isFeatured", "ASC")
+            .where('"Song"."status_name" = :status', {status: 'released'})
+            .andWhere(new Brackets(qb => {
+                qb.where('"Song"."name" ILIKE :searchQuery', {searchQuery: searchQuery})
+                .orWhere('"artist"."stagename" ILIKE :searchQuery', {searchQuery: searchQuery})
+            }))
+            .orderBy("artistToSong.isFeatured", "ASC")
 
             return await query.getMany();
         }        
@@ -27,11 +31,12 @@ export class MusicController {
             let query =  getRepository(Song)
             .createQueryBuilder("Song")
             .select()
-            .leftJoinAndSelect('Song.artists', 'artistToUser')
-            .leftJoinAndSelect('artistToUser.artist', 'artist')
+            .leftJoinAndSelect('Song.artists', 'artistToSong')
+            .leftJoinAndSelect('artistToSong.artist', 'artist')
             .innerJoinAndSelect('Song.genres', 'genres')
-            .where('genres_id IN (:...genres)', {genres: genreIds})
-            .orderBy("artistToUser.isFeatured", "ASC")
+            .where('"Song"."status_name" = :status', {status: 'released'})
+            .andWhere('genres_id IN (:...genres)', {genres: genreIds})
+            .orderBy("artistToSong.isFeatured", "ASC")
 
             return await query.getMany();
         }
