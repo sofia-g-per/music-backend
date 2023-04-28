@@ -1,9 +1,6 @@
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
 import { Injectable } from '@nestjs/common';
-import { Connection } from "typeorm";
-import { UserRolesService } from "../userRoles.service";
 import { UserRolesRepository } from "../userRoles.repository";
-import { UserRole } from "../entities/userRole.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 
 @ValidatorConstraint({ name: 'UserExists', async: true })

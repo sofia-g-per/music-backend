@@ -1,18 +1,18 @@
 import { Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
-import { User } from './entities/user.entity';
-import { CreateUserDto } from './dtos/createUser.dto';
+import { User } from '../entities/user.entity';
+import { CreateUserDto } from '../dtos/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersRepository } from './users.repository';
-import { UserRolesRepository } from './userRoles.repository';
+import { UsersRepository } from '../users.repository';
+import { UserRolesRepository } from '../userRoles.repository';
 import { ArtistService } from 'src/music/artist/artist.service';
-import { LoginDto } from './dtos/login.dto';
+import { LoginDto } from '../dtos/login.dto';
 import { Artist } from 'src/music/artist/artist.entity';
 import { instanceToPlain } from 'class-transformer';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { UserRole } from './entities/userRole.entity';
+import { UserRole } from '../entities/userRole.entity';
 
 @Injectable()
 export class UsersService {

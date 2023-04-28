@@ -1,6 +1,6 @@
 import { LoggedInGuard } from './guards/loggedIn.guard';
 import { Body, Controller, Post, UsePipes, ValidationPipe, UseGuards, Get, Query, Request, UploadedFile } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from './services/users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { LoginDto } from './dtos/login.dto';
 import { UseInterceptors } from '@nestjs/common';

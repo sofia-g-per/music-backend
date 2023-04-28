@@ -15,10 +15,10 @@ import { SharedModule } from './shared/shared.module';
 import { PlaylistService } from './music/playlist/playlist.service';
 import { SongController } from './music/song/song.controller';
 import { PlaylistController } from './music/playlist/playlist.controller';
-import { UserRolesService } from './users/userRoles.service';
+import { UserRolesService } from './users/services/userRoles.service';
 import { UserRolesRepository } from './users/userRoles.repository';
 import { UsersRepository } from './users/users.repository';
-import { UsersService } from './users/users.service';
+import { UsersService } from './users/services/users.service';
 import { ArtistsRepository } from './music/artist/artist.repository';
 import { ArtistService } from './music/artist/artist.service';
 import { SongsRepository } from './music/song/song.repository';
@@ -46,6 +46,7 @@ import { GenreProfile } from './music/genre/genreProfile';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SongCollabRequest } from './users/entities/songCollabRequest.entity';
 import { RequestStatus } from './users/entities/requestStatus.entity';
+import { CollabRequestsService } from './users/services/collabRequests.service';
 
 @Module({
   imports: [
@@ -126,7 +127,8 @@ import { RequestStatus } from './users/entities/requestStatus.entity';
     ArtistProfile,
     SongProfile,
     PlaylistProfile, 
-    AlbumProfile,
+    AlbumProfile, 
+    CollabRequestsService, 
   ],
 })
 export class AppModule {}
