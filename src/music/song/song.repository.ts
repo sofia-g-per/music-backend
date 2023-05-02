@@ -41,17 +41,6 @@ export class SongsRepository extends Repository<Song>{
         return await query.getMany();
     }
 
-    async getAllByArtist(artistId:number){
-        return await getRepository(Song)
-        .createQueryBuilder("Song")
-        .select()
-        .leftJoinAndSelect('Song.artists', 'artistToUser')
-        .leftJoinAndSelect('artistToUser.artist', 'artist')
-        .where('artist.id =:artistId', {artistId: artistId})
-        .orderBy("artistToUser.isFeatured", "ASC")
-        .getMany();
-    }
-
     public async customSave(entity) {
         return await getRepository(Song).save(entity);
     }

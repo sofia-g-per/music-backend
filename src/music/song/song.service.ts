@@ -1,4 +1,3 @@
-import { instanceToPlain } from 'class-transformer';
 import { PlaylistDto } from './../playlist/playlistDto.dto';
 import { generatedPlaylist } from './../playlist/generatedPlaylist.entity';
 import { ListenedSongsRepository } from './../favourites/listenedSongs.repository';
@@ -16,6 +15,7 @@ import { EntityManager, getRepository } from 'typeorm';
 import { SongDto } from './songDto.dto';
 import { CollabRequestsService } from 'src/users/services/collabRequests.service';
 import { Artist } from '../artist/artist.entity';
+import { ArtistsRepository } from '../artist/artist.repository';
 
 @Injectable()
 export class SongService {
@@ -23,6 +23,7 @@ export class SongService {
         @InjectMapper() private readonly mapper: Mapper,
         @InjectRepository(SongsRepository) private songsRepository: SongsRepository,
         @InjectRepository(ArtistsToSongsRepository) private artistsToSongsRepository: ArtistsToSongsRepository,
+        @InjectRepository(ArtistsRepository) private artistsRepository: ArtistsRepository,
         @InjectRepository(ListenedSongsRepository) private listenedSongsRepository: ListenedSongsRepository,
         @Inject(CollabRequestsService) private collabService:CollabRequestsService,
         @Inject(EntityManager) private entityManager: EntityManager,
@@ -105,7 +106,7 @@ export class SongService {
     }
 
     async getSongsByArtist(artistId:number){
-        return await this.songsRepository.getAllByArtist(artistId);
+        return await this.artistsRepository.getAllByArtist(artistId);
     }
 
     async delete(songId:number){

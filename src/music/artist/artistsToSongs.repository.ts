@@ -30,7 +30,7 @@ export class ArtistsToSongsRepository extends Repository<ArtistsToSongs>{
         return artistsToSongs;
     }
 
-    async getByArtist(artistId: number){
-        return await getRepository(ArtistsToSongs).find({where: { artistId: artistId }});
-    }
+    // async getByArtist(artistId: number){
+    //     return await getRepository(ArtistsToSongs).find({where: { artistId: artistId }});
+    // }
 }

@@ -1,11 +1,16 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { EntityRepository, Repository, getRepository, Not } from "typeorm";
+import { EntityRepository, Repository, getRepository, Not, Connection } from "typeorm";
 import { AddExistingArtistDto } from "./addExistingArtistDto.dto";
 import { Artist } from "./artist.entity";
-
+import { InjectConnection, InjectRepository } from "@nestjs/typeorm";
+import { SongsRepository } from "../song/song.repository";
+import { Song } from "../song/song.entity";
+import { ListenedSong } from "../favourites/listenedSong.entity";
 @EntityRepository(Artist)
 export class ArtistsRepository extends Repository<Artist>{
-    
+    constructor(@InjectConnection() private connection: Connection){
+        super();
+    }
     async findById(id: number){
         return await getRepository(Artist).findOne({where: { id: id }});
     }
@@ -73,5 +78,82 @@ export class ArtistsRepository extends Repository<Artist>{
 
     async deleteById(artistId:number){
         return await getRepository(Artist).delete(artistId);
+    }
+
+    async getAllByArtist(artistId:number){
+        // return await this.getAllByArtistQuery(artistId).select("*").orderBy("artistToUser.isFeatured", "ASC").getMany();
+        return await this.getAllByArtistQuery(artistId).orderBy("artistToUser.isFeatured", "ASC").select().getMany();
+    }
+
+    public getAllByArtistQuery(artistId:number){
+        return getRepository(Song)
+        .createQueryBuilder("Song")
+        .leftJoinAndSelect('Song.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .where('artist.id =:artistId', {artistId: artistId})
+    }
+
+    async getSongNumber(artistId: number){
+        return await this.getAllByArtistQuery(artistId).getCount();
+    }
+    
+
+    getListenedSongsByArtist(artistId:number){
+        return getRepository(ListenedSong)
+        .createQueryBuilder("listened")
+        .leftJoinAndSelect('listened.song', 'song')
+        .leftJoinAndSelect('song.artists', 'artistToUser')
+        .leftJoinAndSelect('artistToUser.artist', 'artist')
+        .where('artist.id =:artistId', {artistId: artistId})
+    }
+
+    async getSongsPlays(artistId:number){
+        return await this.getListenedSongsByArtist(artistId)
+        .select("song.id as song_id, COUNT(*) as plays")
+        .groupBy('song.id')
+        .orderBy("plays")
+        .getRawMany();
+    }
+
+
+    async getTotalPlays(artistId:number){
+        return await this.getListenedSongsByArtist(artistId)
+        .getCount();
+    }
+
+    getPlaysPerPeriod(artistId:number, period: string){
+        return this.getListenedSongsByArtist(artistId)
+        .select('COUNT(*) as plays, DATE_TRUNC(\''+period+'\', "listen_date") as listen_date')
+        .groupBy('DATE_TRUNC(\''+period+'\', "listen_date")')
+    }
+
+    getSongsPlaysPerPeriod(artistId:number, period:string){
+
+        return this.getPlaysPerPeriod(artistId, period)        
+            .addSelect('song.id as song_id, song.name')
+            .addGroupBy('song.id, song.name');
+    }
+    
+    async getAvgSongPlaysPerPeriod(artistId:number, period:string){
+        const avgPlaysQB = this.getSongsPlaysPerPeriod(artistId, period);
+        const qb = this.connection.createQueryBuilder()
+        .select('AVG("plays") as plays_per_period')
+            .from("(" + avgPlaysQB.getQuery() +")", "plays_with_days")
+            .setParameters(avgPlaysQB.getParameters())
+        .addSelect('song_id')
+        .groupBy('song_id')
+        .orderBy("plays_per_period");
+
+        return await qb.getRawMany();
+
+    }
+
+    async getAvgPlaysPerPeriod(artistId:number, period:string){
+        const qb = this.connection.createQueryBuilder();
+        const avgPlaysQB = this.getPlaysPerPeriod(artistId, period);
+        return await qb.select('AVG("plays") as avg_plays')
+            .from("(" + avgPlaysQB.getQuery() +")", "plays_with_days")
+            .setParameters(avgPlaysQB.getParameters())
+            .getRawOne();
     }
 }

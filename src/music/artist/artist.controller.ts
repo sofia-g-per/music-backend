@@ -18,7 +18,6 @@ export class ArtistController {
     @UseGuards(RolesGuard)
     @Get('/artists')
     async findAllExceptCurrent(@Request() req): Promise<Artist[] | undefined>{
-
         return await this.artistService.findAllExceptCurrent(req.user.artist.id)
     }
     
@@ -28,4 +27,10 @@ export class ArtistController {
         return await this.artistService.getSongs(req.user.artist.id);
     }
 
+    @Roles('artist')
+    @UseGuards(RolesGuard)
+    @Get('/current/artist/statistics')
+    async getCurrentArtistStats(@Request() req){
+        return await this.artistService.getStats(req.user.artist);
+    }
 }
